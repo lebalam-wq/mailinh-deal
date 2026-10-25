@@ -2,593 +2,423 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Cẩm Nang Dinh Dưỡng Não Bộ & Lịch Sinh Hoạt Khoa Học Cho Bé 0 - 6 Tuổi</title>
+<title>Cẩm Nang Dinh Dưỡng Não Bộ & Lịch Sinh Hoạt Khoa Học Cho Bé 0-6 Tuổi</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&family=Inter:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,400&family=Roboto:wght@300;400;500;700&display=swap');
 
   @page {
     size: A4;
-    margin: 10mm 12mm 12mm 12mm;
-  }
-
-  * {
-    box-sizing: border-box;
+    margin: 15mm 15mm 15mm 15mm;
   }
 
   body {
-    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: #1e293b;
+    font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+    color: #2c3e50;
+    line-height: 1.6;
     background-color: #ffffff;
     margin: 0;
     padding: 0;
-    line-height: 1.55;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
 
-  .page {
+  .cover-page {
     page-break-after: always;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 24px;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e6f0fa 100%);
+    border: 3px solid #3498db;
+    border-radius: 12px;
+    padding: 40px;
     box-sizing: border-box;
-    position: relative;
-    background: #ffffff;
-  }
-
-  .cover-container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    background: linear-gradient(145deg, #f8fafc 0%, #eff6ff 50%, #e0f2fe 100%);
-    border: 2px solid #bae6fd;
-    border-radius: 16px;
-    padding: 32px 36px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cover-container::before {
-    content: "";
-    position: absolute;
-    top: -80px;
-    right: -80px;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, rgba(56, 189, 248, 0.25) 0%, rgba(255,255,255,0) 70%);
-    border-radius: 50%;
-  }
-
-  .top-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .brand-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 14px;
-    color: #0369a1;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .badge-pill {
-    background: #0284c7;
-    color: #ffffff;
-    padding: 6px 16px;
-    font-size: 11px;
-    font-weight: 700;
-    border-radius: 9999px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .title-group {
-    margin-top: 20px;
     text-align: center;
   }
 
-  .main-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 28px;
-    font-weight: 800;
-    color: #0f172a;
-    line-height: 1.25;
-    margin: 12px 0 8px 0;
+  .badge {
+    display: inline-block;
+    background: #e74c3c;
+    color: #ffffff;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 700;
+    border-radius: 20px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
-    letter-spacing: -0.5px;
-  }
-
-  .main-title span {
-    color: #0284c7;
-  }
-
-  .sub-tagline {
-    font-size: 14.5px;
-    color: #475569;
-    font-weight: 500;
-    max-width: 580px;
     margin: 0 auto;
   }
 
-  /* 4 Thẻ Trực Quan Trên Bìa */
-  .visual-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
+  h1.main-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: #1a365d;
+    margin-top: 25px;
+    margin-bottom: 15px;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .subtitle {
+    font-size: 18px;
+    font-weight: 500;
+    color: #2b6cb0;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+  }
+
+  .cover-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    text-align: left;
     margin: 20px 0;
   }
 
-  .micro-card {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 14px 10px;
-    text-align: center;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  }
-
-  .micro-card .icon-box {
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 8px auto;
-  }
-
-  .micro-card .title {
-    font-weight: 700;
-    font-size: 12.5px;
-    color: #0f172a;
-    margin-bottom: 2px;
-  }
-
-  .micro-card .desc {
-    font-size: 10.5px;
-    color: #64748b;
-  }
-
-  .summary-card {
-    background: #ffffff;
-    border: 1px solid #cbd5e1;
-    border-radius: 12px;
-    padding: 20px 24px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.04);
-  }
-
-  .summary-card h3 {
-    margin: 0 0 12px 0;
-    font-size: 14px;
-    color: #0369a1;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 8px;
-  }
-
-  .summary-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 20px;
-  }
-
-  .summary-list li {
-    font-size: 12.5px;
-    color: #334155;
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .summary-list li strong {
-    color: #0f172a;
-  }
-
-  .cover-footer {
-    border-top: 1px solid #cbd5e1;
-    padding-top: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 11.5px;
-    color: #64748b;
-  }
-
-  .advisor-info {
-    text-align: right;
-  }
-
-  .advisor-info strong {
-    color: #0369a1;
-    font-size: 12px;
-  }
-
-  /* Nội dung trang trong */
-  .section-title {
-    font-size: 17px;
-    font-weight: 800;
-    color: #0f172a;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 2px solid #0284c7;
-    padding-bottom: 6px;
+  .cover-card h3 {
     margin-top: 0;
+    color: #2c5282;
+    border-bottom: 2px solid #ebf8ff;
+    padding-bottom: 10px;
+  }
+
+  .cover-card ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+
+  .cover-card li {
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+
+  .footer-author {
+    border-top: 1px solid #cbd5e0;
+    padding-top: 20px;
+    font-size: 14px;
+    color: #4a5568;
+  }
+
+  .author-name {
+    font-weight: 700;
+    color: #2b6cb0;
+    font-size: 16px;
+  }
+
+  .content-section {
+    page-break-after: always;
+    padding-top: 10px;
+  }
+
+  .section-header {
+    border-bottom: 3px solid #3182ce;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+  }
+
+  .section-header h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 22px;
+    color: #1a365d;
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .section-header .tag {
+    background: #ebf8ff;
+    color: #2b6cb0;
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-weight: 600;
+  }
+
+  p {
+    font-size: 14px;
+    line-height: 1.6;
     margin-bottom: 12px;
-    text-transform: uppercase;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 12px;
-    margin-bottom: 16px;
+    margin: 15px 0 25px 0;
+    font-size: 13px;
+  }
+
+  th, td {
+    border: 1px solid #e2e8f0;
+    padding: 10px 12px;
+    text-align: left;
   }
 
   th {
-    background: #f1f5f9;
-    color: #334155;
+    background-color: #edf2f7;
+    color: #2d3748;
     font-weight: 700;
-    text-align: left;
-    padding: 8px 10px;
-    border: 1px solid #e2e8f0;
   }
 
-  td {
-    padding: 8px 10px;
-    border: 1px solid #e2e8f0;
-    vertical-align: middle;
+  tr:nth-child(even) {
+    background-color: #f7fafc;
   }
 
-  tr:nth-child(even) td {
-    background-color: #f8fafc;
-  }
-
-  .callout-box {
-    background: #f0fdf4;
-    border-left: 4px solid #16a34a;
-    padding: 10px 14px;
+  .highlight-box {
+    background: #feebc8;
+    border-left: 4px solid #dd6b20;
+    padding: 12px 16px;
     border-radius: 4px;
-    margin-bottom: 14px;
-    font-size: 12px;
-    color: #166534;
+    margin: 15px 0;
+    font-size: 13.5px;
   }
 
-  .callout-tip {
-    background: #fefce8;
-    border-left: 4px solid #ca8a04;
-    padding: 10px 14px;
+  .tip-box {
+    background: #e6fffa;
+    border-left: 4px solid #319795;
+    padding: 12px 16px;
     border-radius: 4px;
-    margin-bottom: 14px;
-    font-size: 12px;
-    color: #854d0e;
+    margin: 15px 0;
+    font-size: 13.5px;
   }
 
-  .easy-grid {
+  .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 14px;
+    gap: 15px;
+    margin: 15px 0;
   }
 
-  .easy-card {
+  .grid-card {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 8px;
+    padding: 15px;
   }
 
-  .easy-card h4 {
-    margin: 0 0 6px 0;
-    color: #0369a1;
-    font-size: 13px;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 4px;
+  .grid-card h4 {
+    margin-top: 0;
+    color: #2b6cb0;
+    font-size: 15px;
+    margin-bottom: 8px;
   }
 
-  .easy-card ul {
-    margin: 0;
-    padding-left: 16px;
-    font-size: 11.5px;
-    color: #334155;
+  .cta-section {
+    background: #ebf8ff;
+    border: 2px dashed #3182ce;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-top: 25px;
   }
 
-  .easy-card li {
-    margin-bottom: 4px;
-  }
-
-  .resource-box {
-    background: #eff6ff;
-    border: 1.5px dashed #60a5fa;
-    border-radius: 10px;
-    padding: 14px;
+  .cta-btn {
+    display: inline-block;
+    background: #3182ce;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 700;
+    padding: 10px 24px;
+    border-radius: 6px;
     margin-top: 10px;
-  }
-
-  .resource-box h4 {
-    margin: 0 0 6px 0;
-    color: #1e40af;
-    font-size: 13px;
-  }
-
-  .resource-box p {
-    margin: 0 0 6px 0;
-    font-size: 12px;
-    color: #334155;
+    font-size: 14px;
   }
 </style>
 </head>
 <body>
 
-<!-- TRANG BÌA CHUẨN XUẤT BẢN CHUYÊN NGHIỆP -->
-<div class="page">
-  <div class="cover-container">
-    
-    <div class="top-meta">
-      <div class="brand-logo">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-        Kệ Sách Cùng Con Khôn Lớn
-      </div>
-      <span class="badge-pill">CẨM NANG Y KHOA & GIÁO DỤC SỚM</span>
-    </div>
+<!-- TRANG BÌA -->
+<div class="cover-page">
+  <div>
+    <span class="badge">Tài Liệu Độc Quyền Nuôi Con Khoa Học</span>
+    <h1 class="main-title">BẢNG THỰC ĐƠN DINH DƯỠNG NÃO BỘ<br>& LỊCH SINH HOẠT EASY KHOA HỌC</h1>
+    <div class="subtitle">Cẩm nang hướng dẫn cha mẹ tối ưu hóa 85% tiềm năng trí tuệ của con trong "Cửa sổ vàng" 0 - 6 tuổi</div>
+  </div>
 
-    <div class="title-group">
-      <div style="font-size: 12.5px; font-weight: 700; color: #0284c7; letter-spacing: 1.5px; text-transform: uppercase;">
-        Dự Án Đồng Hành Cùng 100.000 Gia Đình Trẻ
-      </div>
-      <h1 class="main-title">
-        BẢNG THỰC ĐƠN DINH DƯỠNG NÃO BỘ<br>
-        <span>& LỊCH SINH HOẠT EASY KHOA HỌC</span>
-      </h1>
-      <div class="sub-tagline">
-        Chiến lược tối ưu hóa <strong>85% tiềm năng cấu trúc não bộ</strong> và thiết lập nhịp sinh học tự nhiên cho con trong giai đoạn "Cửa Sổ Vàng" 0 - 6 tuổi.
-      </div>
-    </div>
+  <div class="cover-card">
+    <h3>TÓM TẮT TÀI LIỆU DÀNH CHO BỐ MẸ:</h3>
+    <ul>
+      <li><strong>Phần 1:</strong> Bộ tứ vi chất vàng (DHA, Choline, Sắt, Kẽm) thúc đẩy liên kết nơ-ron thần kinh theo khuyến nghị AAP.</li>
+      <li><strong>Phần 2:</strong> Bảng thực đơn mẫu 7 ngày tối ưu hóa phát triển não bộ cho trẻ 6 tháng - 6 tuổi.</li>
+      <li><strong>Phần 3:</strong> Lịch sinh hoạt EASY chuẩn nhịp sinh học giúp bé ngủ sâu, tăng tiết hormone tăng trưởng.</li>
+      <li><strong>Phần 4:</strong> Quy tắc "15 phút vàng mỗi tối" - Phương pháp kích hoạt đa giác quan & ngôn ngữ từ sớm.</li>
+      <li><strong>Phần 5:</strong> Danh mục tủ sách tư duy & công cụ thực hành được chuyên gia khuyên dùng.</li>
+    </ul>
+  </div>
 
-    <!-- 4 THẺ TRỰC QUAN -->
-    <div class="visual-cards-grid">
-      <div class="micro-card">
-        <div class="icon-box" style="background: #e0f2fe; color: #0284c7;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
-        </div>
-        <div class="title">DHA & OMEGA-3</div>
-        <div class="desc">Cấu tạo vỏ não & thị giác</div>
-      </div>
-
-      <div class="micro-card">
-        <div class="icon-box" style="background: #fef3c7; color: #d97706;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
-        </div>
-        <div class="title">CHOLINE & SẮT</div>
-        <div class="desc">Ghi nhớ & tư duy logic</div>
-      </div>
-
-      <div class="micro-card">
-        <div class="icon-box" style="background: #dcfce7; color: #16a34a;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        </div>
-        <div class="title">CHU KỲ EASY</div>
-        <div class="desc">Ngủ sâu & kích hoạt GH</div>
-      </div>
-
-      <div class="micro-card">
-        <div class="icon-box" style="background: #f3e8ff; color: #9333ea;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        </div>
-        <div class="title">15 PHÚT MỖI TỐI</div>
-        <div class="desc">Tương tác đa giác quan</div>
-      </div>
-    </div>
-
-    <!-- TÓM TẮT BỐ MẸ -->
-    <div class="summary-card">
-      <h3>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-        CẨM NANG THỰC HÀNH NÀY BAO GỒM:
-      </h3>
-      <ul class="summary-list">
-        <li><strong>✓ Phần I:</strong> Ma trận vi chất vàng & thực phẩm tự nhiên tốt nhất theo WHO.</li>
-        <li><strong>✓ Phần II:</strong> Bảng thực đơn mẫu 7 ngày tối ưu não bộ bé 6 tháng - 6 tuổi.</li>
-        <li><strong>✓ Phần III:</strong> Lịch EASY chuẩn nhịp sinh học theo tháng tuổi.</li>
-        <li><strong>✓ Phần IV:</strong> 5 quy tắc "15 phút vàng mỗi tối" kích hoạt ngôn ngữ & EQ.</li>
-      </ul>
-    </div>
-
-    <!-- CHÂN TRANG UY TÍN -->
-    <div class="cover-footer">
-      <div>
-        <strong>DỰ ÁN GIÁO DỤC KỆ SÁCH CÙNG CON KHÔN LỚN</strong><br>
-        Tài liệu lưu hành nội bộ tặng cộng đồng cha mẹ nuôi dạy con khoa học
-      </div>
-      <div class="advisor-info">
-        Cố vấn chuyên môn: <strong>Thầy Lê Bá Lâm</strong> (Tổ phó KHTN)<br>
-        Đồng hành chuyên môn: <strong>Tổ Giáo dục Mầm non & Dinh dưỡng Nhi</strong>
-      </div>
-    </div>
-
+  <div class="footer-author">
+    <div>Biên soạn & Đồng hành: <span class="author-name">Dự án Giáo dục Kệ Sách Cùng Con Khôn Lớn</span></div>
+    <div>Cố vấn chuyên môn: <strong>Thầy Lê Bá Lâm</strong> | Website: lebalam-wq.github.io/mailinh-deal</div>
   </div>
 </div>
 
-<!-- TRANG 2: MA TRẬN VI CHẤT & THỰC ĐƠN 7 NGÀY -->
-<div class="page" style="padding: 24px;">
-  <div class="section-title">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-    1. BẢNG VI CHẤT VÀNG PHÁT TRIỂN NÃO BỘ (CHUYÊN GIA DINH DƯỠNG KHUYÊN DÙNG)
+<!-- NỘI DUNG PHẦN 1 & 2 -->
+<div class="content-section">
+  <div class="section-header">
+    <h2>1. BẢNG VI CHẤT VÀNG PHÁT TRIỂN NÃO BỘ (0 - 6 TUỔI) <span class="tag">Chuẩn WHO/AAP</span></h2>
   </div>
+  <p>Khoa học thần kinh nhi khoa đã chứng minh: 85% trọng lượng và cấu trúc não bộ con người được hoàn thiện trước năm 6 tuổi. Trong giai đoạn này, tốc độ hình thành các khớp thần kinh (synapses) đạt tới 1 triệu liên kết mỗi giây. Dưới đây là 4 nhóm vi chất nền tảng không thể thiếu:</p>
 
   <table>
     <thead>
       <tr>
-        <th style="width: 18%;">Nhóm Vi Chất</th>
-        <th style="width: 38%;">Vai Trò Cốt Lõi Với Não Bộ Trẻ</th>
-        <th style="width: 44%;">Nguồn Thực Phẩm Vàng Khuyên Dùng</th>
+        <th style="width: 20%;">Vi Chất</th>
+        <th style="width: 35%;">Vai Trò Với Não Bộ</th>
+        <th style="width: 45%;">Nguồn Thực Phẩm Vàng Dễ Kiếm</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><strong>DHA & Omega-3</strong></td>
-        <td>Cấu tạo 40% chất xám và 60% võng mạc mắt. Tăng tốc độ liên kết nơ-ron thần kinh.</td>
-        <td>Cá hồi Nauy, cá thu, cá chép, lươn đồng, lòng đỏ trứng gà ta, hạt óc chó, hạt chia, dầu hạt lanh.</td>
+        <td>Cấu tạo 40% chất béo trong não và 60% võng mạc mắt. Tăng tốc độ dẫn truyền tín hiệu thần kinh.</td>
+        <td>Cá hồi, cá thu, cá chép, lòng đỏ trứng gà ta, quả óc chó, hạt chia, dầu hạt lanh.</td>
       </tr>
       <tr>
-        <td><strong>Choline & Phospholipid</strong></td>
-        <td>Tiền chất của dẫn truyền thần kinh Acetylcholine, quyết định khả năng ghi nhớ và tập trung.</td>
-        <td>Lòng đỏ trứng gà (chín lòng đào nhẹ hoặc luộc), gan gà ta, đậu nành lên men, súp lơ xanh.</td>
+        <td><strong>Choline</strong></td>
+        <td>Tiền chất của acetylcholine - chất dẫn truyền thần kinh liên quan trực tiếp đến trí nhớ & học hỏi.</td>
+        <td>Trứng (đặc biệt là lòng đỏ chín vừa), gan heo/gà hữu cơ, đậu nành, súp lơ xanh.</td>
       </tr>
       <tr>
-        <td><strong>Sắt Heme & Kẽm Sinh Học</strong></td>
-        <td>Tạo hồng cầu nuôi mô não, phòng ngừa tình trạng thiếu máu, mệt mỏi, kém chú ý.</td>
-        <td>Thịt bò nạc thăn, thịt chim bồ câu, cua biển, tôm đồng, các loại đậu đỏ, cải bó xôi (rau bina).</td>
+        <td><strong>Sắt & Axit Folic</strong></td>
+        <td>Tạo hồng cầu mang oxy nuôi mô não, ngăn ngừa hội chứng sương mù não và mệt mỏi ở trẻ.</td>
+        <td>Thịt bò nạc, rau bina (chân vịt), các loại đậu đỗ, yến mạch nguyên cám.</td>
       </tr>
       <tr>
-        <td><strong>I-ốt & Axit Folic</strong></td>
-        <td>Điều hòa tuyến giáp và phân chia tế bào thần kinh trong giai đoạn phát triển chiều cao & não bộ.</td>
-        <td>Rong biển Hàn Quốc, hải sản biển sạch, sữa chua lên men tự nhiên, măng tây, yến mạch.</td>
+        <td><strong>Kẽm & Magie</strong></td>
+        <td>Ổn định màng tế bào thần kinh, giúp bé ngủ sâu giấc và điều hòa cảm xúc, giảm cáu kỉnh.</td>
+        <td>Hải sản (hàu, tôm), hạt bí ngô, mầm lúa mì, hạt mè đen, sữa chua lên men.</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="callout-box">
-    <strong>💡 Nguyên tắc vàng chế biến:</strong> Nhiệt độ quá cao và chiên rán ngập dầu sẽ làm oxy hóa tới 60% hàm lượng DHA và Omega-3. Mẹ nên ưu tiên hấp, áp chảo nhiệt vừa hoặc hầm mềm để giữ trọn vẹn tinh chất.
+  <div class="highlight-box">
+    <strong>💡 Lời khuyên vàng từ bác sĩ nhi khoa:</strong> Bổ sung DHA qua thực phẩm tươi sống luôn có tỷ lệ hấp thu sinh học cao hơn dạng tổng hợp. Nên cho trẻ ăn ít nhất 2 bữa cá béo/tuần và 3-4 quả trứng gà/tuần.
   </div>
 
-  <div class="section-title" style="margin-top: 15px;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    2. BẢNG THỰC ĐƠN MẪU 7 NGÀY PHÁT TRIỂN TRÍ NÃO CHO TRẺ
+  <div class="section-header" style="margin-top: 30px;">
+    <h2>2. BẢNG THỰC ĐƠN MẪU 7 NGÀY PHÁT TRIỂN TRÍ NÃO (BÉ 1 - 6 TUỔI)</h2>
   </div>
-
   <table>
     <thead>
       <tr>
-        <th style="width: 14%;">Thứ</th>
-        <th style="width: 28%;">Bữa Sáng (7:00)</th>
-        <th style="width: 30%;">Bữa Trưa (11:30)</th>
-        <th style="width: 28%;">Bữa Tối (18:30)</th>
+        <th>Thứ</th>
+        <th>Bữa Sáng (7:00)</th>
+        <th>Bữa Trưa (11:30)</th>
+        <th>Bữa Phụ Chiều (15:00)</th>
+        <th>Bữa Tối (18:30)</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td><strong>Thứ 2</strong></td>
         <td>Cháo yến mạch cá hồi hạt chia</td>
-        <td>Cơm nát/mềm + Bò xào bông cải xanh + Canh mồng tơi</td>
-        <td>Cơm trứng hấp thịt nấm + Canh bí đỏ thịt bằm</td>
+        <td>Cơm mềm + Thịt bò xào bông cải xanh + Canh mồng tơi</td>
+        <td>Sữa chua Hy Lạp + Quả bơ dầm</td>
+        <td>Cơm nát + Trứng hấp thịt băm + Canh bí đỏ thịt băm</td>
       </tr>
       <tr>
         <td><strong>Thứ 3</strong></td>
-        <td>Bánh mì nguyên cám ốp la trứng gà</td>
-        <td>Cơm cá thu áp chảo dầu hạt lanh + Canh củ thập cẩm</td>
-        <td>Cháo tôm biển bồ ngót + Đậu hũ non sốt cà</td>
+        <td>Bánh mì nguyên cám kẹp trứng ốp la</td>
+        <td>Cơm cá thu sốt cà ri nhẹ + Canh súp rau củ thập cẩm</td>
+        <td>Sinh tố xoài chuối hạt óc chó xay nhuyễn</td>
+        <td>Cháo tôm biển bồ ngót + Đậu hũ non sốt nấm</td>
       </tr>
       <tr>
         <td><strong>Thứ 4</strong></td>
         <td>Súp gà ngô non nấm hương</td>
-        <td>Cơm sườn rim mè rang + Canh rong biển đậu non</td>
-        <td>Cơm viên cá basa thì là + Canh cải cúc thịt</td>
+        <td>Cơm sườn rim mè rang + Canh rong biển đậu hũ thịt băm</td>
+        <td>Bánh pancake chuối yến mạch</td>
+        <td>Cơm viên cá basa áp chảo + Canh cải cúc thịt băm</td>
       </tr>
       <tr>
         <td><strong>Thứ 5</strong></td>
-        <td>Phở bò truyền thống nước dùng tủy</td>
-        <td>Cơm thịt viên sốt cà + Cà rốt súp lơ luộc chấm sốt mè</td>
-        <td>Cháo lươn đồng nấu nghệ rau cải ngọt</td>
+        <td>Phở bò truyền thống nhiều nước dùng tủy</td>
+        <td>Cơm thịt viên sốt cà chua + Rau củ hấp chấm sốt mè</td>
+        <td>Sữa hạt sen macca + Đu đủ chín</td>
+        <td>Cháo lươn đồng nấu nghệ và rau cải xanh</td>
       </tr>
       <tr>
         <td><strong>Thứ 6</strong></td>
-        <td>Bún chả cá thu thì là nghệ</td>
-        <td>Cơm tôm xào đậu hà lan + Canh cua đồng mồng tơi</td>
-        <td>Cơm thịt bò hầm mềm khoai tây cà rốt</td>
+        <td>Bún chả cá thu thì là</td>
+        <td>Cơm tôm xào đậu hà lan cà rốt + Canh cua mùng tơi</td>
+        <td>Bơ cắt hạt lựu trộn sữa tươi tiệt trùng</td>
+        <td>Cơm thịt bò hầm khoai tây cà rốt mềm</td>
       </tr>
       <tr>
         <td><strong>Thứ 7</strong></td>
-        <td>Cháo chim bồ câu hạt sen hạt kê</td>
-        <td>Cơm cá quả hấp gừng + Canh sườn non bí đao</td>
-        <td>Mì Ý xốt bò bằm phủ phô mai tự nhiên</td>
+        <td>Cháo chim bồ câu hạt sen</td>
+        <td>Cơm cá quả hấp gừng hành + Canh bí xanh sườn non</td>
+        <td>Chè đậu đỏ hạt sen ít ngọt</td>
+        <td>Mì Ý xốt bò băm phô mai mozzarella</td>
       </tr>
       <tr>
         <td><strong>Chủ Nhật</strong></td>
-        <td>Bánh bao nguyên cám thịt trứng cút</td>
-        <td>Cơm gà sốt cam mật ong nhẹ + Bông cải hấp</td>
-        <td>Cháo cá hồi đậu xanh nước cốt dừa thanh nhẹ</td>
+        <td>Bánh bao nguyên cám nhân thịt trứng cút</td>
+        <td>Cơm đùi gà áp chảo sốt cam + Súp lơ luộc</td>
+        <td>Hoa quả tươi (cam, việt quất) + Sữa chua</td>
+        <td>Lẩu gia đình thanh nhẹ rau củ thịt bò cá hồi</td>
       </tr>
     </tbody>
   </table>
-
-  <div class="callout-tip">
-    <strong>Bữa phụ chiều (15:00):</strong> Cho bé dùng sữa chua Hy Lạp lên men, sinh tố bơ chuối, đu đủ chín hoặc các loại hạt dinh dưỡng xay nhuyễn (óc chó, macca) giúp bổ sung chất béo lành mạnh tức thì.
-  </div>
 </div>
 
-<!-- TRANG 3: LỊCH EASY & PHƯƠNG PHÁP 15 PHÚT MỖI TỐI -->
-<div class="page" style="padding: 24px;">
-  <div class="section-title">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-    3. LỊCH SINH HOẠT EASY KHOA HỌC CHUẨN THEO ĐỘ TUỔI
+<!-- NỘI DUNG PHẦN 3 & 4 -->
+<div class="content-section">
+  <div class="section-header">
+    <h2>3. LỊCH SINH HOẠT EASY KHOA HỌC CHUẨN THEO ĐỘ TUỔI</h2>
   </div>
-  <p style="font-size: 12px; margin-bottom: 10px;">Khi trẻ có lịch sinh hoạt ổn định, hệ thần kinh không rơi vào trạng thái quá tải (overtired), nồng độ hormone căng thẳng Cortisol giảm thấp, giúp trẻ tiếp thu và học hỏi thế giới xung quanh với tâm thế tích cực nhất:</p>
+  <p>Giấc ngủ chính là lúc não bộ tiết ra 80% lượng <em>Hormone Tăng Trưởng (GH)</em> và tiến hành dọn dẹp độc tố, sắp xếp các vùng ký ức. Lịch sinh hoạt EASY giúp trẻ hình thành phản xạ tự nhiên, không quấy khóc:</p>
 
-  <div class="easy-grid">
-    <div class="easy-card">
+  <div class="grid-2">
+    <div class="grid-card">
       <h4>GIAI ĐOẠN 6 - 12 THÁNG (EASY 4 / 2-3-4)</h4>
       <ul>
-        <li><strong>07:00:</strong> Thức giấc, bú mẹ/sữa công thức, tắm nắng sáng.</li>
-        <li><strong>08:30 - 09:00:</strong> Vận động thô (bò, với đồ chơi, lật sách vải).</li>
-        <li><strong>09:00 - 10:30:</strong> Giấc ngủ ngày 1 (Nap 1) - giấc ngủ phục hồi.</li>
-        <li><strong>11:30:</strong> Ăn dặm bữa chính (cháo/bột giàu DHA & đạm).</li>
+        <li><strong>07:00:</strong> Thức dậy, bú mẹ/sữa công thức, phơi nắng sáng nhẹ 15p.</li>
+        <li><strong>08:30 - 09:00:</strong> Vận động thô (bò, với đồ chơi, lật mở sách vải).</li>
+        <li><strong>09:00 - 10:30:</strong> Giấc ngủ ngày 1 (Nap 1).</li>
+        <li><strong>11:30:</strong> Ăn dặm bữa chính (bát cháo/bột dinh dưỡng).</li>
         <li><strong>13:30 - 15:00:</strong> Giấc ngủ ngày 2 (Nap 2).</li>
-        <li><strong>18:30:</strong> Ăn dặm tối + Tắm nước ấm thư giãn cơ bắp.</li>
-        <li><strong>19:30:</strong> Đọc sách ru ngủ, tắt đèn ngủ sâu trước 20:00.</li>
+        <li><strong>18:30:</strong> Ăn dặm cữ tối + Tắm nước ấm thư giãn.</li>
+        <li><strong>19:30:</strong> Bú cữ đêm, đọc sách ru ngủ, tắt đèn trước 20:00.</li>
       </ul>
     </div>
 
-    <div class="easy-card">
+    <div class="grid-card">
       <h4>GIAI ĐOẠN 1 - 6 TUỔI (1 NAP DUY NHẤT)</h4>
       <ul>
-        <li><strong>06:45 - 07:15:</strong> Thức dậy, vệ sinh, ăn sáng giàu dinh dưỡng.</li>
-        <li><strong>08:00 - 11:00:</strong> Hoạt động tại trường mầm non / Vui chơi tự do.</li>
-        <li><strong>11:30 - 12:15:</strong> Bữa trưa cân bằng đủ 4 nhóm chất.</li>
-        <li><strong>12:30 - 14:15:</strong> Giấc ngủ trưa (tối đa 1.5 - 2 tiếng).</li>
-        <li><strong>15:00:</strong> Bữa phụ chiều nhẹ nhàng (trái cây, sữa hạt).</li>
-        <li><strong>18:30:</strong> Bữa tối gắn kết cùng gia đình.</li>
-        <li><strong>20:00 - 20:30:</strong> 15 phút vàng tương tác kích hoạt tư duy.</li>
-        <li><strong>21:00:</strong> Lên giường ngủ say, phòng tối và yên tĩnh.</li>
+        <li><strong>06:45 - 07:15:</strong> Dậy đón nắng, vận động, ăn sáng đầy đủ đạm.</li>
+        <li><strong>08:00 - 11:00:</strong> Đi học mầm non / Vui chơi tương tác ngoài trời.</li>
+        <li><strong>11:30 - 12:15:</strong> Bữa trưa giàu vi chất não bộ.</li>
+        <li><strong>12:30 - 14:30:</strong> Giấc ngủ trưa sâu (tối đa 2 tiếng).</li>
+        <li><strong>15:00:</strong> Bữa phụ chiều nhẹ nhàng (trái cây, sữa chua).</li>
+        <li><strong>18:30:</strong> Bữa tối ấm cúng cùng cả gia đình.</li>
+        <li><strong>20:00 - 20:30:</strong> Quy tắc "15 phút vàng" tương tác với bố mẹ.</li>
+        <li><strong>21:00:</strong> Lên giường ngủ sâu giấc, phòng tối hoàn toàn.</li>
       </ul>
     </div>
   </div>
 
-  <div class="section-title" style="margin-top: 15px;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-    4. 5 THÓI QUEN "15 PHÚT VÀNG MỖI TỐI" KÍCH HOẠT ĐA GIÁC QUAN CHO CON
+  <div class="section-header" style="margin-top: 25px;">
+    <h2>4. NGUYÊN TẮC "15 PHÚT VÀNG MỖI TỐI" KÍCH HOẠT ĐA GIÁC QUAN</h2>
+  </div>
+  <p>Thay vì cho trẻ tiếp xúc với màn hình iPad hay điện thoại trước giờ ngủ (gây ức chế sản sinh melatonin và làm thoái hóa tế bào thần kinh chú ý), bố mẹ hãy áp dụng 5 thói quen sau:</p>
+
+  <div class="tip-box">
+    <strong>1. Đọc Sách Tương Tác Hỏi - Đáp Mở (5 phút):</strong> Đừng chỉ đọc thụ động một chiều! Hãy chỉ vào tranh và hỏi: <em>"Đố con biết chú gấu đang đi đâu đấy?", "Theo con bạn thỏ có vui không?"</em> - kích hoạt thùy trán tư duy logic.<br>
+    <strong>2. Vỗ Về Và Trò Chuyện Tâm Tình (3 phút):</strong> Hỏi con: <em>"Hôm nay điều gì làm con vui nhất ở lớp?", "Có điều gì làm con hơi buồn không?"</em> - xây dựng trí thông minh cảm xúc (EQ).<br>
+    <strong>3. Trò Chơi Xúc Giác & Massage Nhẹ Nhàng (3 phút):</strong> Massage lòng bàn chân và dọc sống lưng bằng dầu hạt tràm hoặc tinh dầu thảo mộc giúp kích hoạt hệ thần kinh đối giao cảm, đưa bé vào giấc ngủ sâu.<br>
+    <strong>4. Nghe Nhạc Giao Hưởng Mozart / Lời Ru Nhẹ Nhàng (4 phút):</strong> Tần số sóng âm êm dịu kích thích sóng não Alpha - trạng thái lý tưởng để não bộ tổng hợp thông tin đã học trong ngày.
   </div>
 
-  <div style="font-size: 12px; line-height: 1.6; color: #334155;">
-    <p style="margin: 4px 0;"><strong>1. Đọc sách tương tác đa giác quan (5 phút):</strong> Thay vì đọc đều đều, hãy chỉ vào tranh vẽ và hỏi con các câu hỏi gợi mở: <em>"Đố con biết bạn thỏ đang tìm mẹ ở đâu?", "Con thấy màu này là màu gì nào?"</em> - kích thích thùy trán xử lý ngôn ngữ và phản xạ logic.</p>
-    <p style="margin: 4px 0;"><strong>2. Trò chuyện chia sẻ cảm xúc trong ngày (3 phút):</strong> Hỏi con: <em>"Hôm nay ở lớp có bạn nào làm con vui nhất?", "Con thích chơi trò gì nhất?"</em> - giúp xây dựng trí tuệ cảm xúc (EQ) và gắn kết tình cảm phụ tử/mẫu tử sâu sắc.</p>
-    <p style="margin: 4px 0;"><strong>3. Trò chơi vận động tinh ngón tay (3 phút):</strong> Cho bé xâu hạt lớn, gấp giấy hoặc chơi trò cù ngón tay. Vận động tinh ở các đầu ngón tay chiếm diện tích vỏ não vận động rất lớn, trực tiếp kích thích tư duy sáng tạo.</p>
-    <p style="margin: 4px 0;"><strong>4. Massage thư giãn lòng bàn chân & sống lưng (4 phút):</strong> Kích hoạt hệ thần kinh đối giao cảm, hạ huyết áp, làm dịu sóng não từ Beta về Alpha và Theta để bé đi vào giấc ngủ sâu không giật mình.</p>
-  </div>
-
-  <div class="resource-box">
-    <h4>TỦ SÁCH & CÔNG CỤ ĐỀ XUẤT CHO BỐ MẸ TỪ KỆ SÁCH CÙNG CON</h4>
-    <p>Để đạt hiệu quả tối ưu nhất, bố mẹ có thể tham khảo các bộ sách & công cụ chuẩn sư phạm được chúng tôi tuyển chọn kỹ lưỡng:</p>
-    <p><strong>• Bộ sách Ehon Nhật Bản (0 - 3 tuổi):</strong> Kích thích phát triển thị giác và thùy não ngôn ngữ.</p>
-    <p><strong>• Cuốn cẩm nang "Ăn Dặm Không Phải Là Cuộc Chiến":</strong> Phương pháp xây dựng thói quen ăn uống tự lập.</p>
-    <p style="font-size: 11px; color: #64748b; margin-top: 4px;">
-      Bố mẹ tham khảo và sở hữu các đầu sách tại gian hàng chính hãng Shopee Mall được kiểm duyệt bởi Kệ Sách Cùng Con.
-    </p>
+  <div class="cta-section">
+    <h3 style="margin-top: 0; color: #2b6cb0;">TỦ SÁCH & TÀI NGUYÊN GỢI Ý DÀNH CHO BỐ MẸ</h3>
+    <p style="margin-bottom: 8px;">Để áp dụng hiệu quả nhất, Kệ Sách Cùng Con xin gợi ý tủ sách phát triển não bộ trẻ chính hãng:</p>
+    <p><strong>1. Bộ sách Ehon Nhật Bản kích thích thị giác & thùy não (0-3 tuổi)</strong></p>
+    <p><strong>2. Cuốn cẩm nang "Ăn dặm không phải là cuộc chiến" & "Nuôi con không phải cuộc chiến"</strong></p>
+    <p><strong>3. Bộ sách "Bách khoa tri thức đầu đời cho trẻ" (3-6 tuổi)</strong></p>
+    <p style="font-size: 13px; color: #4a5568;">👉 Toàn bộ các đầu sách đã được chọn lọc và kiểm định chất lượng tại gian hàng Shopee Mall chính hãng.</p>
   </div>
 </div>
 
