@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tuyển Tập Câu Chuyện Ru Ngủ Nuôi Dưỡng EQ & Khoa Học Đọc Sách Cùng Con - Kệ Sách Cùng Con</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-light: #3b82f6;
+      --accent: #f59e0b;
+      --dark: #0f172a;
+      --light-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text: #334155;
+      --text-muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text);
+      background-color: var(--light-bg);
+      line-height: 1.7;
+      padding: 0;
+      margin: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    .header-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: white;
+      padding: 50px 30px;
+      border-radius: 20px;
+      text-align: center;
+      margin-bottom: 35px;
+      box-shadow: 0 15px 35px rgba(30, 58, 138, 0.25);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(245, 158, 11, 0.2);
+      color: #fbbf24;
+      border: 1px solid #f59e0b;
+      padding: 6px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .header-hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 32px;
+      line-height: 1.35;
+      margin-bottom: 15px;
+      color: #ffffff;
+    }
+    .header-hero p {
+      font-size: 16px;
+      color: #cbd5e1;
+      max-width: 700px;
+      margin: 0 auto 25px;
+    }
+    .audio-player-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 20px;
+      max-width: 650px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .audio-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fbbf24;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    audio {
+      width: 100%;
+      height: 40px;
+      border-radius: 8px;
+      outline: none;
+    }
+    .btn-download-pdf {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #f59e0b;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      text-decoration: none;
+      margin-top: 20px;
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+      transition: all 0.2s;
+    }
+    .btn-download-pdf:hover {
+      background: #d97706;
+      transform: translateY(-2px);
+    }
+    .chapter {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 35px;
+      margin-bottom: 30px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+    }
+    .chapter-tag {
+      color: var(--primary-light);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .chapter h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      color: var(--dark);
+      margin-bottom: 18px;
+      line-height: 1.3;
+    }
+    .story-card {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary-light);
+      border-radius: 0 12px 12px 0;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .story-card h3 {
+      font-size: 18px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    .story-lesson {
+      background: #fef3c7;
+      border: 1px dashed #f59e0b;
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 14px;
+      color: #92400e;
+      margin-top: 12px;
+    }
+    .funnel-card {
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      color: white;
+      border-radius: 20px;
+      padding: 35px;
+      text-align: center;
+      margin-top: 40px;
+    }
+    .funnel-links {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .funnel-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .funnel-btn-tele {
+      background: #0284c7;
+      color: white;
+    }
+    .funnel-btn-zalo {
+      background: #2563eb;
+      color: white;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-hero">
+      <span class="badge">Ấn Phẩm Độc Quyền Dành Cho Cha Mẹ</span>
+      <h1>TUYỂN TẬP 30 CÂU CHUYỆN RU NGỦ NUÔI DƯỠNG EQ & KHOA HỌC NÃO BỘ CHO TRẺ</h1>
+      <p>Phương pháp đọc sách 15 phút đánh thức sóng não Theta, giúp con phát triển lòng trắc ẩn, tính tự lập và bản lĩnh tự tin từ trong tiềm thức.</p>
+      
+      <div class="audio-player-box">
+        <div class="audio-title">🎧 Nghe Audio Truyện Ru Ngủ Mẫu (Giọng đọc ru êm & Nhạc sóng não Theta):</div>
+        <audio controls>
+          <source src="https://actions.google.com/sounds/v1/water/rain_heavy.ogg" type="audio/ogg">
+          Trình duyệt của bố mẹ không hỗ trợ nghe trực tiếp audio.
+        </audio>
+      </div>
+
+      <div style="margin-top: 25px;">
+        <a href="tuyen-tap-truyen-ru-ngu-nuoi-duong-eq.pdf" class="btn-download-pdf" download>
+          📥 Tải Bản PDF In Ấn Sắc Nét (A4 Hoàn Toàn Miễn Phí)
+        </a>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-tag">Phần 1: Cơ Sở Khoa Học Thần Kinh</div>
+      <h2>Tại Sao 15 Phút Đọc Sách Trước Khi Ngủ Quyết Định 80% Nhân Cách Của Con?</h2>
+      <p>Khi con chuẩn bị bước vào giấc ngủ, não bộ bắt đầu giảm tần số hoạt động từ sóng Beta (tỉnh táo, phòng thủ) xuống sóng Alpha và <strong>Sóng Theta (4–8 Hz)</strong>. Trong trạng thái này, não trẻ giống như một miếng bọt biển khô khát nước – tiếp nhận toàn bộ âm điệu, từ ngữ và tình yêu thương mà không hề dựng lên bất kỳ rào cản phòng vệ tâm lý nào.</p>
+      <div class="story-card">
+        <h3>💡 3 Quy Tắc Vàng Của Giờ Đọc Bedtime:</h3>
+        <p>• <strong>Không biến giờ đọc thành buổi kiểm tra bài:</strong> Đừng hỏi con "Hôm nay con học được chữ gì?", hãy hỏi "Con thấy bạn thỏ cảm thấy thế nào khi bị lạc?".</p>
+        <p>• <strong>Giọng đọc trầm ấm, chậm hơn 30% so với ban ngày:</strong> Âm vực trầm kích hoạt hệ thần kinh phó giao cảm (Parasympathetic), giúp hạ nhịp tim và ru ngủ tự nhiên.</p>
+        <p>• <strong>Chạm cơ thể (Physical Touch):</strong> Ôm con vào lòng hoặc để tay con chạm vào trang sách tạo cảm giác an toàn và gắn kết sâu sắc.</p>
+      </div>
+    </div>
+
+    <div class="chapter">
+      <div class="chapter-tag">Phần 2: 3 Câu Chuyện Tiêu Biểu Trong Tuyển Tập</div>
+      <h2>Những Hạt Giống Tâm Hồn Gieo Vào Giấc Mơ Của Trẻ</h2>
+
+      <div class="story-card">
+        <h3>Câu chuyện 1: "Cây Sồi Nhỏ Và Cơn Bão Lớn" (Bài học về sự bền bỉ)</h3>
+        <p>Trong khu rừng nọ, cây sồi nhỏ luôn tự ti vì thân hình gầy guộc bên cạnh những cây bạch đàn cao lớn vươn mình đón gió. Khi mùa bão tràn về, những cây vươn quá cao bị gãy cành, trốc rễ. Riêng cây sồi nhỏ, nhờ tháng ngày kiên trì cắm sâu bộ rễ xuống lòng đất mẹ, đã đứng vững kiên cường và chở che cho những chú chim non...</p>
+        <div class="story-lesson">
+          🌿 <strong>Lời thì thầm ru ngủ:</strong> "Con yêu, giá trị của con không nằm ở việc con cao lớn hơn ai, mà ở việc con có một bộ rễ nội lực vững vàng. Bố mẹ luôn tự hào vì con luôn bền bỉ mỗi ngày."
+        </div>
+      </div>
+
+      <div class="story-card">
+        <h3>Câu chuyện 2: "Trái Tim Biết Lắng Nghe Của Gấu Misa" (Nuôi dưỡng EQ & Lòng trắc ẩn)</h3>
+        <p>Gấu Misa sinh ra với đôi tai rất to. Lúc đầu Misa buồn lắm vì bị các bạn trêu chọc. Nhưng rồi mùa đông đến, nhờ đôi tai biết lắng nghe những thanh âm nhỏ bé nhất, Misa đã nghe thấy tiếng kêu cứu của bé sóc dưới lớp tuyết dày và kịp thời cứu bạn...</p>
+        <div class="story-lesson">
+          🌿 <strong>Lời thì thầm ru ngủ:</strong> "Sự khác biệt của con chính là món quà kỳ diệu nhất mà vũ trụ ban tặng. Khi con biết lắng nghe và yêu thương người khác, cả thế giới sẽ mở rộng vòng tay với con."
+        </div>
+      </div>
+
+      <div class="story-card">
+        <h3>Câu chuyện 3: "Ngọn Đèn Hải Đăng Không Bao Giờ Tắt" (Bản lĩnh & Sự tự tin)</h3>
+        <p>Trên hòn đảo xa xôi, ngọn hải đăng nhỏ bé một mình đối diện với sóng to gió lớn đêm đen. Có những lúc bóng tối dường như nuốt chửng tất cả, nhưng ngọn hải đăng vẫn kiên định thắp sáng tia lửa nhỏ nhoi, dẫn lối cho tàu thuyền trở về bến đỗ an toàn...</p>
+        <div class="story-lesson">
+          🌿 <strong>Lời thì thầm ru ngủ:</strong> "Dù ngày mai có khó khăn thế nào, trong trái tim con luôn có một ngọn đèn dũng cảm. Con hoàn toàn có đủ sức mạnh để vượt qua mọi thử thách."
+        </div>
+      </div>
+    </div>
+
+    <div class="funnel-card">
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 26px; margin-bottom: 12px;">ĐỒNG HÀNH CÙNG KỆ SÁCH CÙNG CON KHÔN LỚN</h2>
+      <p style="font-size: 15px; color: #cbd5e1; max-width: 600px; margin: 0 auto;">Tham gia cộng đồng cha mẹ tinh hoa để nhận thêm file Audio truyện ru ngủ, cẩm nang nuôi con và kho sách tuyển chọn mỗi ngày hoàn toàn miễn phí:</p>
+      <div class="funnel-links">
+        <a href="https://t.me/kesachcungcon" target="_blank" class="funnel-btn funnel-btn-tele">
+          ✈️ Tham Gia Kênh Telegram Kệ Sách
+        </a>
+        <a href="https://zalo.me/g/axdbv8rfr1au6zgumkhu" target="_blank" class="funnel-btn funnel-btn-zalo">
+          💬 Tham Gia Nhóm Zalo Phụ Huynh
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>© 2026 Kệ Sách Cùng Con Khôn Lớn - Ấn phẩm phi lợi nhuận vì tương lai trẻ thơ.</p>
+    </div>
+  </div>
+</body>
+</html>
