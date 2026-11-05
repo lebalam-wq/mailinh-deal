@@ -316,6 +316,7 @@
             { name: "2 Cực trị (a > 0)", vals: { a: "1/3", b: "0", c: "-1", d: "1" } },
             { name: "2 Cực trị (a < 0)", vals: { a: "-1", b: "3", c: "0", d: "-1" } },
             { name: "Đơn điệu tăng", vals: { a: "1/3", b: "0", c: "1", d: "0" } },
+            { name: "Đơn điệu giảm", vals: { a: "-1/3", b: "0", c: "-1", d: "0" } },
             { name: "Có uốn trên Ox", vals: { a: "1", b: "-3", c: "0", d: "2" } }
         ],
         quartic: [
@@ -331,9 +332,10 @@
             { name: "Tâm I(-1; 2)", vals: { a: "2", b: "3", c: "1", d: "1" } }
         ],
         frac21: [
-            { name: "2 Cực trị (a>0)", vals: { a: "1", b: "-1", c: "1", d: "1", e: "-1" } },
-            { name: "2 Cực trị (a<0)", vals: { a: "-1", b: "2", c: "-4", d: "1", e: "-2" } },
-            { name: "Không cực trị", vals: { a: "1", b: "1", c: "1", d: "1", e: "0" } }
+            { name: "2 Cực trị (a > 0)", vals: { a: "1", b: "-1", c: "1", d: "1", e: "-1" } },
+            { name: "2 Cực trị (a < 0)", vals: { a: "-1", b: "2", c: "-4", d: "1", e: "-2" } },
+            { name: "Không cực trị (Đồng biến)", vals: { a: "1", b: "-2", c: "0", d: "1", e: "-1" } },
+            { name: "Không cực trị (Nghịch biến)", vals: { a: "-1", b: "1", c: "1", d: "1", e: "-1" } }
         ]
     };
 
@@ -346,9 +348,19 @@
             let btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'btn-secondary';
-            btn.style.cssText = "padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--panel); color: var(--text);";
+            btn.style.cssText = "padding: 4px 9px; font-size: 0.8rem; border-radius: 5px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--panel); color: var(--text); transition: all 0.2s;";
             btn.innerText = item.name;
-            btn.onclick = () => applyPreset(item.vals);
+            btn.onclick = () => {
+                container.querySelectorAll('button').forEach(b => {
+                    b.style.borderColor = 'var(--border)';
+                    b.style.background = 'var(--panel)';
+                    b.style.color = 'var(--text)';
+                });
+                btn.style.borderColor = '#0070C0';
+                btn.style.background = '#eff6ff';
+                btn.style.color = '#0070C0';
+                applyPreset(item.vals);
+            };
             container.appendChild(btn);
         });
     }
@@ -598,7 +610,7 @@
         cubic:   { a: '1/3', b: '0', c: '-1', d: '1' },
         quartic: { a: '0.25', b: '-1.5', c: '1', d: '0' },
         frac11:  { a: '2', b: '1', c: '1', d: '-1' },
-        frac21:  { a: '1', b: '-1', c: '-2', d: '1', e: '-1' }
+        frac21:  { a: '1', b: '-1', c: '1', d: '1', e: '-1' }
     };
 
     function onTypeChange() {
