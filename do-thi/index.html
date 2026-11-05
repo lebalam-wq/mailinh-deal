@@ -126,6 +126,14 @@
         #jxgbox { width: 100%; aspect-ratio: 1 / 1; border-radius: 8px;
             background-color: #ffffff !important; }
     
+        
+        #jxgbox path[stroke="#00f2fe"] {
+            filter: drop-shadow(0 0 5px #00f2fe) drop-shadow(0 0 12px #00e5ff) !important;
+        }
+        #jxgbox circle[fill="#00f2fe"] {
+            filter: drop-shadow(0 0 6px #00f2fe) drop-shadow(0 0 14px #00e5ff) !important;
+        }
+
         .card:fullscreen {
             background: var(--bg) !important;
             padding: 24px !important;
@@ -280,32 +288,61 @@
 
         
         <!-- Math Motion & Radar Toolbar -->
-        <div class="motion-toolbar" style="margin-top: 10px; margin-bottom: 10px; padding: 10px 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(99, 102, 241, 0.08)); border: 1px solid #38bdf8; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
-            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <span style="font-size: 0.88rem; font-weight: 800; color: #0284c7; display: flex; align-items: center; gap: 5px;">
-                    ✨ MATH MOTION:
-                </span>
-                <button id="btn-motion-play" onclick="toggleMotionAnimation()" style="background: linear-gradient(135deg, #0284c7, #0070C0); color: #fff; font-weight: 700; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(0, 112, 192, 0.3); font-size: 0.88rem;">
-                    ▶ Chạy Vệt Sáng
-                </button>
-                <button id="btn-motion-reset" onclick="resetMotionAnimation()" class="btn-secondary" style="padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.88rem;">
-                    ↺ Vẽ Lại
-                </button>
-                <select id="motion-speed" onchange="changeMotionSpeed()" style="padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font-size: 0.85rem; font-weight: 600; cursor: pointer;">
-                    <option value="0.5">Tốc độ: 0.5x</option>
-                    <option value="1" selected>Tốc độ: 1.0x</option>
-                    <option value="1.5">Tốc độ: 1.5x</option>
-                    <option value="2">Tốc độ: 2.0x</option>
-                </select>
+        <div class="motion-toolbar" style="margin-top: 10px; margin-bottom: 10px; padding: 10px 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(99, 102, 241, 0.08)); border: 1px solid #38bdf8; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                    <span style="font-size: 0.88rem; font-weight: 800; color: #0284c7; display: flex; align-items: center; gap: 5px;">
+                        ✨ VỆT SÁNG MATH MOTION:
+                    </span>
+                    <button id="btn-motion-play" onclick="toggleMotionAnimation()" style="background: linear-gradient(135deg, #0284c7, #0070C0); color: #fff; font-weight: 700; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(0, 112, 192, 0.3); font-size: 0.88rem;">
+                        ▶ Chạy Vệt Sáng
+                    </button>
+                    <button id="btn-motion-reset" onclick="resetMotionAnimation()" class="btn-secondary" style="padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.88rem;">
+                        ↺ Vẽ Lại
+                    </button>
+
+                    <!-- Set Thời Gian Dừng -->
+                    <div style="display: inline-flex; align-items: center; gap: 4px; background: var(--panel); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border);">
+                        <label for="motion-duration" style="font-size: 0.82rem; font-weight: 700; color: var(--text); cursor: pointer;">⏱ Dừng sau:</label>
+                        <select id="motion-duration" onchange="onDurationChange()" style="border: none; background: transparent; color: #0070C0; font-size: 0.85rem; font-weight: 800; cursor: pointer; outline: none;">
+                            <option value="5">5 giây</option>
+                            <option value="10" selected>10 giây (Chuẩn)</option>
+                            <option value="15">15 giây</option>
+                            <option value="20">20 giây</option>
+                            <option value="30">30 giây (Thong thả)</option>
+                            <option value="60">60 giây</option>
+                            <option value="loop">Lặp vô hạn (Loop)</option>
+                        </select>
+                    </div>
+
+                    <!-- Đồng hồ đếm thời gian -->
+                    <span id="motion-timer-badge" style="font-family: monospace; font-size: 0.85rem; font-weight: 800; background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 4px; border: 1px solid #bae6fd;">
+                        00.0s / 10s
+                    </span>
+
+                    <select id="motion-speed" onchange="changeMotionSpeed()" style="padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                        <option value="0.5">Tốc độ: 0.5x</option>
+                        <option value="1" selected>Tốc độ: 1.0x</option>
+                        <option value="1.5">Tốc độ: 1.5x</option>
+                        <option value="2">Tốc độ: 2.0x</option>
+                    </select>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                    <button onclick="toggleFullscreenGraph()" title="Phóng to toàn màn hình máy chiếu lớp học" style="padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; background: #f0fdf4; color: #166534; border: 1px solid #86efac; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
+                        ⛶ Trình Chiếu Fullscreen
+                    </button>
+                    <button id="btn-export-gif" onclick="exportMotionGIF()" title="Xuất file GIF hoạt ảnh động chèn PowerPoint/Canva" style="padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; background: #fefce8; color: #854d0e; border: 1px solid #fde047; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
+                        🎬 Tải GIF Bài Giảng
+                    </button>
+                </div>
             </div>
 
-            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
-                <button onclick="toggleFullscreenGraph()" title="Phóng to toàn màn hình máy chiếu lớp học" style="padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; background: #f0fdf4; color: #166534; border: 1px solid #86efac; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
-                    ⛶ Trình Chiếu Fullscreen
-                </button>
-                <button id="btn-export-gif" onclick="exportMotionGIF()" title="Xuất file GIF hoạt ảnh động chèn PowerPoint/Canva" style="padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; background: #fefce8; color: #854d0e; border: 1px solid #fde047; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
-                    🎬 Tải GIF Bài Giảng
-                </button>
+            <!-- Thanh Trượt Tua Thời Gian (Scrub Timeline) -->
+            <div style="display: flex; align-items: center; gap: 8px; width: 100%; border-top: 1px dashed rgba(56, 189, 248, 0.35); padding-top: 6px;">
+                <span style="font-size: 0.75rem; color: var(--muted); font-weight: 700; text-transform: uppercase;">Tua tiến trình:</span>
+                <input type="range" id="motion-timeline" min="0" max="1000" value="0" oninput="onTimelineScrub(this.value)" style="flex: 1; accent-color: #0284c7; cursor: pointer;">
+                <span id="motion-pct-label" style="font-family: monospace; font-size: 0.78rem; font-weight: 700; color: #0284c7; min-width: 36px; text-align: right;">0%</span>
             </div>
         </div>
 
@@ -637,6 +674,7 @@
         });
     }
 
+    let trailCurveOuter = null, trailCurveInner = null, trailHeadHalo = null, trailHeadCore = null;
     let board = JXG.JSXGraph.initBoard('jxgbox', {
         boundingbox: DEFAULT_BOUNDING_BOX,
         axis: false, showCopyright: false, keepaspectratio: true, showInfobox: true,
@@ -1123,6 +1161,17 @@
         let showTangent = document.getElementById('chk-tangent').checked;
         tangentGlider = board.create('glider', [1, f_val(1), graphCurve], { name: '', size: 3, color: '#d946ef', visible: showTangent });
         tangentLine = board.create('tangent', [tangentGlider], { dash: 1, visible: showTangent });
+
+        // Tạo các lớp Vệt Sáng Neon Luminous Trail & Glowing Head
+        if (trailCurveOuter) board.removeObject(trailCurveOuter);
+        if (trailCurveInner) board.removeObject(trailCurveInner);
+        if (trailHeadHalo) board.removeObject(trailHeadHalo);
+        if (trailHeadCore) board.removeObject(trailHeadCore);
+
+        trailCurveOuter = board.create('curve', [[], []], { strokeWidth: 9, strokeColor: '#00f2fe', strokeOpacity: 0.75, fixed: true, highlight: false, layer: 9 });
+        trailCurveInner = board.create('curve', [[], []], { strokeWidth: 3.5, strokeColor: '#ffffff', strokeOpacity: 0.95, fixed: true, highlight: false, layer: 10 });
+        trailHeadHalo = board.create('point', [0, 0], { size: 9, fillColor: '#00f2fe', fillOpacity: 0.65, strokeColor: '#ffffff', strokeWidth: 2, name: '', fixed: true, visible: false, highlight: false, layer: 11 });
+        trailHeadCore = board.create('point', [0, 0], { size: 4.5, fillColor: '#ffffff', strokeColor: '#0284c7', strokeWidth: 2, name: '', fixed: true, visible: false, highlight: false, layer: 12 });
         
         // Thêm tính năng điểm hút (magnetic snap) khi kéo điểm M đi qua các điểm cực trị
         tangentGlider.on('drag', function() {
@@ -1348,15 +1397,48 @@
     }
 
     
-// --- MATH MOTION & GIF EXPORT ENGINE ---
+// --- ADVANCED MATH MOTION ENGINE WITH NEON GLOW TRAIL & TIMED AUTO-STOP ---
 let motionAnimId = null;
 let motionIsPlaying = false;
-let motionProgress = 0.0;
 let motionSpeedMultiplier = 1.0;
+let motionDurationMs = 10000;
+let motionDurationMode = '10';
+let motionElapsedMs = 0;
+let motionLastTimestamp = 0;
+
+function onDurationChange() {
+    let sel = document.getElementById('motion-duration');
+    if (!sel) return;
+    motionDurationMode = sel.value;
+    if (motionDurationMode === 'loop') {
+        motionDurationMs = 10000;
+    } else {
+        motionDurationMs = (parseFloat(motionDurationMode) || 10) * 1000;
+    }
+    updateTimerDisplay();
+}
 
 function changeMotionSpeed() {
     let el = document.getElementById('motion-speed');
     if (el) motionSpeedMultiplier = parseFloat(el.value) || 1.0;
+}
+
+function updateTimerDisplay() {
+    let badge = document.getElementById('motion-timer-badge');
+    let timeline = document.getElementById('motion-timeline');
+    let pctLabel = document.getElementById('motion-pct-label');
+    let curSec = (motionElapsedMs / 1000).toFixed(1);
+
+    if (motionDurationMode === 'loop') {
+        if (badge) badge.innerText = `⏱ ${curSec}s (Lặp vô hạn)`;
+    } else {
+        let totSec = (motionDurationMs / 1000).toFixed(0);
+        if (badge) badge.innerText = `⏱ ${curSec}s / ${totSec}s`;
+    }
+
+    let progress = Math.min(1.0, motionElapsedMs / motionDurationMs);
+    if (timeline) timeline.value = Math.round(progress * 1000);
+    if (pctLabel) pctLabel.innerText = `${Math.round(progress * 100)}%`;
 }
 
 function updateRadar(x, y, slope) {
@@ -1405,7 +1487,6 @@ function getCurXFromProgress(prog, mb) {
     if (mb.x0 === null || mb.x0 < mb.xmin || mb.x0 > mb.xmax) {
         return mb.xmin + (mb.xmax - mb.xmin) * prog;
     }
-    // Asymptote at x0
     let margin = 0.22;
     if (prog < 0.5) {
         let subP = prog / 0.5;
@@ -1416,28 +1497,96 @@ function getCurXFromProgress(prog, mb) {
     }
 }
 
-function motionStep() {
-    if (!motionIsPlaying || !tangentPoint) return;
+function updateTrail(curX) {
+    if (!trailCurveOuter || !trailCurveInner) return;
     let mb = getMotionBounds();
-    let curX = getCurXFromProgress(motionProgress, mb);
-    let curY = f_base(curX);
+    let trailLen = 2.4;
+    let startX = Math.max(mb.xmin, curX - trailLen);
+    
+    if (mb.x0 !== null && startX < mb.x0 && curX > mb.x0) {
+        startX = mb.x0 + 0.15;
+    }
+
+    let ptsX = [], ptsY = [];
+    let nSteps = 35;
+    for (let i = 0; i <= nSteps; i++) {
+        let px = startX + (curX - startX) * (i / nSteps);
+        if (mb.x0 !== null && Math.abs(px - mb.x0) < 0.12) continue;
+        let py = currentFVal ? currentFVal(px) : f_base(px);
+        if (!isNaN(py) && Math.abs(py) < 120) {
+            ptsX.push(px);
+            ptsY.push(py);
+        }
+    }
+    trailCurveOuter.dataX = ptsX;
+    trailCurveOuter.dataY = ptsY;
+    trailCurveInner.dataX = ptsX;
+    trailCurveInner.dataY = ptsY;
+
+    let curY = currentFVal ? currentFVal(curX) : f_base(curX);
+    if (!isNaN(curY) && Math.abs(curY) < 120) {
+        if (trailHeadHalo) {
+            trailHeadHalo.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
+            trailHeadHalo.setAttribute({ visible: true });
+        }
+        if (trailHeadCore) {
+            trailHeadCore.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
+            trailHeadCore.setAttribute({ visible: true });
+        }
+    }
+}
+
+function clearTrail() {
+    if (trailCurveOuter) { trailCurveOuter.dataX = []; trailCurveOuter.dataY = []; }
+    if (trailCurveInner) { trailCurveInner.dataX = []; trailCurveInner.dataY = []; }
+    if (trailHeadHalo) trailHeadHalo.setAttribute({ visible: false });
+    if (trailHeadCore) trailHeadCore.setAttribute({ visible: false });
+    if (board) board.update();
+}
+
+function applyMotionProgress(prog) {
+    if (!tangentGlider) return;
+    let mb = getMotionBounds();
+    let curX = getCurXFromProgress(prog, mb);
+    let curY = currentFVal ? currentFVal(curX) : f_base(curX);
 
     if (!isNaN(curY) && Math.abs(curY) !== Infinity) {
-        tangentPoint.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
+        tangentGlider.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
+        updateTrail(curX);
         board.update();
         if (typeof updateTangentText === 'function') updateTangentText();
         let slope = (tangentLine && typeof tangentLine.getSlope === 'function') ? tangentLine.getSlope() : 0;
         updateRadar(curX, curY, slope);
     }
+}
 
-    motionProgress += 0.0032 * motionSpeedMultiplier;
-    if (motionProgress >= 1.0) {
-        motionProgress = 1.0;
-        motionIsPlaying = false;
-        let btn = document.getElementById('btn-motion-play');
-        if (btn) btn.innerHTML = '▶ Chạy Lại';
-        return;
+function motionStep(timestamp) {
+    if (!motionIsPlaying) return;
+
+    if (!motionLastTimestamp) motionLastTimestamp = timestamp;
+    let delta = timestamp - motionLastTimestamp;
+    motionLastTimestamp = timestamp;
+
+    motionElapsedMs += delta * motionSpeedMultiplier;
+
+    if (motionElapsedMs >= motionDurationMs) {
+        if (motionDurationMode === 'loop') {
+            motionElapsedMs = 0;
+        } else {
+            motionElapsedMs = motionDurationMs;
+            updateTimerDisplay();
+            applyMotionProgress(1.0);
+            motionIsPlaying = false;
+            let btn = document.getElementById('btn-motion-play');
+            if (btn) btn.innerHTML = '▶ Chạy Lại';
+            return;
+        }
     }
+
+    let progress = motionElapsedMs / motionDurationMs;
+    updateTimerDisplay();
+    applyMotionProgress(progress);
+
     motionAnimId = requestAnimationFrame(motionStep);
 }
 
@@ -1448,20 +1597,39 @@ function toggleMotionAnimation() {
         if (motionAnimId) cancelAnimationFrame(motionAnimId);
         if (btn) btn.innerHTML = '▶ Tiếp Tục';
     } else {
-        if (motionProgress >= 1.0) motionProgress = 0.0;
+        if (motionElapsedMs >= motionDurationMs) {
+            motionElapsedMs = 0;
+        }
         motionIsPlaying = true;
+        motionLastTimestamp = 0;
         if (btn) btn.innerHTML = '⏸ Tạm Dừng';
+        if (tangentGlider) {
+            tangentGlider.setAttribute({ visible: true, size: 4 });
+            if (tangentLine) tangentLine.setAttribute({ visible: true });
+            let chk = document.getElementById('chk-tangent');
+            if (chk) chk.checked = true;
+        }
         motionAnimId = requestAnimationFrame(motionStep);
     }
 }
 
 function resetMotionAnimation() {
     if (motionAnimId) cancelAnimationFrame(motionAnimId);
-    motionProgress = 0.0;
+    motionElapsedMs = 0;
     motionIsPlaying = true;
+    motionLastTimestamp = 0;
     let btn = document.getElementById('btn-motion-play');
     if (btn) btn.innerHTML = '⏸ Tạm Dừng';
+    updateTimerDisplay();
+    applyMotionProgress(0.0);
     motionAnimId = requestAnimationFrame(motionStep);
+}
+
+function onTimelineScrub(val) {
+    let prog = parseFloat(val) / 1000;
+    motionElapsedMs = prog * motionDurationMs;
+    updateTimerDisplay();
+    applyMotionProgress(prog);
 }
 
 function toggleFullscreenGraph() {
@@ -1568,7 +1736,6 @@ async function exportMotionGIF() {
         let mb = getMotionBounds();
         let type = document.getElementById('func-type').value;
 
-        // Coordinate transforms for canvas
         let padL = 40, padR = 20, padT = 55, padB = 40;
         let gw = w - padL - padR, gh = h - padT - padB;
         let cx = x => padL + ((x - xmin) / (xmax - xmin)) * gw;
@@ -1579,11 +1746,9 @@ async function exportMotionGIF() {
             let curX = getCurXFromProgress(prog, mb);
             let curY = f_base(curX);
 
-            // 1. Background
             g.fillStyle = '#ffffff';
             g.fillRect(0, 0, w, h);
 
-            // 2. Banner Header
             g.fillStyle = '#f8fafc';
             g.fillRect(0, 0, w, 44);
             g.strokeStyle = '#e2e8f0';
@@ -1604,7 +1769,6 @@ async function exportMotionGIF() {
             g.textAlign = 'right';
             g.fillText(`M(${curX.toFixed(1)}; ${curY.toFixed(1)}) | k=${k_slope.toFixed(2)}`, w - 14, 26);
 
-            // 3. Grid & Axes
             g.strokeStyle = '#f1f5f9';
             g.lineWidth = 1;
             for (let gx = Math.ceil(xmin); gx <= Math.floor(xmax); gx++) {
@@ -1614,28 +1778,22 @@ async function exportMotionGIF() {
                 g.beginPath(); g.moveTo(padL, cy(gy)); g.lineTo(padL + gw, cy(gy)); g.stroke();
             }
 
-            // Ox & Oy
             let ox = cy(0), oy = cx(0);
             g.strokeStyle = '#000000';
             g.lineWidth = 1.6;
-            // Ox
             if (ox >= padT && ox <= padT + gh) {
                 g.beginPath(); g.moveTo(padL, ox); g.lineTo(padL + gw, ox); g.stroke();
-                // Arrow
                 g.beginPath(); g.moveTo(padL + gw, ox); g.lineTo(padL + gw - 8, ox - 4); g.lineTo(padL + gw - 8, ox + 4); g.fill();
                 g.fillStyle = '#000'; g.font = 'italic 13px "Times New Roman"'; g.textAlign = 'left';
                 g.fillText('x', padL + gw - 6, ox + 14);
             }
-            // Oy
             if (oy >= padL && oy <= padL + gw) {
                 g.beginPath(); g.moveTo(oy, padT + gh); g.lineTo(oy, padT); g.stroke();
-                // Arrow
                 g.beginPath(); g.moveTo(oy, padT); g.lineTo(oy - 4, padT + 8); g.lineTo(oy + 4, padT + 8); g.fill();
                 g.fillStyle = '#000'; g.font = 'italic 13px "Times New Roman"'; g.textAlign = 'right';
                 g.fillText('y', oy - 8, padT + 12);
             }
 
-            // 4. Asymptotes (if rational)
             if (mb.x0 !== null && cx(mb.x0) >= padL && cx(mb.x0) <= padL + gw) {
                 g.strokeStyle = '#ef4444';
                 g.setLineDash([4, 4]);
@@ -1643,30 +1801,35 @@ async function exportMotionGIF() {
                 g.setLineDash([]);
             }
 
-            // 5. Draw curve up to curX (Vệt sáng xuất hiện dần)
-            g.strokeStyle = '#0070C0';
-            g.lineWidth = 2.4;
+            // Draw glowing trail
+            let trailLen = 2.4;
+            let startTrailX = Math.max(xmin, curX - trailLen);
+            if (mb.x0 !== null && startTrailX < mb.x0 && curX > mb.x0) startTrailX = mb.x0 + 0.15;
+            
+            // Outer cyan glow
+            g.save();
+            g.strokeStyle = '#00f2fe';
+            g.lineWidth = 6;
             g.beginPath();
             let started = false;
-            let step = (xmax - xmin) / 250;
-            for (let x = xmin; x <= curX; x += step) {
-                if (mb.x0 !== null && Math.abs(x - mb.x0) < 0.15) {
-                    started = false;
-                    continue;
-                }
+            for (let x = startTrailX; x <= curX; x += 0.05) {
+                if (mb.x0 !== null && Math.abs(x - mb.x0) < 0.12) { started = false; continue; }
                 let y = f_base(x);
-                if (isNaN(y) || Math.abs(y) > 200) { started = false; continue; }
+                if (isNaN(y) || Math.abs(y) > 150) { started = false; continue; }
                 let px = cx(x), py = cy(y);
-                if (py < padT - 20 || py > padT + gh + 20) { started = false; continue; }
-                if (!started) { g.moveTo(px, py); started = true; }
-                else { g.lineTo(px, py); }
+                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
             }
             g.stroke();
 
-            // 6. Tangent line at M
+            // Inner white core
+            g.strokeStyle = '#ffffff';
+            g.lineWidth = 2.4;
+            g.stroke();
+            g.restore();
+
+            // Tangent line & glowing point M
             if (!isNaN(curY) && Math.abs(curY) <= 100) {
                 let pxM = cx(curX), pyM = cy(curY);
-                // Draw tangent segment
                 let tanLen = 1.5;
                 let xT1 = curX - tanLen, yT1 = curY - tanLen * k_slope;
                 let xT2 = curX + tanLen, yT2 = curY + tanLen * k_slope;
@@ -1677,15 +1840,14 @@ async function exportMotionGIF() {
                 g.lineTo(cx(xT2), cy(yT2));
                 g.stroke();
 
-                // Glowing point M
                 g.save();
-                g.fillStyle = '#0284c7';
-                g.beginPath(); g.arc(pxM, pyM, 6, 0, Math.PI * 2); g.fill();
-                g.strokeStyle = '#ffffff'; g.lineWidth = 2; g.stroke();
+                g.fillStyle = '#00f2fe';
+                g.beginPath(); g.arc(pxM, pyM, 7, 0, Math.PI * 2); g.fill();
+                g.fillStyle = '#ffffff';
+                g.beginPath(); g.arc(pxM, pyM, 3.5, 0, Math.PI * 2); g.fill();
                 g.restore();
             }
 
-            // Write frame to GIF
             let pixels = toPal(g.getImageData(0, 0, w, h).data);
             writeFrame(bytes, pixels, w, h, Math.round(100 / fps));
 
