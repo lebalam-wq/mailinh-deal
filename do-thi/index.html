@@ -300,6 +300,9 @@
                     <button id="btn-motion-reset" onclick="resetMotionAnimation()" class="btn-secondary" style="padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.88rem;">
                         ↺ Vẽ Lại
                     </button>
+                    <button onclick="clearTrail()" class="btn-secondary" title="Xóa bỏ lớp vệt sáng trên đồ thị" style="padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.88rem; background: #fff1f2; color: #be123c; border: 1px solid #fecdd3;">
+                        🧹 Xóa Vệt Sáng
+                    </button>
 
                     <!-- Set Thời Gian Dừng -->
                     <div style="display: inline-flex; align-items: center; gap: 4px; background: var(--panel); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border);">
@@ -967,11 +970,13 @@
     }
 
     function autoCenterGraph() {
+        if (typeof clearTrail === 'function') clearTrail(); // Xóa vệt sáng khi bấm Căn Giữa / Reset Góc Nhìn
         let bbox = getOptimalBoundingBox();
         board.setBoundingBox(bbox, true);
     }
 
     function centerOrigin() {
+        if (typeof clearTrail === 'function') clearTrail(); // Xóa vệt sáng khi đưa về Tâm O
         board.setBoundingBox([-8, 8, 8, -8], true);
     }
 
@@ -1502,33 +1507,82 @@ function getCurXFromProgress(prog, mb) {
 
 function updateTrail(curX) {
     if (!trailCurveOuter || !trailCurveInner) return;
+    trailCurveOuter.setAttribute({ visible: true });
+    trailCurveInner.setAttribute({ visible: true });
     let mb = getMotionBounds();
-    let trailLen = 2.4;
-    let startX = Math.max(mb.xmin, curX - trailLen);
-    
-    if (mb.x0 !== null && startX < mb.x0 && curX > mb.x0) {
-        startX = mb.x0 + 0.15;
-    }
+    let evalF = currentFVal || f_base || currentFBase;
+    if (!evalF) return;
 
     let ptsX = [], ptsY = [];
-    let nSteps = 35;
-    for (let i = 0; i <= nSteps; i++) {
-        let px = startX + (curX - startX) * (i / nSteps);
-        if (mb.x0 !== null && Math.abs(px - mb.x0) < 0.12) continue;
-        let evalF = currentFVal || f_base || currentFBase;
-        let py = evalF ? evalF(px) : 0;
-        if (!isNaN(py) && Math.abs(py) < 120) {
-            ptsX.push(px);
-            ptsY.push(py);
+    let step = 0.04;
+
+    if (mb.x0 === null || mb.x0 < mb.xmin || mb.x0 > mb.xmax) {
+        // Hàm liên tục: Giữ sáng toàn bộ đồ thị từ điểm đầu đến curX
+        for (let x = mb.xmin; x <= curX; x += step) {
+            let y = evalF(x);
+            if (!isNaN(y) && Math.abs(y) < 120) {
+                ptsX.push(x);
+                ptsY.push(y);
+            }
+        }
+        let yEnd = evalF(curX);
+        if (!isNaN(yEnd) && Math.abs(yEnd) < 120) {
+            ptsX.push(curX);
+            ptsY.push(yEnd);
+        }
+    } else {
+        // Hàm phân thức có tiệm cận đứng tại mb.x0
+        let margin = 0.16;
+        let leftMax = mb.x0 - margin;
+        let rightMin = mb.x0 + margin;
+
+        if (curX <= leftMax) {
+            // Đang quét nhánh trái -> giữ sáng nhánh trái từ mb.xmin đến curX
+            for (let x = mb.xmin; x <= curX; x += step) {
+                let y = evalF(x);
+                if (!isNaN(y) && Math.abs(y) < 120) {
+                    ptsX.push(x);
+                    ptsY.push(y);
+                }
+            }
+            let yEnd = evalF(curX);
+            if (!isNaN(yEnd) && Math.abs(yEnd) < 120) {
+                ptsX.push(curX);
+                ptsY.push(yEnd);
+            }
+        } else {
+            // Đã qua nhánh phải -> giữ sáng TOÀN BỘ nhánh trái và phần nhánh phải đã quét tới
+            for (let x = mb.xmin; x <= leftMax; x += step) {
+                let y = evalF(x);
+                if (!isNaN(y) && Math.abs(y) < 120) {
+                    ptsX.push(x);
+                    ptsY.push(y);
+                }
+            }
+            // Ngắt nét để không nối thẳng qua tiệm cận đứng
+            ptsX.push(NaN);
+            ptsY.push(NaN);
+            for (let x = rightMin; x <= curX; x += step) {
+                let y = evalF(x);
+                if (!isNaN(y) && Math.abs(y) < 120) {
+                    ptsX.push(x);
+                    ptsY.push(y);
+                }
+            }
+            let yEnd = evalF(curX);
+            if (!isNaN(yEnd) && Math.abs(yEnd) < 120) {
+                ptsX.push(curX);
+                ptsY.push(yEnd);
+            }
         }
     }
+
     trailCurveOuter.dataX = ptsX;
     trailCurveOuter.dataY = ptsY;
     trailCurveInner.dataX = ptsX;
     trailCurveInner.dataY = ptsY;
 
-    let evalF = currentFVal || f_base || currentFBase;
-    let curY = evalF ? evalF(curX) : 0;
+    let curY = evalF(curX);
     if (!isNaN(curY) && Math.abs(curY) < 120) {
         if (trailHeadHalo) {
             trailHeadHalo.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
@@ -1542,8 +1596,16 @@ function updateTrail(curX) {
 }
 
 function clearTrail() {
-    if (trailCurveOuter) { trailCurveOuter.dataX = []; trailCurveOuter.dataY = []; }
-    if (trailCurveInner) { trailCurveInner.dataX = []; trailCurveInner.dataY = []; }
+    if (trailCurveOuter) {
+        trailCurveOuter.dataX = [];
+        trailCurveOuter.dataY = [];
+        trailCurveOuter.setAttribute({ visible: false });
+    }
+    if (trailCurveInner) {
+        trailCurveInner.dataX = [];
+        trailCurveInner.dataY = [];
+        trailCurveInner.setAttribute({ visible: false });
+    }
     if (trailHeadHalo) trailHeadHalo.setAttribute({ visible: false });
     if (trailHeadCore) trailHeadCore.setAttribute({ visible: false });
     if (board) board.update();
@@ -1582,6 +1644,7 @@ function motionStep(timestamp) {
             motionElapsedMs = motionDurationMs;
             updateTimerDisplay();
             applyMotionProgress(1.0);
+            // Giữ sáng toàn bộ phần đồ thị đã chạy qua theo ý tưởng của Thầy Lâm!
             motionIsPlaying = false;
             let btn = document.getElementById('btn-motion-play');
             if (btn) btn.innerHTML = '▶ Chạy Lại';
@@ -1601,6 +1664,7 @@ function toggleMotionAnimation() {
     if (motionIsPlaying) {
         motionIsPlaying = false;
         if (motionAnimId) cancelAnimationFrame(motionAnimId);
+        // Giữ sáng phần đồ thị đã vẽ được khi tạm dừng để Thầy Lâm giảng bài!
         if (btn) btn.innerHTML = '▶ Tiếp Tục';
     } else {
         if (motionElapsedMs >= motionDurationMs) {
