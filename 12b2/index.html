@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cổng Tra Cứu Điểm Giữa Kỳ 1 - Toán 12B2 • THPT A Túc</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+      --shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.08), 0 8px 10px -6px rgba(2, 132, 199, 0.04);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 40px;
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%);
+      color: white;
+      padding: 28px 20px 36px;
+      text-align: center;
+      border-radius: 0 0 28px 28px;
+      box-shadow: 0 10px 20px -5px rgba(2, 132, 199, 0.25);
+    }
+    .school-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      padding: 4px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      line-height: 1.3;
+    }
+    .sub-title {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-top: 4px;
+      font-weight: 500;
+    }
+    .container {
+      max-width: 600px;
+      margin: -20px auto 0;
+      padding: 0 16px;
+    }
+    .search-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    .search-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .select-wrap {
+      position: relative;
+    }
+    select, input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text-main);
+      background: white;
+      outline: none;
+      transition: all 0.2s;
+    }
+    select:focus, input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+    .quick-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+      max-height: 110px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .quick-chip {
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      border: 1px solid #e2e8f0;
+      transition: all 0.15s;
+    }
+    .quick-chip:hover, .quick-chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .result-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      margin-top: 16px;
+      display: none;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .student-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+    }
+    .st-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .st-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .score-badge-large {
+      text-align: center;
+      padding: 8px 16px;
+      border-radius: 12px;
+      color: white;
+    }
+    .score-badge-large.good { background: linear-gradient(135deg, #16a34a, #15803d); }
+    .score-badge-large.warn { background: linear-gradient(135deg, #d97706, #b45309); }
+    .score-badge-large.danger { background: linear-gradient(135deg, #dc2626, #b91c1c); }
+    .score-badge-large .num {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .score-badge-large .lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+    .status-pill.good { background: #dcfce7; color: #15803d; }
+    .status-pill.warn { background: #fef9c3; color: #854d0e; }
+    .status-pill.danger { background: #fee2e2; color: #b91c1c; }
+
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .matrix-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+      text-align: center;
+    }
+    .matrix-item .lbl {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .matrix-item .val {
+      font-size: 17px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      margin-top: 4px;
+    }
+    .matrix-item .max {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .box-note {
+      background: #f0f9ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px 14px;
+      border-radius: 0 10px 10px 0;
+      font-size: 13px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .box-plan {
+      background: #faf5ff;
+      border-left: 4px solid #a855f7;
+      padding: 12px 14px;
+      border-radius: 0 10px 10px 0;
+      font-size: 13px;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: white;
+      text-decoration: none;
+      padding: 15px;
+      border-radius: 14px;
+      font-size: 15px;
+      font-weight: 800;
+      box-shadow: 0 8px 18px -4px rgba(2, 132, 199, 0.4);
+      transition: all 0.2s;
+    }
+    .btn-download:active {
+      transform: scale(0.98);
+    }
+    .preview-box {
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+    .preview-box-header {
+      padding: 10px 14px;
+      background: #e2e8f0;
+      font-size: 12px;
+      font-weight: 700;
+      color: #475569;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .preview-img {
+      width: 100%;
+      display: block;
+    }
+    .footer-credit {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 24px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header-banner">
+  <div class="school-tag">Trường THPT A Túc • Hướng Hóa • Quảng Trị</div>
+  <div class="main-title">TRA CỨU ĐIỂM GIỮA KỲ 1</div>
+  <div class="sub-title">Môn Toán 12 • Lớp 12B2 • Giáo viên: Thầy Lê Bá Lâm</div>
+</div>
+
+<div class="container">
+  <div class="search-card">
+    <label class="search-label" for="studentSelect">Chọn hoặc nhập tên học sinh:</label>
+    <div class="select-wrap">
+      <select id="studentSelect" onchange="onStudentSelect(this.value)">
+        <option value="">-- Bấm để chọn tên của em --</option>
+      </select>
+    </div>
+
+    <div style="margin-top: 12px;">
+      <input type="text" id="searchInput" placeholder="Hoặc gõ nhanh tên em (VD: Chi, Khôi, Dác...)" oninput="onSearchInput(this.value)">
+    </div>
+
+    <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-top: 14px; text-transform: uppercase;">
+      Danh sách nhanh theo Số Thứ Tự:
+    </div>
+    <div class="quick-list" id="quickList"></div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="student-header">
+      <div>
+        <div class="st-name" id="cardName">Họ và tên</div>
+        <div class="st-meta" id="cardMeta">Lớp 12B2 • SBD: 010005XX • Đề: 1201</div>
+        <div class="status-pill" id="cardPill">HỌC LỰC</div>
+      </div>
+      <div class="score-badge-large" id="cardBadge">
+        <div class="num" id="cardScore">0.0</div>
+        <div class="lbl">Điểm GK1</div>
+      </div>
+    </div>
+
+    <div class="matrix-grid">
+      <div class="matrix-item">
+        <div class="lbl">Phần I</div>
+        <div class="val" id="cardP1">0.00</div>
+        <div class="max">Tối đa 3.0đ</div>
+      </div>
+      <div class="matrix-item">
+        <div class="lbl">Phần II</div>
+        <div class="val" id="cardP2">0.00</div>
+        <div class="max">Tối đa 4.0đ</div>
+      </div>
+      <div class="matrix-item">
+        <div class="lbl">Phần III</div>
+        <div class="val" id="cardP3">0.00</div>
+        <div class="max">Tối đa 3.0đ</div>
+      </div>
+    </div>
+
+    <div class="box-note" id="cardNote">
+      <strong>• Nhận xét bài làm:</strong> Đang tải...
+    </div>
+
+    <div class="box-plan" id="cardPlan">
+      <strong>• Định hướng 2 tuần tới:</strong> Đang tải...
+    </div>
+
+    <a href="#" class="btn-download" id="downloadBtn" download>
+      <span>📥 TẢI BẢN PDF CHẤM THI & NHẬN XÉT</span>
+    </a>
+
+    <div class="preview-box">
+      <div class="preview-box-header">
+        <span>ẢNH PHIẾU BÀI LÀM ĐÃ CHẤM TRỰC QUAN</span>
+        <span style="font-size: 10px; color: #0284c7;">✓ Đúng • ✗ Sai</span>
+      </div>
+      <img src="" alt="Ảnh bài thi" class="preview-img" id="previewImg">
+    </div>
+  </div>
+
+  <div class="footer-credit">
+    Hệ thống tra cứu học tập số hóa Toán 12 • Chuẩn GDPT 2018<br>
+    Biên soạn & Giảng dạy: <strong>Thầy Lê Bá Lâm</strong> • THPT A Túc
+  </div>
+</div>
+
+<script>
+  const students = [
+  {
+    "stt": 1,
+    "name": "Hồ Hoàng Anh",
+    "dob": "14/10/2009",
+    "sbd": "01000501",
+    "made": "1201",
+    "p1": 3.0,
+    "p2": 3.0,
+    "p3": 2.0,
+    "total": 8.0,
+    "final": 8.0,
+    "hocLuc": "HỌC LỰC GIỎI",
+    "tag": "good",
+    "comment": "Nắm rất vững toàn bộ Chương I. Điểm Phần I đạt 3.00/3.0đ, Phần II đạt 3.00/4.0đ.",
+    "rec": "Tiếp tục rèn các bài toán thực tế tối ưu hóa hình học/kinh tế trong Sổ tay Toán 12 để chinh phục điểm 9-10.",
+    "pdf": "pdf/01_Hồ_Hoàng_Anh_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_01.jpg"
+  },
+  {
+    "stt": 2,
+    "name": "Phạm Lưu Quỳnh Chi",
+    "dob": "04/11/2009",
+    "sbd": "01000502",
+    "made": "1202",
+    "p1": 0.5,
+    "p2": 1.5,
+    "p3": 1.0,
+    "total": 3.0,
+    "final": 3.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/02_Phạm_Lưu_Quỳnh_Chi_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_02.jpg"
+  },
+  {
+    "stt": 3,
+    "name": "Hồ Thị Dác",
+    "dob": "05/06/2009",
+    "sbd": "01000503",
+    "made": "1203",
+    "p1": 0.5,
+    "p2": 2.75,
+    "p3": 1.5,
+    "total": 4.75,
+    "final": 4.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/03_Hồ_Thị_Dác_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_03.jpg"
+  },
+  {
+    "stt": 4,
+    "name": "Hồ Thị Đăng",
+    "dob": "15/11/2009",
+    "sbd": "01000504",
+    "made": "1201",
+    "p1": 2.25,
+    "p2": 2.25,
+    "p3": 0.5,
+    "total": 5.0,
+    "final": 5.0,
+    "hocLuc": "HỌC LỰC TRUNG BÌNH",
+    "tag": "warn",
+    "comment": "Đạt yêu cầu kiến thức cơ bản ở Phần I (2.25/3.0đ). Còn lúng túng khi xử lý tiệm cận và đọc đồ thị.",
+    "rec": "Học thuộc quy tắc xác định tiệm cận xiên. Làm lại toàn bộ ví dụ mẫu Bài 1 và Bài 2 trong Sổ tay Toán 12.",
+    "pdf": "pdf/04_Hồ_Thị_Đăng_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_04.jpg"
+  },
+  {
+    "stt": 5,
+    "name": "Hồ Văn Hách",
+    "dob": "12/10/2009",
+    "sbd": "01000505",
+    "made": "1202",
+    "p1": 0.25,
+    "p2": 2.75,
+    "p3": 0.5,
+    "total": 3.5,
+    "final": 3.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/05_Hồ_Văn_Hách_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_05.jpg"
+  },
+  {
+    "stt": 6,
+    "name": "Hồ Thị Hán",
+    "dob": "30/06/2009",
+    "sbd": "01000506",
+    "made": "1204",
+    "p1": 1.5,
+    "p2": 1.75,
+    "p3": 0.0,
+    "total": 3.25,
+    "final": 3.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/06_Hồ_Thị_Hán_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_06.jpg"
+  },
+  {
+    "stt": 7,
+    "name": "Hồ Văn Háo",
+    "dob": "02/04/2009",
+    "sbd": "01000507",
+    "made": "1203",
+    "p1": 0.75,
+    "p2": 1.75,
+    "p3": 0.5,
+    "total": 3.0,
+    "final": 3.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/07_Hồ_Văn_Háo_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_07.jpg"
+  },
+  {
+    "stt": 8,
+    "name": "Hồ Thị Hậu",
+    "dob": "24/12/2009",
+    "sbd": "01000508",
+    "made": "1204",
+    "p1": 0.5,
+    "p2": 1.25,
+    "p3": 0.0,
+    "total": 1.75,
+    "final": 1.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/08_Hồ_Thị_Hậu_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_08.jpg"
+  },
+  {
+    "stt": 9,
+    "name": "Hồ Văn Hiệp",
+    "dob": "28/02/2009",
+    "sbd": "01000509",
+    "made": "1201",
+    "p1": 0.75,
+    "p2": 1.75,
+    "p3": 0.5,
+    "total": 3.0,
+    "final": 3.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/09_Hồ_Văn_Hiệp_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_09.jpg"
+  },
+  {
+    "stt": 10,
+    "name": "Hồ Thị Hinh",
+    "dob": "20/04/2009",
+    "sbd": "01000510",
+    "made": "1202",
+    "p1": 1.0,
+    "p2": 2.5,
+    "p3": 0.5,
+    "total": 4.0,
+    "final": 4.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/10_Hồ_Thị_Hinh_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_10.jpg"
+  },
+  {
+    "stt": 11,
+    "name": "Hồ Văn Huy",
+    "dob": "28/08/2009",
+    "sbd": "01000511",
+    "made": "1201",
+    "p1": 0.75,
+    "p2": 2.5,
+    "p3": 1.0,
+    "total": 4.25,
+    "final": 4.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/11_Hồ_Văn_Huy_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_11.jpg"
+  },
+  {
+    "stt": 12,
+    "name": "Hồ Thị Ni Khanh",
+    "dob": "25/01/2009",
+    "sbd": "01000512",
+    "made": "1204",
+    "p1": 1.5,
+    "p2": 2.5,
+    "p3": 0.5,
+    "total": 4.5,
+    "final": 4.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/12_Hồ_Thị_Ni_Khanh_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_12.jpg"
+  },
+  {
+    "stt": 13,
+    "name": "Hồ Bảo Khôi",
+    "dob": "08/09/2009",
+    "sbd": "01000513",
+    "made": "1201",
+    "p1": 2.25,
+    "p2": 3.0,
+    "p3": 1.5,
+    "total": 6.75,
+    "final": 6.8,
+    "hocLuc": "HỌC LỰC KHÁ",
+    "tag": "good",
+    "comment": "Nền tảng khá chắc chắn (Phần I đạt 2.25/3.0đ). Cần lưu ý không chủ quan ở Phần II và Phần III.",
+    "rec": "Ôn kỹ Mục 4 (Tiệm cận) và Mục 5 (Khảo sát đồ thị) trong Sổ tay Toán 12. Rèn 15 câu trắc nghiệm Đúng/Sai.",
+    "pdf": "pdf/13_Hồ_Bảo_Khôi_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_13.jpg"
+  },
+  {
+    "stt": 14,
+    "name": "Hồ Thị Lài",
+    "dob": "21/04/2009",
+    "sbd": "01000514",
+    "made": "1202",
+    "p1": 1.0,
+    "p2": 2.0,
+    "p3": 0.5,
+    "total": 3.5,
+    "final": 3.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/14_Hồ_Thị_Lài_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_14.jpg"
+  },
+  {
+    "stt": 15,
+    "name": "Hồ Thị Lan",
+    "dob": "30/06/2009",
+    "sbd": "01000515",
+    "made": "1203",
+    "p1": 0.75,
+    "p2": 2.5,
+    "p3": 0.5,
+    "total": 3.75,
+    "final": 3.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/15_Hồ_Thị_Lan_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_15.jpg"
+  },
+  {
+    "stt": 16,
+    "name": "Hồ Thị Lịch",
+    "dob": "20/05/2009",
+    "sbd": "01000516",
+    "made": "1201",
+    "p1": 1.25,
+    "p2": 2.0,
+    "p3": 1.0,
+    "total": 4.25,
+    "final": 4.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/16_Hồ_Thị_Lịch_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_16.jpg"
+  },
+  {
+    "stt": 17,
+    "name": "Hồ Thi Lý",
+    "dob": "07/01/2009",
+    "sbd": "01000517",
+    "made": "1201",
+    "p1": 2.5,
+    "p2": 2.5,
+    "p3": 1.0,
+    "total": 6.0,
+    "final": 6.0,
+    "hocLuc": "HỌC LỰC TRUNG BÌNH",
+    "tag": "warn",
+    "comment": "Đạt yêu cầu kiến thức cơ bản ở Phần I (2.50/3.0đ). Còn lúng túng khi xử lý tiệm cận và đọc đồ thị.",
+    "rec": "Học thuộc quy tắc xác định tiệm cận xiên. Làm lại toàn bộ ví dụ mẫu Bài 1 và Bài 2 trong Sổ tay Toán 12.",
+    "pdf": "pdf/17_Hồ_Thi_Lý_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_17.jpg"
+  },
+  {
+    "stt": 18,
+    "name": "Hồ Thị Mai",
+    "dob": "20/01/2009",
+    "sbd": "01000518",
+    "made": "1202",
+    "p1": 0.75,
+    "p2": 2.0,
+    "p3": 1.0,
+    "total": 3.75,
+    "final": 3.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/18_Hồ_Thị_Mai_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_18.jpg"
+  },
+  {
+    "stt": 19,
+    "name": "Hồ Thị Ngơi",
+    "dob": "10/10/2008",
+    "sbd": "01000519",
+    "made": "1203",
+    "p1": 0.5,
+    "p2": 2.0,
+    "p3": 0.0,
+    "total": 2.5,
+    "final": 2.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/19_Hồ_Thị_Ngơi_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_19.jpg"
+  },
+  {
+    "stt": 20,
+    "name": "Hồ Văn Pên",
+    "dob": "01/01/2009",
+    "sbd": "01000520",
+    "made": "1204",
+    "p1": 0.75,
+    "p2": 1.5,
+    "p3": 0.5,
+    "total": 2.75,
+    "final": 2.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/20_Hồ_Văn_Pên_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_20.jpg"
+  },
+  {
+    "stt": 21,
+    "name": "Hồ Văn Pha",
+    "dob": "13/08/2009",
+    "sbd": "01000521",
+    "made": "1201",
+    "p1": 1.75,
+    "p2": 2.25,
+    "p3": 0.5,
+    "total": 4.5,
+    "final": 4.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/21_Hồ_Văn_Pha_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_21.jpg"
+  },
+  {
+    "stt": 22,
+    "name": "Hồ Văn Rên",
+    "dob": "15/03/2008",
+    "sbd": "01000522",
+    "made": "1202",
+    "p1": 0.75,
+    "p2": 2.25,
+    "p3": 1.0,
+    "total": 4.0,
+    "final": 4.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/22_Hồ_Văn_Rên_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_22.jpg"
+  },
+  {
+    "stt": 23,
+    "name": "Lý Đức Anh Thành",
+    "dob": "31/07/2009",
+    "sbd": "01000523",
+    "made": "1203",
+    "p1": 1.25,
+    "p2": 2.25,
+    "p3": 1.0,
+    "total": 4.5,
+    "final": 4.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/23_Lý_Đức_Anh_Thành_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_23.jpg"
+  },
+  {
+    "stt": 24,
+    "name": "Nguyễn Thanh Thắng",
+    "dob": "04/07/2009",
+    "sbd": "01000524",
+    "made": "1204",
+    "p1": 1.0,
+    "p2": 1.75,
+    "p3": 1.0,
+    "total": 3.75,
+    "final": 3.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/24_Nguyễn_Thanh_Thắng_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_24.jpg"
+  },
+  {
+    "stt": 25,
+    "name": "Hồ Thị Nang Tiên",
+    "dob": "01/07/2009",
+    "sbd": "01000525",
+    "made": "1202",
+    "p1": 1.0,
+    "p2": 2.25,
+    "p3": 0.5,
+    "total": 3.75,
+    "final": 3.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/25_Hồ_Thị_Nang_Tiên_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_25.jpg"
+  },
+  {
+    "stt": 26,
+    "name": "Hồ Thị Tinh",
+    "dob": "02/01/2009",
+    "sbd": "01000526",
+    "made": "1202",
+    "p1": 0.5,
+    "p2": 2.25,
+    "p3": 0.5,
+    "total": 3.25,
+    "final": 3.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/26_Hồ_Thị_Tinh_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_26.jpg"
+  },
+  {
+    "stt": 27,
+    "name": "Hồ Văn Trăng",
+    "dob": "23/08/2008",
+    "sbd": "01000527",
+    "made": "1203",
+    "p1": 1.0,
+    "p2": 2.0,
+    "p3": 1.0,
+    "total": 4.0,
+    "final": 4.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/27_Hồ_Văn_Trăng_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_27.jpg"
+  },
+  {
+    "stt": 28,
+    "name": "Hồ Thị Trình",
+    "dob": "15/01/2009",
+    "sbd": "01000528",
+    "made": "1204",
+    "p1": 0.5,
+    "p2": 2.0,
+    "p3": 1.0,
+    "total": 3.5,
+    "final": 3.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/28_Hồ_Thị_Trình_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_28.jpg"
+  },
+  {
+    "stt": 29,
+    "name": "Hồ Thị Trúc",
+    "dob": "10/07/2009",
+    "sbd": "01000529",
+    "made": "1201",
+    "p1": 1.25,
+    "p2": 2.75,
+    "p3": 1.0,
+    "total": 5.0,
+    "final": 5.0,
+    "hocLuc": "HỌC LỰC TRUNG BÌNH",
+    "tag": "warn",
+    "comment": "Đạt yêu cầu kiến thức cơ bản ở Phần I (1.25/3.0đ). Còn lúng túng khi xử lý tiệm cận và đọc đồ thị.",
+    "rec": "Học thuộc quy tắc xác định tiệm cận xiên. Làm lại toàn bộ ví dụ mẫu Bài 1 và Bài 2 trong Sổ tay Toán 12.",
+    "pdf": "pdf/29_Hồ_Thị_Trúc_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_29.jpg"
+  },
+  {
+    "stt": 30,
+    "name": "Lý Văn Tú",
+    "dob": "09/12/2009",
+    "sbd": "01000530",
+    "made": "1202",
+    "p1": 1.0,
+    "p2": 2.25,
+    "p3": 0.5,
+    "total": 3.75,
+    "final": 3.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/30_Lý_Văn_Tú_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_30.jpg"
+  },
+  {
+    "stt": 31,
+    "name": "Hồ Thị Tuyết",
+    "dob": "04/10/2009",
+    "sbd": "01000531",
+    "made": "1203",
+    "p1": 1.0,
+    "p2": 2.25,
+    "p3": 1.0,
+    "total": 4.25,
+    "final": 4.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/31_Hồ_Thị_Tuyết_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_31.jpg"
+  },
+  {
+    "stt": 32,
+    "name": "Hồ Thị Uôn",
+    "dob": "13/09/2009",
+    "sbd": "01000532",
+    "made": "1201",
+    "p1": 0.5,
+    "p2": 2.0,
+    "p3": 0.0,
+    "total": 2.5,
+    "final": 2.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/32_Hồ_Thị_Uôn_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_32.jpg"
+  },
+  {
+    "stt": 33,
+    "name": "Hồ Thị Vàng",
+    "dob": "13/02/2009",
+    "sbd": "01000533",
+    "made": "1201",
+    "p1": 2.25,
+    "p2": 2.75,
+    "p3": 1.5,
+    "total": 6.5,
+    "final": 6.5,
+    "hocLuc": "HỌC LỰC KHÁ",
+    "tag": "good",
+    "comment": "Nền tảng khá chắc chắn (Phần I đạt 2.25/3.0đ). Cần lưu ý không chủ quan ở Phần II và Phần III.",
+    "rec": "Ôn kỹ Mục 4 (Tiệm cận) và Mục 5 (Khảo sát đồ thị) trong Sổ tay Toán 12. Rèn 15 câu trắc nghiệm Đúng/Sai.",
+    "pdf": "pdf/33_Hồ_Thị_Vàng_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_33.jpg"
+  },
+  {
+    "stt": 34,
+    "name": "Hồ Văn Vưng",
+    "dob": "03/10/2009",
+    "sbd": "01000534",
+    "made": "1202",
+    "p1": 0.5,
+    "p2": 2.25,
+    "p3": 0.0,
+    "total": 2.75,
+    "final": 2.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Hổng nhiều kiến thức cốt lõi Chương I: nhầm dấu đạo hàm, chưa phân biệt cực trị và giá trị cực trị.",
+    "rec": "Gặp Thầy Lâm vào buổi phụ đạo chiều để hướng dẫn lại cách xét dấu y' và đọc bảng biến thiên.",
+    "pdf": "pdf/34_Hồ_Văn_Vưng_GK1_Toan12B2.pdf",
+    "preview": "previews/annotated_34.jpg"
+  }
+];
+
+  const selectEl = document.getElementById('studentSelect');
+  const quickListEl = document.getElementById('quickList');
+  const resultCard = document.getElementById('resultCard');
+  const searchInput = document.getElementById('searchInput');
+
+  // Populate Dropdown and Quick list
+  students.forEach(st => {
+    const opt = document.createElement('option');
+    opt.value = st.stt;
+    opt.textContent = `${st.stt < 10 ? '0' + st.stt : st.stt}. ${st.name} (${st.dob})`;
+    selectEl.appendChild(opt);
+
+    const chip = document.createElement('div');
+    chip.className = 'quick-chip';
+    chip.textContent = `${st.stt < 10 ? '0' + st.stt : st.stt} - ${st.name.split(' ').slice(-1)}`;
+    chip.onclick = () => renderStudent(st.stt);
+    quickListEl.appendChild(chip);
+  });
+
+  function onStudentSelect(stt) {
+    if (!stt) {
+      resultCard.style.display = 'none';
+      return;
+    }
+    renderStudent(parseInt(stt));
+  }
+
+  function onSearchInput(val) {
+    const text = val.trim().toLowerCase();
+    if (!text) return;
+    const found = students.find(s => s.name.toLowerCase().includes(text) || s.stt.toString() === text);
+    if (found) {
+      renderStudent(found.stt);
+    }
+  }
+
+  function renderStudent(stt) {
+    const st = students.find(s => s.stt === stt);
+    if (!st) return;
+
+    selectEl.value = stt;
+
+    // Highlight chips
+    document.querySelectorAll('.quick-chip').forEach((c, idx) => {
+      if (idx === stt - 1) c.classList.add('active');
+      else c.classList.remove('active');
+    });
+
+    document.getElementById('cardName').textContent = st.name;
+    document.getElementById('cardMeta').textContent = `Lớp 12B2 • Ngày sinh: ${st.dob} • SBD: ${st.sbd} • Đề: ${st.made}`;
+    
+    const pill = document.getElementById('cardPill');
+    pill.textContent = st.hocLuc;
+    pill.className = `status-pill ${st.tag}`;
+
+    const badge = document.getElementById('cardBadge');
+    badge.className = `score-badge-large ${st.tag}`;
+    document.getElementById('cardScore').textContent = st.final.toFixed(1);
+
+    document.getElementById('cardP1').textContent = st.p1.toFixed(2) + 'đ';
+    document.getElementById('cardP2').textContent = st.p2.toFixed(2) + 'đ';
+    document.getElementById('cardP3').textContent = st.p3.toFixed(2) + 'đ';
+
+    document.getElementById('cardNote').innerHTML = `<strong>• Nhận xét bài làm:</strong> ${st.comment}`;
+    document.getElementById('cardPlan').innerHTML = `<strong>• Kế hoạch ôn tập 2 tuần tới:</strong> ${st.rec}`;
+
+    const dlBtn = document.getElementById('downloadBtn');
+    dlBtn.href = st.pdf;
+    dlBtn.download = `${st.stt < 10 ? '0' + st.stt : st.stt}_${st.name.replace(/\s+/g, '_')}_GK1_Toan12B2.pdf`;
+
+    document.getElementById('previewImg').src = st.preview;
+
+    resultCard.style.display = 'block';
+    resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Auto-load if STT in URL query (?stt=13)
+  window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sttParam = urlParams.get('stt');
+    if (sttParam) {
+      const sttInt = parseInt(sttParam);
+      if (sttInt >= 1 && sttInt <= students.length) {
+        renderStudent(sttInt);
+      }
+    }
+  });
+</script>
+
+
+</body>
+</html>
