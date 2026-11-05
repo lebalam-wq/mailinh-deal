@@ -1783,6 +1783,68 @@ function toPal(rgba) {
     return idx;
 }
 
+function drawTraversedCurve(g, curX, mb, evalF, cx, cy) {
+    let step = 0.04;
+    g.beginPath();
+    let started = false;
+
+    if (mb.x0 === null || mb.x0 < mb.xmin || mb.x0 > mb.xmax) {
+        // Hàm liên tục: Vẽ từ mb.xmin đến curX
+        for (let x = mb.xmin; x <= curX; x += step) {
+            let y = evalF(x);
+            if (isNaN(y) || Math.abs(y) > 120) { started = false; continue; }
+            let px = cx(x), py = cy(y);
+            if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
+        }
+        let yEnd = evalF(curX);
+        if (!isNaN(yEnd) && Math.abs(yEnd) <= 120) {
+            let px = cx(curX), py = cy(yEnd);
+            if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
+        }
+    } else {
+        // Hàm phân thức có tiệm cận đứng tại mb.x0
+        let margin = 0.16;
+        let leftMax = mb.x0 - margin;
+        let rightMin = mb.x0 + margin;
+
+        if (curX <= leftMax) {
+            // Nhánh trái
+            for (let x = mb.xmin; x <= curX; x += step) {
+                let y = evalF(x);
+                if (isNaN(y) || Math.abs(y) > 120) { started = false; continue; }
+                let px = cx(x), py = cy(y);
+                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
+            }
+            let yEnd = evalF(curX);
+            if (!isNaN(yEnd) && Math.abs(yEnd) <= 120) {
+                let px = cx(curX), py = cy(yEnd);
+                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
+            }
+        } else {
+            // Toàn bộ nhánh trái
+            for (let x = mb.xmin; x <= leftMax; x += step) {
+                let y = evalF(x);
+                if (isNaN(y) || Math.abs(y) > 120) { started = false; continue; }
+                let px = cx(x), py = cy(y);
+                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
+            }
+            // Nhảy sang nhánh phải (ngắt nét để không nối thẳng qua tiệm cận đứng)
+            started = false;
+            for (let x = rightMin; x <= curX; x += step) {
+                let y = evalF(x);
+                if (isNaN(y) || Math.abs(y) > 120) { started = false; continue; }
+                let px = cx(x), py = cy(y);
+                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
+            }
+            let yEnd = evalF(curX);
+            if (!isNaN(yEnd) && Math.abs(yEnd) <= 120) {
+                let px = cx(curX), py = cy(yEnd);
+                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
+            }
+        }
+    }
+}
+
 async function exportMotionGIF() {
     let btn = document.getElementById('btn-export-gif');
     if (!btn || btn.disabled) return;
@@ -1819,14 +1881,34 @@ async function exportMotionGIF() {
             return;
         }
 
+        // Lấy thông số tiệm cận ngang và tiệm cận xiên nếu có
+        let asyH = null; // Tiệm cận ngang
+        let asySlope = null, asyIce = null; // Tiệm cận xiên
+        if (type === 'frac11') {
+            let pA = parseFrac(document.getElementById('frac11-a')?.value || '1');
+            let pC = parseFrac(document.getElementById('frac11-c')?.value || '1');
+            if (pC.val !== 0) asyH = pA.val / pC.val;
+        } else if (type === 'frac21') {
+            let pA = parseFrac(document.getElementById('frac21-a')?.value || '1');
+            let pB = parseFrac(document.getElementById('frac21-b')?.value || '0');
+            let pD = parseFrac(document.getElementById('frac21-d')?.value || '1');
+            let pE = parseFrac(document.getElementById('frac21-e')?.value || '0');
+            if (pD.val !== 0) {
+                asySlope = pA.val / pD.val;
+                asyIce = (pB.val * pD.val - pA.val * pE.val) / (pD.val * pD.val);
+            }
+        }
+
         for (let k = 0; k < totalFrames; k++) {
             let prog = k / (totalFrames - 1);
             let curX = getCurXFromProgress(prog, mb);
             let curY = evalF(curX);
 
+            // Nền trắng
             g.fillStyle = '#ffffff';
             g.fillRect(0, 0, w, h);
 
+            // Thanh tiêu đề phía trên
             g.fillStyle = '#f8fafc';
             g.fillRect(0, 0, w, 44);
             g.strokeStyle = '#e2e8f0';
@@ -1836,7 +1918,7 @@ async function exportMotionGIF() {
             g.fillStyle = '#0070C0';
             g.font = 'bold 15px "Segoe UI", Arial, sans-serif';
             g.textAlign = 'left';
-            g.fillText('TOÁN TRỰC QUAN • HÌNH THÀNH ĐỒ THỊ', 14, 26);
+            g.fillText('TOÁN TRỰC QUAN • VỆT SÁNG MATH MOTION', 14, 26);
 
             let k_slope = 0;
             if (tangentLine && typeof tangentLine.getSlope === 'function') {
@@ -1847,6 +1929,7 @@ async function exportMotionGIF() {
             g.textAlign = 'right';
             g.fillText(`M(${curX.toFixed(1)}; ${curY.toFixed(1)}) | k=${k_slope.toFixed(2)}`, w - 14, 26);
 
+            // Vẽ lưới tọa độ mờ
             g.strokeStyle = '#f1f5f9';
             g.lineWidth = 1;
             for (let gx = Math.ceil(xmin); gx <= Math.floor(xmax); gx++) {
@@ -1856,6 +1939,7 @@ async function exportMotionGIF() {
                 g.beginPath(); g.moveTo(padL, cy(gy)); g.lineTo(padL + gw, cy(gy)); g.stroke();
             }
 
+            // Vẽ trục tọa độ Ox, Oy
             let ox = cy(0), oy = cx(0);
             g.strokeStyle = '#000000';
             g.lineWidth = 1.6;
@@ -1872,55 +1956,69 @@ async function exportMotionGIF() {
                 g.fillText('y', oy - 8, padT + 12);
             }
 
+            // Vẽ các đường tiệm cận (Đỏ nét đứt)
+            g.strokeStyle = '#ef4444';
+            g.lineWidth = 1.4;
+            g.setLineDash([5, 5]);
+
+            // Tiệm cận đứng
             if (mb.x0 !== null && cx(mb.x0) >= padL && cx(mb.x0) <= padL + gw) {
-                g.strokeStyle = '#ef4444';
-                g.setLineDash([4, 4]);
                 g.beginPath(); g.moveTo(cx(mb.x0), padT); g.lineTo(cx(mb.x0), padT + gh); g.stroke();
-                g.setLineDash([]);
             }
+            // Tiệm cận ngang (frac11)
+            if (asyH !== null && cy(asyH) >= padT && cy(asyH) <= padT + gh) {
+                g.beginPath(); g.moveTo(padL, cy(asyH)); g.lineTo(padL + gw, cy(asyH)); g.stroke();
+            }
+            // Tiệm cận xiên (frac21)
+            if (asySlope !== null && asyIce !== null) {
+                let yLeft = asySlope * xmin + asyIce;
+                let yRight = asySlope * xmax + asyIce;
+                g.beginPath(); g.moveTo(cx(xmin), cy(yLeft)); g.lineTo(cx(xmax), cy(yRight)); g.stroke();
+            }
+            g.setLineDash([]);
 
-            // Draw glowing trail
-            let trailLen = 2.4;
-            let startTrailX = Math.max(xmin, curX - trailLen);
-            if (mb.x0 !== null && startTrailX < mb.x0 && curX > mb.x0) startTrailX = mb.x0 + 0.15;
-            
-            // Outer cyan glow
+            // 1. Vẽ đường nét mờ dẫn hướng của toàn bộ đồ thị (Background Curve)
             g.save();
-            g.strokeStyle = '#00f2fe';
-            g.lineWidth = 6;
-            g.beginPath();
-            let started = false;
-            for (let x = startTrailX; x <= curX; x += 0.05) {
-                if (mb.x0 !== null && Math.abs(x - mb.x0) < 0.12) { started = false; continue; }
-                let y = evalF(x);
-                if (isNaN(y) || Math.abs(y) > 150) { started = false; continue; }
-                let px = cx(x), py = cy(y);
-                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
-            }
-            g.stroke();
-
-            // Inner white core
-            g.strokeStyle = '#ffffff';
-            g.lineWidth = 2.4;
+            g.strokeStyle = '#cbd5e1';
+            g.lineWidth = 1.8;
+            g.lineCap = 'round';
+            g.lineJoin = 'round';
+            drawTraversedCurve(g, mb.xmax, mb, evalF, cx, cy);
             g.stroke();
             g.restore();
 
-            // Tangent line & glowing point M
-            if (!isNaN(curY) && Math.abs(curY) <= 100) {
+            // 2. VỆT SÁNG NEON SƠN DẦN TOÀN BỘ PHẦN ĐÃ ĐI QUA (Outer Cyan Glow)
+            g.save();
+            g.strokeStyle = '#00f2fe';
+            g.lineWidth = 7.5;
+            g.lineCap = 'round';
+            g.lineJoin = 'round';
+            drawTraversedCurve(g, curX, mb, evalF, cx, cy);
+            g.stroke();
+
+            // 3. LÕI SÁNG TRẮNG TƯƠNG PHẢN CAO (Inner White Core)
+            g.strokeStyle = '#ffffff';
+            g.lineWidth = 2.8;
+            g.stroke();
+            g.restore();
+
+            // 4. Tiếp tuyến & Điểm chuyển động M phát sáng
+            if (!isNaN(curY) && Math.abs(curY) <= 120) {
                 let pxM = cx(curX), pyM = cy(curY);
                 let tanLen = 1.5;
                 let xT1 = curX - tanLen, yT1 = curY - tanLen * k_slope;
                 let xT2 = curX + tanLen, yT2 = curY + tanLen * k_slope;
-                g.strokeStyle = 'rgba(139, 92, 246, 0.6)';
-                g.lineWidth = 1.8;
+                g.strokeStyle = 'rgba(217, 70, 239, 0.75)';
+                g.lineWidth = 2;
                 g.beginPath();
                 g.moveTo(cx(xT1), cy(yT1));
                 g.lineTo(cx(xT2), cy(yT2));
                 g.stroke();
 
+                // Điểm M phát quang
                 g.save();
                 g.fillStyle = '#00f2fe';
-                g.beginPath(); g.arc(pxM, pyM, 7, 0, Math.PI * 2); g.fill();
+                g.beginPath(); g.arc(pxM, pyM, 7.5, 0, Math.PI * 2); g.fill();
                 g.fillStyle = '#ffffff';
                 g.beginPath(); g.arc(pxM, pyM, 3.5, 0, Math.PI * 2); g.fill();
                 g.restore();
@@ -1928,6 +2026,13 @@ async function exportMotionGIF() {
 
             let pixels = toPal(g.getImageData(0, 0, w, h).data);
             writeFrame(bytes, pixels, w, h, Math.round(100 / fps));
+
+            // Nếu là frame cuối cùng: Giữ nguyên hình ảnh đồ thị đã sơn sáng toàn phần thêm 800ms trước khi lặp lại
+            if (k === totalFrames - 1) {
+                for (let hold = 0; hold < 4; hold++) {
+                    writeFrame(bytes, pixels, w, h, 20); // 4 x 200ms = 800ms hold
+                }
+            }
 
             if (k % 6 === 0) {
                 let pct = Math.round((k + 1) / totalFrames * 100);
@@ -1941,13 +2046,13 @@ async function exportMotionGIF() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `TOAN_TRUC_QUAN_${type}_MOTION.gif`;
+        a.download = `TOAN_TRUC_QUAN_${type}_VET_SANG.gif`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        btn.innerHTML = '✅ Đã Tải GIF!';
+        btn.innerHTML = '✅ Đã Tải GIF Vệt Sáng!';
         setTimeout(() => { btn.innerHTML = oldText; btn.disabled = false; }, 2500);
     } catch (err) {
         console.error('GIF error:', err);
@@ -1956,7 +2061,6 @@ async function exportMotionGIF() {
         btn.disabled = false;
     }
 }
-
 
     window.onload = function() {
         onTypeChange();
