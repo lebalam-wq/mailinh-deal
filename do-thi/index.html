@@ -125,6 +125,17 @@
         }
         #jxgbox { width: 100%; aspect-ratio: 1 / 1; border-radius: 8px;
             background-color: #ffffff !important; }
+    
+        .card:fullscreen {
+            background: var(--bg) !important;
+            padding: 24px !important;
+            overflow: auto !important;
+        }
+        .card:fullscreen #jxgbox {
+            height: 65vh !important;
+            max-height: 65vh !important;
+        }
+
     </style>
 </head>
 <body>
@@ -267,7 +278,54 @@
 <label><input type="checkbox" id="chk-grid" onchange="toggleVisibility()"><span style="color:#94a3b8;">▦</span> Lưới</label>        
 </div>
 
-        <div class="board-wrapper" id="capture-area">
+        
+        <!-- Math Motion & Radar Toolbar -->
+        <div class="motion-toolbar" style="margin-top: 10px; margin-bottom: 10px; padding: 10px 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(99, 102, 241, 0.08)); border: 1px solid #38bdf8; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <span style="font-size: 0.88rem; font-weight: 800; color: #0284c7; display: flex; align-items: center; gap: 5px;">
+                    ✨ MATH MOTION:
+                </span>
+                <button id="btn-motion-play" onclick="toggleMotionAnimation()" style="background: linear-gradient(135deg, #0284c7, #0070C0); color: #fff; font-weight: 700; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(0, 112, 192, 0.3); font-size: 0.88rem;">
+                    ▶ Chạy Vệt Sáng
+                </button>
+                <button id="btn-motion-reset" onclick="resetMotionAnimation()" class="btn-secondary" style="padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.88rem;">
+                    ↺ Vẽ Lại
+                </button>
+                <select id="motion-speed" onchange="changeMotionSpeed()" style="padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                    <option value="0.5">Tốc độ: 0.5x</option>
+                    <option value="1" selected>Tốc độ: 1.0x</option>
+                    <option value="1.5">Tốc độ: 1.5x</option>
+                    <option value="2">Tốc độ: 2.0x</option>
+                </select>
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <button onclick="toggleFullscreenGraph()" title="Phóng to toàn màn hình máy chiếu lớp học" style="padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; background: #f0fdf4; color: #166534; border: 1px solid #86efac; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
+                    ⛶ Trình Chiếu Fullscreen
+                </button>
+                <button id="btn-export-gif" onclick="exportMotionGIF()" title="Xuất file GIF hoạt ảnh động chèn PowerPoint/Canva" style="padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; background: #fefce8; color: #854d0e; border: 1px solid #fde047; font-size: 0.85rem; display: flex; align-items: center; gap: 4px;">
+                    🎬 Tải GIF Bài Giảng
+                </button>
+            </div>
+        </div>
+
+        <!-- Radar Đạo Hàm & Tọa Độ Động M -->
+        <div id="radar-panel" style="margin-bottom: 12px; padding: 10px 14px; border-radius: 8px; background: var(--formula-bg); border: 1px solid var(--border); display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; align-items: center;">
+            <div>
+                <div style="font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase;">📍 Điểm Động M</div>
+                <div id="radar-coords" style="font-weight: 800; color: #0070C0; font-family: monospace; font-size: 1.05rem; margin-top: 2px;">M(1.00; 0.33)</div>
+            </div>
+            <div>
+                <div style="font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase;">📐 Hệ Số Góc Tiếp Tuyến</div>
+                <div id="radar-slope" style="font-weight: 800; color: #7c3aed; font-family: monospace; font-size: 1.05rem; margin-top: 2px;">k = y'(x) = 0.00</div>
+            </div>
+            <div>
+                <div style="font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase;">⚡ Trạng Thái Biến Thiên</div>
+                <div id="radar-status" style="font-weight: 800; color: #10b981; font-size: 0.95rem; margin-top: 2px;">🟢 ĐỒNG BIẾN (y' &gt; 0)</div>
+            </div>
+        </div>
+
+<div class="board-wrapper" id="capture-area">
             <div id="jxgbox" class="jxgbox"></div>
         </div>
 
@@ -892,14 +950,21 @@
 
     function updateTangentText() {
         let info = document.getElementById('tangent-info');
-        if (tangentLine && document.getElementById('chk-tangent').checked) {
+        if (tangentGlider && tangentLine) {
+            let curX = tangentGlider.X();
+            let curY = currentFVal ? currentFVal(curX) : (typeof f_base === 'function' ? f_base(curX) : 0);
             let m = tangentLine.getSlope();
-            let isDark = document.body.classList.contains('dark-mode');
-            let color = m > 0 ? (isDark ? "#60a5fa" : "blue") : (m < 0 ? (isDark ? "#f87171" : "red") : (isDark ? "#f8fafc" : "black"));
-            info.innerHTML = `Hệ số góc tiếp tuyến tại x = ${tangentGlider.X().toFixed(2)}: <span style="color:${color};">k = ${m.toFixed(4)}</span>`;
-            tangentLine.setAttribute({strokeColor: m > 0 ? "blue" : (m < 0 ? "red" : "black")});
+            if (typeof updateRadar === 'function') updateRadar(curX, curY, m);
+            if (document.getElementById('chk-tangent').checked) {
+                let isDark = document.body.classList.contains('dark-mode');
+                let color = m > 0 ? (isDark ? "#60a5fa" : "blue") : (m < 0 ? (isDark ? "#f87171" : "red") : (isDark ? "#f8fafc" : "black"));
+                info.innerHTML = `Hệ số góc tiếp tuyến tại x = ${curX.toFixed(2)}: <span style="color:${color}; font-weight:700;">k = ${m.toFixed(4)}</span>`;
+                tangentLine.setAttribute({strokeColor: m > 0 ? "blue" : (m < 0 ? "red" : "black")});
+            } else {
+                info.innerHTML = "";
+            }
         } else {
-            info.innerHTML = "";
+            if (info) info.innerHTML = "";
         }
     }
 
@@ -1281,6 +1346,377 @@
             link.click();
         });
     }
+
+    
+// --- MATH MOTION & GIF EXPORT ENGINE ---
+let motionAnimId = null;
+let motionIsPlaying = false;
+let motionProgress = 0.0;
+let motionSpeedMultiplier = 1.0;
+
+function changeMotionSpeed() {
+    let el = document.getElementById('motion-speed');
+    if (el) motionSpeedMultiplier = parseFloat(el.value) || 1.0;
+}
+
+function updateRadar(x, y, slope) {
+    let coordsEl = document.getElementById('radar-coords');
+    let slopeEl = document.getElementById('radar-slope');
+    let statusEl = document.getElementById('radar-status');
+    if (!coordsEl || !slopeEl || !statusEl) return;
+
+    if (isNaN(x) || isNaN(y) || Math.abs(y) === Infinity) {
+        coordsEl.innerText = 'M(không xác định)';
+        slopeEl.innerText = 'k = —';
+        statusEl.innerHTML = '<span style="color:var(--muted)">Đang tiệm cận...</span>';
+        return;
+    }
+
+    coordsEl.innerText = `M(${x.toFixed(2)}; ${y.toFixed(2)})`;
+    slopeEl.innerText = `k = y'(x) = ${slope.toFixed(2)}`;
+
+    if (Math.abs(slope) <= 0.05) {
+        statusEl.innerHTML = '<span style="color:#eab308; font-weight:800;">⭐ ĐIỂM CỰC TRỊ (y\' ≈ 0)</span>';
+    } else if (slope > 0) {
+        statusEl.innerHTML = '<span style="color:#10b981; font-weight:800;">🟢 ĐỒNG BIẾN ↗ (y\' > 0)</span>';
+    } else {
+        statusEl.innerHTML = '<span style="color:#f97316; font-weight:800;">🟠 NGHỊCH BIẾN ↘ (y\' < 0)</span>';
+    }
+}
+
+function getMotionBounds() {
+    let bbox = board.getBoundingBox();
+    let xmin = bbox[0], xmax = bbox[2];
+    let type = document.getElementById('func-type').value;
+    let x0 = null;
+    if (type === 'frac11') {
+        let pC = parseInput(document.getElementById('coef-c').value);
+        let pD = parseInput(document.getElementById('coef-d').value);
+        if (pC.val !== 0) x0 = -pD.val / pC.val;
+    } else if (type === 'frac21') {
+        let pD = parseInput(document.getElementById('coef-d').value);
+        let pE = parseInput(document.getElementById('coef-e').value);
+        if (pD.val !== 0) x0 = -pE.val / pD.val;
+    }
+    return { xmin: xmin + 0.4, xmax: xmax - 0.4, x0 };
+}
+
+function getCurXFromProgress(prog, mb) {
+    if (mb.x0 === null || mb.x0 < mb.xmin || mb.x0 > mb.xmax) {
+        return mb.xmin + (mb.xmax - mb.xmin) * prog;
+    }
+    // Asymptote at x0
+    let margin = 0.22;
+    if (prog < 0.5) {
+        let subP = prog / 0.5;
+        return mb.xmin + ((mb.x0 - margin) - mb.xmin) * subP;
+    } else {
+        let subP = (prog - 0.5) / 0.5;
+        return (mb.x0 + margin) + (mb.xmax - (mb.x0 + margin)) * subP;
+    }
+}
+
+function motionStep() {
+    if (!motionIsPlaying || !tangentPoint) return;
+    let mb = getMotionBounds();
+    let curX = getCurXFromProgress(motionProgress, mb);
+    let curY = f_base(curX);
+
+    if (!isNaN(curY) && Math.abs(curY) !== Infinity) {
+        tangentPoint.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
+        board.update();
+        if (typeof updateTangentText === 'function') updateTangentText();
+        let slope = (tangentLine && typeof tangentLine.getSlope === 'function') ? tangentLine.getSlope() : 0;
+        updateRadar(curX, curY, slope);
+    }
+
+    motionProgress += 0.0032 * motionSpeedMultiplier;
+    if (motionProgress >= 1.0) {
+        motionProgress = 1.0;
+        motionIsPlaying = false;
+        let btn = document.getElementById('btn-motion-play');
+        if (btn) btn.innerHTML = '▶ Chạy Lại';
+        return;
+    }
+    motionAnimId = requestAnimationFrame(motionStep);
+}
+
+function toggleMotionAnimation() {
+    let btn = document.getElementById('btn-motion-play');
+    if (motionIsPlaying) {
+        motionIsPlaying = false;
+        if (motionAnimId) cancelAnimationFrame(motionAnimId);
+        if (btn) btn.innerHTML = '▶ Tiếp Tục';
+    } else {
+        if (motionProgress >= 1.0) motionProgress = 0.0;
+        motionIsPlaying = true;
+        if (btn) btn.innerHTML = '⏸ Tạm Dừng';
+        motionAnimId = requestAnimationFrame(motionStep);
+    }
+}
+
+function resetMotionAnimation() {
+    if (motionAnimId) cancelAnimationFrame(motionAnimId);
+    motionProgress = 0.0;
+    motionIsPlaying = true;
+    let btn = document.getElementById('btn-motion-play');
+    if (btn) btn.innerHTML = '⏸ Tạm Dừng';
+    motionAnimId = requestAnimationFrame(motionStep);
+}
+
+function toggleFullscreenGraph() {
+    let card = document.getElementById('jxgbox').closest('.card');
+    if (!document.fullscreenElement) {
+        if (card.requestFullscreen) card.requestFullscreen();
+        else if (card.webkitRequestFullscreen) card.webkitRequestFullscreen();
+    } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+    }
+}
+
+// LZW GIF Encoder Engine
+function palette() {
+    const out = [];
+    for (let i = 0; i < 256; i++) {
+        out.push(Math.round((i >> 6) * 255 / 3), Math.round(((i >> 4) & 3) * 255 / 3), Math.round((i & 15) * 255 / 15));
+    }
+    return out;
+}
+function encodeLZW(pixels) {
+    let chunks = [], currByte = 0, bitCount = 0, bitLen = 9, dict = new Map(), nextCode = 258;
+    const push = (v, nbits) => {
+        currByte |= v << bitCount;
+        bitCount += nbits;
+        while (bitCount >= 8) {
+            chunks.push(currByte & 255);
+            currByte >>>= 8;
+            bitCount -= 8;
+        }
+    };
+    push(256, bitLen);
+    let prefix = pixels[0];
+    for (let i = 1; i < pixels.length; i++) {
+        let sym = pixels[i], key = (prefix << 8) | sym, found = dict.get(key);
+        if (found !== undefined) {
+            prefix = found;
+            continue;
+        }
+        push(prefix, bitLen);
+        if (nextCode < 4096) {
+            dict.set(key, nextCode++);
+            if (nextCode > (1 << bitLen) && bitLen < 12) bitLen++;
+        } else {
+            push(256, bitLen);
+            dict.clear();
+            nextCode = 258;
+            bitLen = 9;
+        }
+        prefix = sym;
+    }
+    push(prefix, bitLen);
+    push(257, bitLen);
+    if (bitCount) chunks.push(currByte & 255);
+    return chunks;
+}
+function writeFrame(out, ind, w, h, delay) {
+    out.push(33, 249, 4, 8, delay & 255, (delay >> 8) & 255, 0, 0);
+    out.push(44, 0, 0, 0, 0, w & 255, (w >> 8) & 255, h & 255, (h >> 8) & 255, 0);
+    out.push(8);
+    let lzw = encodeLZW(ind);
+    for (let i = 0; i < lzw.length; i += 255) {
+        const length = Math.min(255, lzw.length - i);
+        out.push(length);
+        for (let j = 0; j < length; j++) out.push(lzw[i + j]);
+    }
+    out.push(0);
+}
+function gifStart(out, w, h) {
+    for (const c of 'GIF89a') out.push(c.charCodeAt(0));
+    out.push(w & 255, w >> 8, h & 255, h >> 8, 0xF7, 0, 0, ...palette());
+    out.push(33, 255, 11);
+    for (const c of 'NETSCAPE2.0') out.push(c.charCodeAt(0));
+    out.push(3, 1, 0, 0, 0);
+}
+function toPal(rgba) {
+    let idx = new Uint8Array(rgba.length / 4);
+    for (let i = 0, j = 0; i < rgba.length; i += 4, j++) {
+        idx[j] = (rgba[i] & 192) | ((rgba[i + 1] & 192) >> 2) | (rgba[i + 2] >> 4);
+    }
+    return idx;
+}
+
+async function exportMotionGIF() {
+    let btn = document.getElementById('btn-export-gif');
+    if (!btn || btn.disabled) return;
+    btn.disabled = true;
+    let oldText = btn.innerHTML;
+    btn.innerHTML = '⏳ Đang khởi tạo...';
+
+    try {
+        const w = 640, h = 460;
+        const fps = 8;
+        const totalFrames = 36;
+        let tempCanvas = document.createElement('canvas');
+        tempCanvas.width = w;
+        tempCanvas.height = h;
+        let g = tempCanvas.getContext('2d', { willReadFrequently: true });
+        let bytes = [];
+        gifStart(bytes, w, h);
+
+        let bbox = board.getBoundingBox();
+        let xmin = bbox[0], ymax = bbox[1], xmax = bbox[2], ymin = bbox[3];
+        let mb = getMotionBounds();
+        let type = document.getElementById('func-type').value;
+
+        // Coordinate transforms for canvas
+        let padL = 40, padR = 20, padT = 55, padB = 40;
+        let gw = w - padL - padR, gh = h - padT - padB;
+        let cx = x => padL + ((x - xmin) / (xmax - xmin)) * gw;
+        let cy = y => padT + gh - ((y - ymin) / (ymax - ymin)) * gh;
+
+        for (let k = 0; k < totalFrames; k++) {
+            let prog = k / (totalFrames - 1);
+            let curX = getCurXFromProgress(prog, mb);
+            let curY = f_base(curX);
+
+            // 1. Background
+            g.fillStyle = '#ffffff';
+            g.fillRect(0, 0, w, h);
+
+            // 2. Banner Header
+            g.fillStyle = '#f8fafc';
+            g.fillRect(0, 0, w, 44);
+            g.strokeStyle = '#e2e8f0';
+            g.lineWidth = 1;
+            g.strokeRect(0, 0, w, 44);
+
+            g.fillStyle = '#0070C0';
+            g.font = 'bold 15px "Segoe UI", Arial, sans-serif';
+            g.textAlign = 'left';
+            g.fillText('TOÁN TRỰC QUAN • HÌNH THÀNH ĐỒ THỊ', 14, 26);
+
+            let k_slope = 0;
+            if (tangentLine && typeof tangentLine.getSlope === 'function') {
+                k_slope = (curY - f_base(curX - 0.01)) / 0.01;
+            }
+            g.fillStyle = '#334155';
+            g.font = 'bold 13px monospace';
+            g.textAlign = 'right';
+            g.fillText(`M(${curX.toFixed(1)}; ${curY.toFixed(1)}) | k=${k_slope.toFixed(2)}`, w - 14, 26);
+
+            // 3. Grid & Axes
+            g.strokeStyle = '#f1f5f9';
+            g.lineWidth = 1;
+            for (let gx = Math.ceil(xmin); gx <= Math.floor(xmax); gx++) {
+                g.beginPath(); g.moveTo(cx(gx), padT); g.lineTo(cx(gx), padT + gh); g.stroke();
+            }
+            for (let gy = Math.ceil(ymin); gy <= Math.floor(ymax); gy++) {
+                g.beginPath(); g.moveTo(padL, cy(gy)); g.lineTo(padL + gw, cy(gy)); g.stroke();
+            }
+
+            // Ox & Oy
+            let ox = cy(0), oy = cx(0);
+            g.strokeStyle = '#000000';
+            g.lineWidth = 1.6;
+            // Ox
+            if (ox >= padT && ox <= padT + gh) {
+                g.beginPath(); g.moveTo(padL, ox); g.lineTo(padL + gw, ox); g.stroke();
+                // Arrow
+                g.beginPath(); g.moveTo(padL + gw, ox); g.lineTo(padL + gw - 8, ox - 4); g.lineTo(padL + gw - 8, ox + 4); g.fill();
+                g.fillStyle = '#000'; g.font = 'italic 13px "Times New Roman"'; g.textAlign = 'left';
+                g.fillText('x', padL + gw - 6, ox + 14);
+            }
+            // Oy
+            if (oy >= padL && oy <= padL + gw) {
+                g.beginPath(); g.moveTo(oy, padT + gh); g.lineTo(oy, padT); g.stroke();
+                // Arrow
+                g.beginPath(); g.moveTo(oy, padT); g.lineTo(oy - 4, padT + 8); g.lineTo(oy + 4, padT + 8); g.fill();
+                g.fillStyle = '#000'; g.font = 'italic 13px "Times New Roman"'; g.textAlign = 'right';
+                g.fillText('y', oy - 8, padT + 12);
+            }
+
+            // 4. Asymptotes (if rational)
+            if (mb.x0 !== null && cx(mb.x0) >= padL && cx(mb.x0) <= padL + gw) {
+                g.strokeStyle = '#ef4444';
+                g.setLineDash([4, 4]);
+                g.beginPath(); g.moveTo(cx(mb.x0), padT); g.lineTo(cx(mb.x0), padT + gh); g.stroke();
+                g.setLineDash([]);
+            }
+
+            // 5. Draw curve up to curX (Vệt sáng xuất hiện dần)
+            g.strokeStyle = '#0070C0';
+            g.lineWidth = 2.4;
+            g.beginPath();
+            let started = false;
+            let step = (xmax - xmin) / 250;
+            for (let x = xmin; x <= curX; x += step) {
+                if (mb.x0 !== null && Math.abs(x - mb.x0) < 0.15) {
+                    started = false;
+                    continue;
+                }
+                let y = f_base(x);
+                if (isNaN(y) || Math.abs(y) > 200) { started = false; continue; }
+                let px = cx(x), py = cy(y);
+                if (py < padT - 20 || py > padT + gh + 20) { started = false; continue; }
+                if (!started) { g.moveTo(px, py); started = true; }
+                else { g.lineTo(px, py); }
+            }
+            g.stroke();
+
+            // 6. Tangent line at M
+            if (!isNaN(curY) && Math.abs(curY) <= 100) {
+                let pxM = cx(curX), pyM = cy(curY);
+                // Draw tangent segment
+                let tanLen = 1.5;
+                let xT1 = curX - tanLen, yT1 = curY - tanLen * k_slope;
+                let xT2 = curX + tanLen, yT2 = curY + tanLen * k_slope;
+                g.strokeStyle = 'rgba(139, 92, 246, 0.6)';
+                g.lineWidth = 1.8;
+                g.beginPath();
+                g.moveTo(cx(xT1), cy(yT1));
+                g.lineTo(cx(xT2), cy(yT2));
+                g.stroke();
+
+                // Glowing point M
+                g.save();
+                g.fillStyle = '#0284c7';
+                g.beginPath(); g.arc(pxM, pyM, 6, 0, Math.PI * 2); g.fill();
+                g.strokeStyle = '#ffffff'; g.lineWidth = 2; g.stroke();
+                g.restore();
+            }
+
+            // Write frame to GIF
+            let pixels = toPal(g.getImageData(0, 0, w, h).data);
+            writeFrame(bytes, pixels, w, h, Math.round(100 / fps));
+
+            if (k % 6 === 0) {
+                let pct = Math.round((k + 1) / totalFrames * 100);
+                btn.innerHTML = `⏳ Đang xuất GIF: ${pct}%`;
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+
+        bytes.push(59);
+        const blob = new Blob([Uint8Array.from(bytes)], { type: 'image/gif' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `TOAN_TRUC_QUAN_${type}_MOTION.gif`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        btn.innerHTML = '✅ Đã Tải GIF!';
+        setTimeout(() => { btn.innerHTML = oldText; btn.disabled = false; }, 2500);
+    } catch (err) {
+        console.error('GIF error:', err);
+        alert('Có lỗi khi tạo GIF: ' + err.message);
+        btn.innerHTML = oldText;
+        btn.disabled = false;
+    }
+}
+
 
     window.onload = function() {
         onTypeChange();
