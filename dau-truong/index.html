@@ -715,8 +715,9 @@
                 document.getElementById('q-number-title').textContent = `Câu ${idx + 1} / 22`;
                 document.getElementById('q-branch-title').textContent = q.branch_name || 'Khảo sát hàm số';
 
-                // Question Stem
-                document.getElementById('q-stem').innerHTML = q.stem;
+                // Question Stem & Diagram
+                let imgHtml = q.image ? `<div class="my-4 text-center"><img src="${q.image}" class="max-h-72 mx-auto rounded-xl shadow-md border border-slate-200 dark:border-slate-700 bg-white p-2" alt="Hình vẽ đồ thị / BBT" /></div>` : '';
+                document.getElementById('q-stem').innerHTML = q.stem + imgHtml;
 
                 // Option Rendering
                 const box = document.getElementById('q-answers-box');
@@ -726,16 +727,18 @@
                     const letters = ['A', 'B', 'C', 'D'];
                     const currentSel = this.userAnswers[idx];
                     letters.forEach(letter => {
+                        const optObj = (q.options || []).find(o => o.key === letter) || { text: '' };
+                        const optText = optObj.text ? optObj.text : `Phương án ${letter}`;
                         const row = document.createElement('label');
-                        row.className = `flex items-center gap-3 p-3.5 rounded-xl border cursor-pointer transition ${
+                        row.className = `flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition ${
                             currentSel === letter 
                                 ? 'border-blue-600 bg-blue-50/70 dark:bg-blue-950/60 ring-1 ring-blue-500' 
                                 : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
                         }`;
                         row.innerHTML = `
-                            <input type="radio" name="opt_exam" value="${letter}" ${currentSel === letter ? 'checked' : ''} class="w-4 h-4 text-blue-600 focus:ring-blue-500">
-                            <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-700 flex items-center justify-center font-bold text-xs">${letter}</span>
-                            <span class="text-sm font-medium text-slate-700 dark:text-slate-200">Phương án ${letter}</span>
+                            <input type="radio" name="opt_exam" value="${letter}" ${currentSel === letter ? 'checked' : ''} class="w-4 h-4 text-blue-600 focus:ring-blue-500 mt-1 shrink-0">
+                            <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">${letter}</span>
+                            <span class="text-sm font-medium text-slate-800 dark:text-slate-100 leading-relaxed">${optText}</span>
                         `;
                         row.onclick = () => {
                             arena.selectTNKQ(letter);
@@ -747,21 +750,22 @@
                     const subKeys = ['a', 'b', 'c', 'd'];
                     const currentSub = this.userAnswers[idx] || {};
                     subKeys.forEach(k => {
-                        const itemObj = (q.sub_items || []).find(s => s.key === k) || { content: `Ý ${k}` };
+                        const itemObj = (q.sub_items || []).find(s => s.key === k) || { text: `Ý ${k}` };
+                        const itemText = itemObj.text || itemObj.content || `Ý ${k}`;
                         const curVal = currentSub[k];
                         const div = document.createElement('div');
                         div.className = "flex items-center justify-between p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40";
                         div.innerHTML = `
-                            <div class="flex items-center gap-2 max-w-xl">
-                                <span class="font-bold text-xs uppercase bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded">${k})</span>
-                                <span class="text-xs sm:text-sm text-slate-700 dark:text-slate-200">${itemObj.content}</span>
+                            <div class="flex items-start gap-2 max-w-xl">
+                                <span class="font-bold text-xs uppercase bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded mt-0.5 shrink-0">${k})</span>
+                                <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-100">${itemText}</span>
                             </div>
-                            <div class="flex items-center gap-2">
-                                <button type="button" onclick="arena.selectDS('${k}', true)" class="px-3 py-1 rounded-lg text-xs font-bold border transition ${
-                                    curVal === true ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
+                            <div class="flex items-center gap-2 shrink-0 ml-2">
+                                <button type="button" onclick="arena.selectDS('${k}', true)" class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition ${
+                                    curVal === true ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
                                 }">Đúng</button>
-                                <button type="button" onclick="arena.selectDS('${k}', false)" class="px-3 py-1 rounded-lg text-xs font-bold border transition ${
-                                    curVal === false ? 'bg-red-600 text-white border-red-600' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
+                                <button type="button" onclick="arena.selectDS('${k}', false)" class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition ${
+                                    curVal === false ? 'bg-red-600 text-white border-red-600 shadow-sm' : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
                                 }">Sai</button>
                             </div>
                         `;
@@ -827,10 +831,15 @@
                             part1Score += 0.25;
                         }
                     } else if (idx < 16) {
-                        // Part II: Dung Sai
-                        // Standard score scheme: 1 correct: 0.1, 2: 0.25, 3: 0.5, 4: 1.0
-                        // Default mock evaluation if no ground truth sub-keys
-                        let matchSub = 2; // benchmark default
+                        // Part II: Dung Sai (Standard GDPT 2018: 1 ý = 0.1đ, 2 ý = 0.25đ, 3 ý = 0.5đ, 4 ý = 1.0đ)
+                        let matchSub = 0;
+                        if (ans && q.sub_items && q.sub_items.length > 0) {
+                            q.sub_items.forEach(sub => {
+                                if (ans[sub.key] !== undefined && ans[sub.key] === sub.is_true) {
+                                    matchSub += 1;
+                                }
+                            });
+                        }
                         if (matchSub === 1) part2Score += 0.1;
                         else if (matchSub === 2) part2Score += 0.25;
                         else if (matchSub === 3) part2Score += 0.5;
@@ -905,10 +914,11 @@
                             <span class="font-bold text-xs text-blue-600 bg-blue-100 dark:bg-blue-900/60 px-2 py-0.5 rounded">Câu ${idx + 1} (${q.type})</span>
                             <span class="text-xs font-semibold text-slate-500">Đã chọn: <strong class="text-slate-800 dark:text-white">${JSON.stringify(userAns) || 'Bỏ trống'}</strong></span>
                         </div>
-                        <div class="text-sm text-slate-800 dark:text-slate-200">${q.stem}</div>
-                        <div class="p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 space-y-1">
-                            <p class="font-bold text-emerald-600 dark:text-emerald-400">Đáp án chuẩn: ${q.answer || 'Theo lời giải chi tiết'}</p>
-                            <div class="pt-1 text-slate-500">${(q.solution || []).slice(0, 3).join('<br>')}</div>
+                        <div class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">${q.stem}</div>
+                        ${q.image ? `<div class="my-2 text-center"><img src="${q.image}" class="max-h-56 mx-auto rounded-lg border bg-white p-2" alt="Hình vẽ" /></div>` : ''}
+                        <div class="p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 space-y-2">
+                            <p class="font-bold text-emerald-600 dark:text-emerald-400 text-sm">Đáp án chuẩn: ${q.answer || (q.sub_items ? q.sub_items.map(s => s.key + ': ' + (s.is_true ? 'Đúng' : 'Sai')).join(' | ') : 'Theo lời giải chi tiết')}</p>
+                            <div class="pt-1 text-slate-600 dark:text-slate-300 space-y-1">${(q.solution || []).map(line => `<p>${line}</p>`).join('') || '<p>Đang cập nhật lời giải.</p>'}</div>
                         </div>
                     `;
                     list.appendChild(item);
@@ -923,6 +933,7 @@
 
         // ================= PRACTICE 23 SUBTOPICS =================
         const practice = {
+            userAnswers: {},
             init() {
                 this.renderList();
             },
@@ -933,7 +944,7 @@
                 const selectVal = document.getElementById('practice-branch-select').value;
                 const filtered = selectVal === 'ALL' 
                     ? app.data.slice(0, 30) 
-                    : app.data.filter(q => q.branch_id === selectVal).slice(0, 25);
+                    : app.data.filter(q => q.branch === selectVal || q.branch_code === selectVal || (q.id && q.id.startsWith('D01_' + selectVal))).slice(0, 30);
 
                 const container = document.getElementById('practice-question-list');
                 container.innerHTML = '';
@@ -941,20 +952,105 @@
                 filtered.forEach((q, idx) => {
                     const card = document.createElement('div');
                     card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 shadow-sm space-y-4";
+                    
+                    // Interactive Answer Block
+                    let answerBlockHtml = '';
+                    if (q.type === 'TNKQ') {
+                        const letters = ['A', 'B', 'C', 'D'];
+                        const optsHtml = letters.map(letter => {
+                            const optObj = (q.options || []).find(o => o.key === letter) || { text: '' };
+                            const optText = optObj.text ? optObj.text : `Phương án ${letter}`;
+                            return `
+                                <button type="button" id="p-opt-${idx}-${letter}" onclick="practice.pickTNKQ(${idx}, '${letter}')" class="text-left flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50/30 dark:hover:bg-slate-800 transition">
+                                    <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">${letter}</span>
+                                    <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed">${optText}</span>
+                                </button>
+                            `;
+                        }).join('');
+
+                        answerBlockHtml = `
+                            <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                                <label class="block text-xs font-bold text-slate-400 uppercase">Chọn một phương án đúng:</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="p-opts-box-${idx}">
+                                    ${optsHtml}
+                                </div>
+                                <div class="flex items-center gap-3 pt-2">
+                                    <button type="button" onclick="practice.checkTNKQ(${idx})" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                                        <i data-lucide="check-circle" class="w-4 h-4"></i> Kiểm Tra Đáp Án
+                                    </button>
+                                    <div id="p-feedback-${idx}" class="text-xs font-bold hidden"></div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (q.type === 'DUNG_SAI') {
+                        const subKeys = ['a', 'b', 'c', 'd'];
+                        const rowsHtml = subKeys.map(k => {
+                            const itemObj = (q.sub_items || []).find(s => s.key === k) || { text: `Ý ${k}` };
+                            const itemText = itemObj.text || `Ý ${k}`;
+                            return `
+                                <div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40">
+                                    <div class="flex items-start gap-2 max-w-lg">
+                                        <span class="font-bold text-xs uppercase bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded mt-0.5 shrink-0">${k})</span>
+                                        <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-100">${itemText}</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5 shrink-0 ml-2">
+                                        <button type="button" id="p-ds-${idx}-${k}-true" onclick="practice.pickDS(${idx}, '${k}', true)" class="px-3 py-1 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">Đúng</button>
+                                        <button type="button" id="p-ds-${idx}-${k}-false" onclick="practice.pickDS(${idx}, '${k}', false)" class="px-3 py-1 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">Sai</button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('');
+
+                        answerBlockHtml = `
+                            <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                                <label class="block text-xs font-bold text-slate-400 uppercase">Xác định tính Đúng / Sai của 4 mệnh đề:</label>
+                                <div class="space-y-2">
+                                    ${rowsHtml}
+                                </div>
+                                <div class="flex items-center gap-3 pt-2">
+                                    <button type="button" onclick="practice.checkDS(${idx})" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                                        <i data-lucide="check-circle" class="w-4 h-4"></i> Kiểm Tra 4 Mệnh Đề
+                                    </button>
+                                    <div id="p-feedback-${idx}" class="text-xs font-bold hidden"></div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (q.type === 'TLN') {
+                        answerBlockHtml = `
+                            <div class="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                                <label class="block text-xs font-bold text-slate-400 uppercase">Nhập đáp số điền khuyết:</label>
+                                <div class="flex items-center gap-2 max-w-sm">
+                                    <input type="text" id="p-tln-val-${idx}" placeholder="Ví dụ: 13, -2.5, 0..." class="flex-1 text-sm font-mono font-bold px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <button type="button" onclick="practice.checkTLN(${idx})" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl text-xs flex items-center gap-1">
+                                        <i data-lucide="check" class="w-3.5 h-3.5"></i> Chấm
+                                    </button>
+                                </div>
+                                <div id="p-feedback-${idx}" class="text-xs font-bold hidden"></div>
+                            </div>
+                        `;
+                    }
+
                     card.innerHTML = `
                         <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
                             <div class="flex items-center gap-2">
                                 <span class="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-bold text-xs px-2.5 py-0.5 rounded-full">Câu ${idx + 1}</span>
-                                <span class="text-xs font-semibold text-slate-500">${q.branch_name}</span>
+                                <span class="text-xs font-semibold text-slate-500">${q.branch_name || 'Chuyên đề 01'}</span>
                             </div>
-                            <span class="text-[11px] font-bold uppercase text-slate-400">${q.type}</span>
+                            <span class="text-[11px] font-bold uppercase text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded">${q.type}</span>
                         </div>
                         <div class="text-sm sm:text-base text-slate-800 dark:text-slate-100 leading-relaxed">${q.stem}</div>
                         
+                        ${q.image ? `<div class="my-3 text-center"><img src="${q.image}" class="max-h-64 mx-auto rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 bg-white p-2" alt="Hình vẽ minh họa" /></div>` : ''}
+
+                        ${answerBlockHtml}
+                        
                         <!-- Collapsible Assistance Triggers -->
-                        <div class="pt-2 flex flex-wrap gap-2 text-xs">
+                        <div class="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-wrap gap-2 text-xs">
                             <button onclick="practice.toggleAid('casio-${idx}')" class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 font-bold flex items-center gap-1.5 hover:bg-emerald-100 transition">
                                 <i data-lucide="calculator" class="w-3.5 h-3.5"></i> Mẹo Casio 580/880
+                            </button>
+                            <button onclick="practice.toggleAid('scaff-${idx}')" class="px-3 py-1.5 rounded-lg bg-indigo-50 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 font-bold flex items-center gap-1.5 hover:bg-indigo-100 transition">
+                                <i data-lucide="layers" class="w-3.5 h-3.5"></i> Gợi Ý Nấc Thang
                             </button>
                             <button onclick="practice.toggleAid('trap-${idx}')" class="px-3 py-1.5 rounded-lg bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 font-bold flex items-center gap-1.5 hover:bg-amber-100 transition">
                                 <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Bẫy Khảo Thí
@@ -966,21 +1062,160 @@
 
                         <!-- Assistance Content Boxes -->
                         <div id="casio-${idx}" class="hidden p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-900 dark:text-emerald-200 space-y-1">
-                            <p class="font-bold flex items-center gap-1"><i data-lucide="zap" class="w-3.5 h-3.5"></i> Thao tác máy tính Casio:</p>
-                            <p>Bấm MENU 8 (TABLE) nhập hàm số, chọn Start, End, Step = (End - Start)/29 để rà quét bảng biến thiên hoặc bấm MENU 9 giải nghiệm đạo hàm tìm cực trị trong 3 giây.</p>
+                            <p class="font-bold flex items-center gap-1"><i data-lucide="zap" class="w-3.5 h-3.5"></i> Thao tác máy tính Casio FX-580VN X / FX-880BTG:</p>
+                            <p>• Bấm <strong>MENU 8 (TABLE)</strong> nhập hàm số, chọn Start, End, Step = (End - Start)/29 để rà quét tính đơn điệu và GTLN-GTNN.<br>• Bấm <strong>MENU 9 2 3</strong> giải phương trình đạo hàm $f'(x)=0$ xác định cực trị trong 3 giây.</p>
+                        </div>
+                        <div id="scaff-${idx}" class="hidden p-3.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-xs text-indigo-900 dark:text-indigo-200 space-y-1">
+                            <p class="font-bold flex items-center gap-1"><i data-lucide="compass" class="w-3.5 h-3.5"></i> 3 Bước tư duy nấc thang:</p>
+                            <p><strong>Bước 1:</strong> Tìm tập xác định $D$ và tính đạo hàm $y'$.<br><strong>Bước 2:</strong> Giải nghiệm phương trình $y'=0$ và lập bảng xét dấu/bảng biến thiên.<br><strong>Bước 3:</strong> Đối chiếu điều kiện bài toán để chọn phương án chính xác.</p>
                         </div>
                         <div id="trap-${idx}" class="hidden p-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 space-y-1">
-                            <p class="font-bold flex items-center gap-1"><i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Điểm bẫy dễ mất điểm:</p>
-                            <p>Chú ý phân biệt "Hàm số đồng biến trên khoảng" vs "Hợp của hai khoảng". Cấm kết luận đồng biến trên K1 U K2 hoặc dùng ký hiệu U trong kết luận!</p>
+                            <p class="font-bold flex items-center gap-1"><i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> Điểm bẫy dễ mất điểm THPT Quốc Gia:</p>
+                            <p>• Tuyệt đối không dùng ký hiệu hợp $\cup$ khi kết luận khoảng đồng biến / nghịch biến.<br>• Phân biệt rõ "Điểm cực trị của hàm số" (hoành độ $x$) vs "Cực trị của hàm số" (tung độ $y$).<br>• Cẩn thận nghiệm bội chẵn của đạo hàm không làm đổi dấu $f'(x)$.</p>
                         </div>
-                        <div id="sol-${idx}" class="hidden p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-200 space-y-1">
-                            <p class="font-bold text-blue-600">Đáp án: ${q.answer || 'Theo các bước giải chi tiết'}</p>
-                            <p>${(q.solution || []).join('<br>') || 'Lời giải chi tiết đang được đồng bộ chuẩn.'}</p>
+                        <div id="sol-${idx}" class="hidden p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-200 space-y-2">
+                            <p class="font-bold text-blue-600 text-sm">Đáp án chính thức: ${q.answer || (q.sub_items ? q.sub_items.map(s => s.key + ': ' + (s.is_true ? 'Đúng' : 'Sai')).join(' | ') : 'Theo lời giải chi tiết')}</p>
+                            <div class="space-y-1 text-slate-600 dark:text-slate-300 leading-relaxed">${(q.solution || []).map(line => `<p>${line}</p>`).join('') || 'Đang cập nhật lời giải chuẩn.'}</div>
                         </div>
                     `;
                     container.appendChild(card);
                 });
                 lucide.createIcons();
+                app.renderMath();
+            },
+            pickTNKQ(qIdx, letter) {
+                if (!this.userAnswers[qIdx]) this.userAnswers[qIdx] = {};
+                this.userAnswers[qIdx].choice = letter;
+                ['A', 'B', 'C', 'D'].forEach(l => {
+                    const btn = document.getElementById(`p-opt-${qIdx}-${l}`);
+                    if (btn) {
+                        if (l === letter) {
+                            btn.className = "text-left flex items-start gap-2.5 p-3 rounded-xl border border-blue-600 bg-blue-50/70 dark:bg-blue-950/70 ring-1 ring-blue-500 transition";
+                        } else {
+                            btn.className = "text-left flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50/30 dark:hover:bg-slate-800 transition";
+                        }
+                    }
+                });
+                sound.playBeep(480, 0.05);
+            },
+            checkTNKQ(qIdx) {
+                const selectVal = document.getElementById('practice-branch-select').value;
+                const filtered = selectVal === 'ALL' 
+                    ? app.data.slice(0, 30) 
+                    : app.data.filter(q => q.branch === selectVal || q.branch_code === selectVal || (q.id && q.id.startsWith('D01_' + selectVal))).slice(0, 30);
+                const q = filtered[qIdx];
+                const userPick = (this.userAnswers[qIdx] || {}).choice;
+                const fb = document.getElementById(`p-feedback-${qIdx}`);
+                if (!userPick) {
+                    fb.className = "text-xs font-bold text-amber-600 block";
+                    fb.innerHTML = "⚠️ Em hãy chọn một phương án trước khi kiểm tra!";
+                    return;
+                }
+                fb.classList.remove('hidden');
+                const isCorrect = userPick === q.answer;
+                if (isCorrect) {
+                    fb.className = "text-xs font-bold text-emerald-600 flex items-center gap-1";
+                    fb.innerHTML = `🎉 Chính xác! Đáp án ${userPick} hoàn toàn chuẩn xác.`;
+                    sound.playCorrect();
+                } else {
+                    fb.className = "text-xs font-bold text-rose-600 flex items-center gap-1";
+                    fb.innerHTML = `❌ Chưa chính xác! Em chọn ${userPick}, đáp án đúng là ${q.answer}.`;
+                    sound.playWrong();
+                }
+                // Highlight buttons
+                ['A', 'B', 'C', 'D'].forEach(l => {
+                    const btn = document.getElementById(`p-opt-${qIdx}-${l}`);
+                    if (btn) {
+                        if (l === q.answer) {
+                            btn.className = "text-left flex items-start gap-2.5 p-3 rounded-xl border border-emerald-500 bg-emerald-50 dark:bg-emerald-950/70 text-emerald-900 dark:text-emerald-200 ring-2 ring-emerald-400 transition";
+                        } else if (l === userPick && !isCorrect) {
+                            btn.className = "text-left flex items-start gap-2.5 p-3 rounded-xl border border-rose-500 bg-rose-50 dark:bg-rose-950/70 text-rose-900 dark:text-rose-200 transition";
+                        }
+                    }
+                });
+                // Auto open solution
+                const solEl = document.getElementById(`sol-${qIdx}`);
+                if (solEl && solEl.classList.contains('hidden')) {
+                    solEl.classList.remove('hidden');
+                }
+                app.renderMath();
+            },
+            pickDS(qIdx, subKey, val) {
+                if (!this.userAnswers[qIdx]) this.userAnswers[qIdx] = {};
+                this.userAnswers[qIdx][subKey] = val;
+                const btnT = document.getElementById(`p-ds-${qIdx}-${subKey}-true`);
+                const btnF = document.getElementById(`p-ds-${qIdx}-${subKey}-false`);
+                if (val === true) {
+                    btnT.className = "px-3 py-1 rounded-lg text-xs font-bold border bg-emerald-600 text-white border-emerald-600 shadow-sm";
+                    btnF.className = "px-3 py-1 rounded-lg text-xs font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300";
+                } else {
+                    btnF.className = "px-3 py-1 rounded-lg text-xs font-bold border bg-rose-600 text-white border-rose-600 shadow-sm";
+                    btnT.className = "px-3 py-1 rounded-lg text-xs font-bold border bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300";
+                }
+                sound.playBeep(val ? 520 : 380, 0.05);
+            },
+            checkDS(qIdx) {
+                const selectVal = document.getElementById('practice-branch-select').value;
+                const filtered = selectVal === 'ALL' 
+                    ? app.data.slice(0, 30) 
+                    : app.data.filter(q => q.branch === selectVal || q.branch_code === selectVal || (q.id && q.id.startsWith('D01_' + selectVal))).slice(0, 30);
+                const q = filtered[qIdx];
+                const userAns = this.userAnswers[qIdx] || {};
+                const subItems = q.sub_items || [];
+                let correctCount = 0;
+                subItems.forEach(sub => {
+                    if (userAns[sub.key] !== undefined && userAns[sub.key] === sub.is_true) {
+                        correctCount += 1;
+                    }
+                });
+                const fb = document.getElementById(`p-feedback-${qIdx}`);
+                fb.classList.remove('hidden');
+                if (correctCount === 4) {
+                    fb.className = "text-xs font-bold text-emerald-600 flex items-center gap-1";
+                    fb.innerHTML = "🎉 Xuất sắc! Em đã trả lời đúng cả 4/4 mệnh đề.";
+                    sound.playCorrect();
+                } else {
+                    fb.className = "text-xs font-bold text-amber-600 flex items-center gap-1";
+                    fb.innerHTML = `⚠️ Em đạt ${correctCount}/4 mệnh đề đúng. Hãy xem chi tiết bên dưới.`;
+                    sound.playWrong();
+                }
+                // Auto open solution
+                const solEl = document.getElementById(`sol-${qIdx}`);
+                if (solEl && solEl.classList.contains('hidden')) {
+                    solEl.classList.remove('hidden');
+                }
+                app.renderMath();
+            },
+            checkTLN(qIdx) {
+                const selectVal = document.getElementById('practice-branch-select').value;
+                const filtered = selectVal === 'ALL' 
+                    ? app.data.slice(0, 30) 
+                    : app.data.filter(q => q.branch === selectVal || q.branch_code === selectVal || (q.id && q.id.startsWith('D01_' + selectVal))).slice(0, 30);
+                const q = filtered[qIdx];
+                const inp = document.getElementById(`p-tln-val-${qIdx}`);
+                const val = inp ? inp.value.trim() : '';
+                const fb = document.getElementById(`p-feedback-${qIdx}`);
+                if (!val) {
+                    fb.className = "text-xs font-bold text-amber-600 block";
+                    fb.innerHTML = "⚠️ Em hãy nhập kết quả trước khi chấm!";
+                    return;
+                }
+                fb.classList.remove('hidden');
+                const cleanU = val.replace(',', '.');
+                const cleanK = (q.answer || '').toString().trim().replace(',', '.');
+                if (cleanU === cleanK) {
+                    fb.className = "text-xs font-bold text-emerald-600 flex items-center gap-1";
+                    fb.innerHTML = `🎉 Tuyệt vời! Kết quả ${val} hoàn toàn chính xác.`;
+                    sound.playCorrect();
+                } else {
+                    fb.className = "text-xs font-bold text-rose-600 flex items-center gap-1";
+                    fb.innerHTML = `❌ Chưa đúng! Em nhập ${val}, kết quả chuẩn là ${q.answer}.`;
+                    sound.playWrong();
+                }
+                const solEl = document.getElementById(`sol-${qIdx}`);
+                if (solEl && solEl.classList.contains('hidden')) {
+                    solEl.classList.remove('hidden');
+                }
                 app.renderMath();
             },
             toggleAid(id) {
@@ -991,7 +1226,6 @@
             }
         };
 
-        // ================= STATS & LEADERBOARD =================
         const stats = {
             records: [],
             init() {
