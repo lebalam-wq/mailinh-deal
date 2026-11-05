@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cổng Tài Liệu & Chuyên Đề Bồi Dưỡng HSG Toán 12 • Thầy Lê Bá Lâm</title>
+    <meta name="description" content="Hệ thống 8 chuyên đề bồi dưỡng Học sinh Giỏi Toán 12 GDPT 2018 (83 dạng toán, 154 trang). Tải trọn bộ file PDF bản in đẹp và file Word chuẩn OMML.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #003366;
+            --primary-dark: #002244;
+            --secondary: #0070C0;
+            --accent: #0EA5E9;
+            --bg: #F8FAFC;
+            --surface: #FFFFFF;
+            --text-main: #0F172A;
+            --text-muted: #475569;
+            --border: #E2E8F0;
+            --card-shadow: 0 4px 20px -2px rgba(0, 51, 102, 0.08);
+            --card-hover: 0 12px 30px -4px rgba(0, 51, 102, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        /* HERO */
+        .portal-hero {
+            padding: 4rem 0 3rem 0;
+            text-align: center;
+            background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.1) 0%, transparent 70%);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1rem;
+            background: rgba(225, 29, 72, 0.1);
+            color: #E11D48;
+            border: 1px solid rgba(225, 29, 72, 0.25);
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+        }
+
+        .portal-hero h1 {
+            font-size: 2.75rem;
+            font-weight: 800;
+            color: var(--primary);
+            line-height: 1.25;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .portal-hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 860px;
+            margin: 0 auto 2.5rem auto;
+        }
+
+        /* STATS BAR */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 3.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .portal-hero h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 15px -2px rgba(0, 51, 102, 0.05);
+        }
+
+        .stat-val {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary);
+            line-height: 1.1;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-lbl {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* CONTROLS (SEARCH & FILTER) */
+        .controls-bar {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 20px -2px rgba(0, 51, 102, 0.04);
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 280px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: var(--bg);
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .search-input:focus {
+            border-color: var(--secondary);
+            background: #FFFFFF;
+            box-shadow: 0 0 0 3px rgba(0, 112, 192, 0.15);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .chip-btn {
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip-btn:hover {
+            background: #EFF6FF;
+            border-color: #BFDBFE;
+            color: var(--secondary);
+        }
+
+        .chip-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #FFFFFF;
+        }
+
+        /* CARDS GRID */
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        .portal-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px -2px rgba(0, 51, 102, 0.06);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .portal-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--secondary);
+            box-shadow: 0 16px 35px -5px rgba(0, 51, 102, 0.14);
+        }
+
+        .portal-card-banner {
+            grid-column: 1 / -1;
+            background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+            border: 2px dashed #93C5FD;
+        }
+
+        .card-top {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .card-num {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.25);
+            flex-shrink: 0;
+        }
+
+        .card-heading {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .card-part {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #E11D48;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-pill {
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(0, 112, 192, 0.1);
+            color: var(--secondary);
+            padding: 0.15rem 0.65rem;
+            border-radius: 9999px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.4;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-desc {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+            flex-grow: 1;
+        }
+
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .portal-tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: #F1F5F9;
+            color: #334155;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .card-meta-row {
+            display: flex;
+            gap: 1rem;
+            padding: 0.65rem 1rem;
+            background: #F8FAFC;
+            border-radius: 12px;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            border: 1px solid #F1F5F9;
+        }
+
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn-action-pdf {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: #FFFFFF;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
+        }
+
+        .btn-action-pdf:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(0, 51, 102, 0.28);
+        }
+
+        .btn-action-docx {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            background: #FFFFFF;
+            color: #2563EB;
+            border: 1px solid #BFDBFE;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-action-docx:hover {
+            background: #EFF6FF;
+            border-color: #3B82F6;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #001A33;
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="container nav-content">
+            <a href="../" class="brand-logo">
+                <div class="brand-icon">📐</div>
+                <span>Toán Trực Quan</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="../">Trang Chủ</a></li>
+                <li><a href="./" style="color: #E11D48; font-weight: 700;">Chuyên Đề HSG</a></li>
+                <li><a href="../12b2/">Điểm 12B2</a></li>
+                <li><a href="../12b5/">Điểm 12B5</a></li>
+                <li><a href="https://www.youtube.com/@ToanTrucQuanVN" target="_blank" rel="noopener noreferrer">YouTube</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="portal-hero">
+        <div class="container">
+            <div class="badge">🏆 Bồi Dưỡng Đội Tuyển HSG Toán 12 • GDPT 2018</div>
+            <h1>Trọn Bộ 8 Chuyên Đề Bồi Dưỡng HSG Toán 12</h1>
+            <p>Hệ sinh thái tài liệu bồi dưỡng thi Học sinh Giỏi cấp Tỉnh (kỳ thi tháng 12). Cấu trúc chuẩn mực 4 tầng: Khung lý thuyết & Bản chất → Phương pháp & Hộp bẫy khảo thí ■ → Ví dụ mẫu mực phân tích tư duy → Bài tập rèn luyện chiến trường có gợi ý & đáp số. <strong>Đã kiểm định 100% qua Quy chuẩn 5 Cổng CAS SymPy & OMML.</strong></p>
+        
+            <!-- STATS -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-val">8+1</div>
+                    <div class="stat-lbl">Chuyên Đề Toàn Diện</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val">83</div>
+                    <div class="stat-lbl">Dạng Toán Mở Rộng</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val">154</div>
+                    <div class="stat-lbl">Trang In Chuẩn TNR 12pt</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-val">100%</div>
+                    <div class="stat-lbl">Không Rò Rỉ Mã Lỗi</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        <!-- CONTROLS -->
+        <div class="controls-bar">
+            <div class="search-box">
+                <svg class="search-icon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                <input type="text" id="searchInput" class="search-input" placeholder="Tìm kiếm theo dạng toán, từ khóa (vô tỉ, BĐT, Euler, Simson, Tukey...)...">
+            </div>
+            <div class="filter-chips">
+                <button class="chip-btn active" data-filter="all">Tất cả (9)</button>
+                <button class="chip-btn" data-filter="dai-so">Đại số & Vô tỉ</button>
+                <button class="chip-btn" data-filter="giai-tich">Giải tích 12</button>
+                <button class="chip-btn" data-filter="hinh-hoc">Hình học & Oxyz</button>
+                <button class="chip-btn" data-filter="xac-suat">Thống kê & Xác suất</button>
+            </div>
+        </div>
+
+        <!-- GRID -->
+        <div class="portal-grid" id="portalGrid">
+            
+        <article class="portal-card portal-card-banner" data-category="tong-quan" data-search="danh mục mở rộng 80 dạng toán hsg 12 cẩm nang tra cứu và định vị toàn diện 80 dạng toán phân loại cao nhất theo cấu trúc đề thi hsg toán 12 cấp tỉnh gdpt 2018 (4 phần chuẩn sở). ma trận đề thi 80 dạng toán khung 4 tầng chuẩn gdpt 2018 tổng quan khảo thí">
+            <div class="card-top">
+                <div class="card-num">00</div>
+                <div class="card-heading">
+                    <span class="card-part">Tổng Quan Khảo Thí</span>
+                    <span class="card-pill">Cẩm Nang Toàn Diện</span>
+                </div>
+            </div>
+            <h2 class="card-title">Danh Mục Mở Rộng 80 Dạng Toán HSG 12</h2>
+            <p class="card-desc">Cẩm nang tra cứu và định vị toàn diện 80 dạng toán phân loại cao nhất theo cấu trúc đề thi HSG Toán 12 Cấp Tỉnh GDPT 2018 (4 Phần chuẩn Sở).</p>
+            <div class="card-tags">
+                <span class="portal-tag">Ma trận đề thi</span><span class="portal-tag">80 Dạng toán</span><span class="portal-tag">Khung 4 tầng</span><span class="portal-tag">Chuẩn GDPT 2018</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 80 Dạng toán</span>
+                <span>📄 31 trang</span>
+                <span>📦 PDF: 1.3 MB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_00_Danh_Muc_Mo_Rong_Cac_Dang_Toan_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (1.3 MB)</span>
+                </a>
+                <a href="Chuyen_De_00_Danh_Muc_Mo_Rong_Cac_Dang_Toan_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="portal-card" data-category="dai-so" data-search="phương trình, hệ phương trình & pt vô tỉ kỹ thuật ẩn phụ hóa không hoàn toàn, nhân liên hợp trục căn thức truy ngược nghiệm, hàm số đặc trưng đơn điệu, đánh giá bđt kẹp nghiệm, hệ phương trình đối xứng và đẳng cấp. phương trình vô tỉ hệ đối xứng nhân liên hợp hàm đặc trưng phần i — câu 1">
+            <div class="card-top">
+                <div class="card-num">01</div>
+                <div class="card-heading">
+                    <span class="card-part">Phần I — Câu 1</span>
+                    <span class="card-pill">Đại Số & Vô Tỉ</span>
+                </div>
+            </div>
+            <h2 class="card-title">Phương Trình, Hệ Phương Trình & PT Vô Tỉ</h2>
+            <p class="card-desc">Kỹ thuật ẩn phụ hóa không hoàn toàn, nhân liên hợp trục căn thức truy ngược nghiệm, hàm số đặc trưng đơn điệu, đánh giá BĐT kẹp nghiệm, hệ phương trình đối xứng và đẳng cấp.</p>
+            <div class="card-tags">
+                <span class="portal-tag">Phương trình vô tỉ</span><span class="portal-tag">Hệ đối xứng</span><span class="portal-tag">Nhân liên hợp</span><span class="portal-tag">Hàm đặc trưng</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 11 Dạng toán</span>
+                <span>📄 16 trang</span>
+                <span>📦 PDF: 855 KB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_01_Phuong_Trinh_He_Phuong_Trinh_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (855 KB)</span>
+                </a>
+                <a href="Chuyen_De_01_Phuong_Trinh_He_Phuong_Trinh_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="portal-card" data-category="dai-so" data-search="bất đẳng thức, cực trị & quy hoạch tuyến tính kỹ thuật chọn điểm rơi am-gm, cauchy-schwarz dạng engel, đổi biến đối xứng p-q-r, dồn biến về biên, bđt bằng phương pháp đạo hàm/hàm lồi và bài toán miền nghiệm quy hoạch tuyến tính. bđt cauchy-schwarz biến đổi p-q-r dồn biến quy hoạch tuyến tính phần i — câu 1">
+            <div class="card-top">
+                <div class="card-num">02</div>
+                <div class="card-heading">
+                    <span class="card-part">Phần I — Câu 1</span>
+                    <span class="card-pill">Đại Số & Cực Trị</span>
+                </div>
+            </div>
+            <h2 class="card-title">Bất Đẳng Thức, Cực Trị & Quy Hoạch Tuyến Tính</h2>
+            <p class="card-desc">Kỹ thuật chọn điểm rơi AM-GM, Cauchy-Schwarz dạng Engel, đổi biến đối xứng p-q-r, dồn biến về biên, BĐT bằng phương pháp đạo hàm/hàm lồi và bài toán miền nghiệm quy hoạch tuyến tính.</p>
+            <div class="card-tags">
+                <span class="portal-tag">BĐT Cauchy-Schwarz</span><span class="portal-tag">Biến đổi p-q-r</span><span class="portal-tag">Dồn biến</span><span class="portal-tag">Quy hoạch tuyến tính</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 9 Dạng toán</span>
+                <span>📄 12 trang</span>
+                <span>📦 PDF: 824 KB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_02_Bat_Dang_Thuc_Cuc_Tri_Quy_Hoach_Tuyen_Tinh_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (824 KB)</span>
+                </a>
+                <a href="Chuyen_De_02_Bat_Dang_Thuc_Cuc_Tri_Quy_Hoach_Tuyen_Tinh_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="portal-card" data-category="dai-so" data-search="dãy số, giới hạn & tổ hợp rời rạc xác định công thức tổng quát dãy số sai phân tuyến tính bậc 2, khử căn thức truy hồi, định lý kẹp và giới hạn dãy số, phương pháp quy nạp giải toán cực trị, nguyên lý dirichlet và đại lượng bất biến. dãy số truy hồi sai phân định lý kẹp dirichlet & bất biến phần i — câu 1">
+            <div class="card-top">
+                <div class="card-num">03</div>
+                <div class="card-heading">
+                    <span class="card-part">Phần I — Câu 1</span>
+                    <span class="card-pill">Giải Tích & Rời Rạc</span>
+                </div>
+            </div>
+            <h2 class="card-title">Dãy Số, Giới Hạn & Tổ Hợp Rời Rạc</h2>
+            <p class="card-desc">Xác định công thức tổng quát dãy số sai phân tuyến tính bậc 2, khử căn thức truy hồi, định lý kẹp và giới hạn dãy số, phương pháp quy nạp giải toán cực trị, nguyên lý Dirichlet và đại lượng bất biến.</p>
+            <div class="card-tags">
+                <span class="portal-tag">Dãy số truy hồi</span><span class="portal-tag">Sai phân</span><span class="portal-tag">Định lý kẹp</span><span class="portal-tag">Dirichlet & Bất biến</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 9 Dạng toán</span>
+                <span>📄 19 trang</span>
+                <span>📦 PDF: 927 KB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_03_Day_So_Gioi_Han_To_Hop_Roi_Rac_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (927 KB)</span>
+                </a>
+                <a href="Chuyen_De_03_Day_So_Gioi_Han_To_Hop_Roi_Rac_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="portal-card" data-category="giai-tich" data-search="khảo sát hàm số & đồ thị chứa tham số m đơn điệu hàm phân thức bậc hai/bậc nhất, cực trị hàm số chứa dấu giá trị tuyệt đối, tương giao đồ thị và cô lập tham số m, tiệm cận đứng/ngang/xiên, điểm uốn và biện luận qua đồ thị đạo hàm f'(x). khảo sát hàm số cực trị hàm trị tuyệt đối tiệm cận xiên đồ thị f'(x) phần ii — câu 2">
+            <div class="card-top">
+                <div class="card-num">04</div>
+                <div class="card-heading">
+                    <span class="card-part">Phần II — Câu 2</span>
+                    <span class="card-pill">Giải Tích 12 HK1</span>
+                </div>
+            </div>
+            <h2 class="card-title">Khảo Sát Hàm Số & Đồ Thị Chứa Tham Số m</h2>
+            <p class="card-desc">Đơn điệu hàm phân thức bậc hai/bậc nhất, cực trị hàm số chứa dấu giá trị tuyệt đối, tương giao đồ thị và cô lập tham số m, tiệm cận đứng/ngang/xiên, điểm uốn và biện luận qua đồ thị đạo hàm f'(x).</p>
+            <div class="card-tags">
+                <span class="portal-tag">Khảo sát hàm số</span><span class="portal-tag">Cực trị hàm trị tuyệt đối</span><span class="portal-tag">Tiệm cận xiên</span><span class="portal-tag">Đồ thị f'(x)</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 13 Dạng toán</span>
+                <span>📄 19 trang</span>
+                <span>📦 PDF: 937 KB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_04_Khao_Sat_Ham_So_Va_Do_Thi_Chua_Tham_So_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (937 KB)</span>
+                </a>
+                <a href="Chuyen_De_04_Khao_Sat_Ham_So_Va_Do_Thi_Chua_Tham_So_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="portal-card" data-category="giai-tich" data-search="ứng dụng đạo hàm vào thực tiễn & tối ưu hóa tốc độ biến thiên liên đới (related rates: bồn nón, máng lăng trụ, thang trượt, bóng đèn, tời cáp) và bài toán mô hình hóa tối ưu hóa hình học, chi phí vật liệu lon bia, đường ống xuyên biển, kinh tế vi mô. related rates đạo hàm theo thời gian tối ưu hóa hình học kinh tế vi mô phần ii — câu 2">
+            <div class="card-top">
+                <div class="card-num">05</div>
+                <div class="card-heading">
+                    <span class="card-part">Phần II — Câu 2</span>
+                    <span class="card-pill">Toán Thực Tế 12</span>
+                </div>
+            </div>
+            <h2 class="card-title">Ứng Dụng Đạo Hàm Vào Thực Tiễn & Tối Ưu Hóa</h2>
+            <p class="card-desc">Tốc độ biến thiên liên đới (Related Rates: bồn nón, máng lăng trụ, thang trượt, bóng đèn, tời cáp) và bài toán mô hình hóa tối ưu hóa hình học, chi phí vật liệu lon bia, đường ống xuyên biển, kinh tế vi mô.</p>
+            <div class="card-tags">
+                <span class="portal-tag">Related Rates</span><span class="portal-tag">Đạo hàm theo thời gian</span><span class="portal-tag">Tối ưu hóa hình học</span><span class="portal-tag">Kinh tế vi mô</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 8 Dạng toán</span>
+                <span>📄 15 trang</span>
+                <span>📦 PDF: 871 KB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_05_Ung_Dung_Dao_Ham_Vao_Thuc_Tien_Toi_Uu_Hoa_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (871 KB)</span>
+                </a>
+                <a href="Chuyen_De_05_Ung_Dung_Dao_Ham_Vao_Thuc_Tien_Toi_Uu_Hoa_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="portal-card" data-category="hinh-hoc" data-search="hình học phẳng & trắc địa thực địa trắc địa tam giác ngoài thực địa bằng định lý sin-cosin, định lý stewart nâng cao, trục đẳng phương & tâm đẳng phương, tọa độ oxy đường tròn euler và trực tâm h, 3 đường conic quang học, cực trị regiomontanus và fermat-heron. trắc địa giác kế định lý stewart trục đẳng phương đường tròn euler conic quang học phần iii — câu 3">
+            <div class="card-top">
+                <div class="card-num">06</div>
+                <div class="card-heading">
+                    <span class="card-part">Phần III — Câu 3</span>
+                    <span class="card-pill">Hình Học Phẳng & Conic</span>
+                </div>
+            </div>
+            <h2 class="card-title">Hình Học Phẳng & Trắc Địa Thực Địa</h2>
+            <p class="card-desc">Trắc địa tam giác ngoài thực địa bằng định lý Sin-Cosin, định lý Stewart nâng cao, trục đẳng phương & tâm đẳng phương, tọa độ Oxy đường tròn Euler và trực tâm H, 3 đường Conic quang học, cực trị Regiomontanus và Fermat-Heron.</p>
+            <div class="card-tags">
+                <span class="portal-tag">Trắc địa giác kế</span><span class="portal-tag">Định lý Stewart</span><span class="portal-tag">Trục đẳng phương</span><span class="portal-tag">Đường tròn Euler</span><span class="portal-tag">Conic quang học</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 8 Dạng toán</span>
+                <span>📄 16 trang</span>
+                <span>📦 PDF: 868 KB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_06_Hinh_Hoc_Phang_Va_Trac_Dia_Thuc_Dia_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (868 KB)</span>
+                </a>
+                <a href="Chuyen_De_06_Hinh_Hoc_Phang_Va_Trac_Dia_Thuc_Dia_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="portal-card" data-category="hinh-hoc" data-search="hình học không gian cổ điển & oxyz hk1 phân chia thể tích khối chóp, tỉ số thể tích simson mở rộng đáy hình bình hành, thiết diện, góc đường-mặt và nhị diện, khoảng cách (2 phương pháp: chân đường cao vs thể tích), vectơ cơ sở gram, mặt cầu ngoại tiếp và cực trị không gian. tỉ số simson mở rộng khoảng cách 2 phương pháp ma trận gram mặt cầu ngoại tiếp phần iii — câu 3">
+            <div class="card-top">
+                <div class="card-num">07</div>
+                <div class="card-heading">
+                    <span class="card-part">Phần III — Câu 3</span>
+                    <span class="card-pill">Hình Không Gian & Oxyz</span>
+                </div>
+            </div>
+            <h2 class="card-title">Hình Học Không Gian Cổ Điển & Oxyz HK1</h2>
+            <p class="card-desc">Phân chia thể tích khối chóp, tỉ số thể tích Simson mở rộng đáy hình bình hành, thiết diện, góc đường-mặt và nhị diện, khoảng cách (2 phương pháp: chân đường cao vs thể tích), vectơ cơ sở Gram, mặt cầu ngoại tiếp và cực trị không gian.</p>
+            <div class="card-tags">
+                <span class="portal-tag">Tỉ số Simson mở rộng</span><span class="portal-tag">Khoảng cách 2 phương pháp</span><span class="portal-tag">Ma trận Gram</span><span class="portal-tag">Mặt cầu ngoại tiếp</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 11 Dạng toán</span>
+                <span>📄 17 trang</span>
+                <span>📦 PDF: 878 KB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_07_Hinh_Hoc_Khong_Gian_Va_Toa_Do_Oxyz_HK1_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (878 KB)</span>
+                </a>
+                <a href="Chuyen_De_07_Hinh_Hoc_Khong_Gian_Va_Toa_Do_Oxyz_HK1_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        <article class="portal-card" data-category="xac-suat" data-search="thống kê ghép nhóm & tổ hợp - xác suất rời rạc đặc trưng phân tán mẫu ghép nhóm (tứ phân vị, độ lệch chuẩn), biến đổi tuyến tính, tiêu chuẩn tukey xác định ngoại lệ, biểu đồ boxplot skewness, đếm số học chia hết, tổ hợp hình học, nguyên lý bù trừ pie, vách ngăn euler và bernoulli. mẫu ghép nhóm 12 hàng rào tukey đếm chia hết nguyên lý bù trừ pie bernoulli phần iv — câu 4">
+            <div class="card-top">
+                <div class="card-num">08</div>
+                <div class="card-heading">
+                    <span class="card-part">Phần IV — Câu 4</span>
+                    <span class="card-pill">Thống Kê 12 & Xác Suất</span>
+                </div>
+            </div>
+            <h2 class="card-title">Thống Kê Ghép Nhóm & Tổ Hợp - Xác Suất Rời Rạc</h2>
+            <p class="card-desc">Đặc trưng phân tán mẫu ghép nhóm (tứ phân vị, độ lệch chuẩn), biến đổi tuyến tính, tiêu chuẩn Tukey xác định ngoại lệ, biểu đồ Boxplot Skewness, đếm số học chia hết, tổ hợp hình học, nguyên lý bù trừ PIE, vách ngăn Euler và Bernoulli.</p>
+            <div class="card-tags">
+                <span class="portal-tag">Mẫu ghép nhóm 12</span><span class="portal-tag">Hàng rào Tukey</span><span class="portal-tag">Đếm chia hết</span><span class="portal-tag">Nguyên lý bù trừ PIE</span><span class="portal-tag">Bernoulli</span>
+            </div>
+            <div class="card-meta-row">
+                <span>📊 14 Dạng toán</span>
+                <span>📄 20 trang</span>
+                <span>📦 PDF: 933 KB</span>
+            </div>
+            <div class="card-actions">
+                <a href="Chuyen_De_08_Thong_Ke_Ghep_Nhom_To_Hop_Xac_Suat_Roi_Rac_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-action-pdf">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                    <span>Tải PDF (933 KB)</span>
+                </a>
+                <a href="Chuyen_De_08_Thong_Ke_Ghep_Nhom_To_Hop_Xac_Suat_Roi_Rac_HSG_12.docx" download class="btn-action-docx" title="Tải file Word .docx gốc">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                    <span>Tải Word</span>
+                </a>
+            </div>
+        </article>
+        
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <ul class="footer-links">
+                <li><a href="https://www.youtube.com/@ToanTrucQuanVN" target="_blank" rel="noopener noreferrer">YouTube @ToanTrucQuanVN</a></li>
+                <li><a href="https://github.com/lebalam-wq" target="_blank" rel="noopener noreferrer">GitHub lebalam-wq</a></li>
+                <li><a href="mailto:lebalam.com@gmail.com">Liên Hệ Học Vụ</a></li>
+            </ul>
+            <p>© 2026 Toán Trực Quan — Thầy Lê Bá Lâm. Chuyên đề bồi dưỡng HSG Toán 12 theo chương trình GDPT 2018.</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPT -->
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const chipBtns = document.querySelectorAll('.chip-btn');
+        const cards = document.querySelectorAll('.portal-card');
+
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        function filterCards() {
+            cards.forEach(card => {
+                const cat = card.getAttribute('data-category');
+                const searchData = card.getAttribute('data-search') || '';
+
+                const matchesCat = (currentCategory === 'all' || cat === currentCategory || cat === 'tong-quan');
+                const matchesSearch = (!currentSearch || searchData.includes(currentSearch));
+
+                if (matchesCat && matchesSearch) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.trim().toLowerCase();
+            filterCards();
+        });
+
+        chipBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                chipBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.getAttribute('data-filter');
+                filterCards();
+            });
+        });
+    </script>
+</body>
+</html>
