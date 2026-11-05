@@ -1,2391 +1,4783 @@
 <!DOCTYPE html>
 
+
+
 <html lang="vi">
+
+
 
 <head>
 
+
+
     <meta charset="UTF-8">
+
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
+
     <title>Toán Trực Quan | Kênh Học Tập & Trực Quan Hóa Toán THPT GDPT 2018</title>
+
+
 
     <meta name="description" content="Toán Trực Quan - Kênh học tập, chia sẻ chuyên đề, đề thi và trực quan hóa bản chất toán học THPT GDPT 2018 bằng đồ họa Manim. Biên soạn bởi Thầy Lê Bá Lâm.">
 
+
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
+
+
 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
+
+
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+
 
     <style>
 
+
+
         :root {
+
+
 
             --primary: #003366;
 
+
+
             --primary-dark: #002244;
+
+
 
             --secondary: #0070C0;
 
+
+
             --accent: #0EA5E9;
+
+
 
             --bg: #F8FAFC;
 
+
+
             --surface: #FFFFFF;
+
+
 
             --text-main: #0F172A;
 
+
+
             --text-muted: #475569;
+
+
 
             --border: #E2E8F0;
 
+
+
             --card-shadow: 0 4px 20px -2px rgba(0, 51, 102, 0.08);
+
+
 
             --card-hover: 0 12px 30px -4px rgba(0, 51, 102, 0.15);
 
+
+
         }
+
+
+
+
 
 
 
         * {
 
+
+
             margin: 0;
+
+
 
             padding: 0;
 
+
+
             box-sizing: border-box;
 
+
+
         }
+
+
+
+
 
 
 
         body {
 
+
+
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+
 
             background-color: var(--bg);
 
+
+
             color: var(--text-main);
+
+
 
             line-height: 1.6;
 
+
+
             overflow-x: hidden;
 
+
+
         }
+
+
+
+
 
 
 
         /* NAVIGATION */
 
+
+
         nav {
+
+
 
             position: sticky;
 
+
+
             top: 0;
+
+
 
             z-index: 100;
 
+
+
             background: rgba(255, 255, 255, 0.95);
+
+
 
             backdrop-filter: blur(12px);
 
+
+
             border-bottom: 1px solid var(--border);
+
+
 
             padding: 1rem 0;
 
+
+
         }
+
+
+
+
 
 
 
         .container {
 
+
+
             max-width: 1200px;
+
+
 
             margin: 0 auto;
 
+
+
             padding: 0 1.5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .nav-content {
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             justify-content: space-between;
 
+
+
         }
+
+
+
+
 
 
 
         .brand-logo {
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             gap: 0.75rem;
+
+
 
             text-decoration: none;
 
+
+
             color: var(--primary);
+
+
 
             font-weight: 800;
 
+
+
             font-size: 1.25rem;
+
+
 
             letter-spacing: -0.02em;
 
+
+
         }
+
+
+
+
 
 
 
         .brand-icon {
 
+
+
             width: 38px;
+
+
 
             height: 38px;
 
+
+
             background: linear-gradient(135deg, var(--primary), var(--secondary));
+
+
 
             border-radius: 10px;
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             justify-content: center;
+
+
 
             color: white;
 
+
+
             font-weight: 800;
+
+
 
             font-size: 1.1rem;
 
+
+
             box-shadow: 0 4px 10px rgba(0, 112, 192, 0.25);
 
+
+
         }
+
+
+
+
 
 
 
         .nav-links {
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             gap: 2rem;
+
+
 
             list-style: none;
 
+
+
         }
+
+
+
+
 
 
 
         .nav-links a {
 
+
+
             text-decoration: none;
+
+
 
             color: var(--text-muted);
 
+
+
             font-weight: 600;
+
+
 
             font-size: 0.95rem;
 
+
+
             transition: color 0.2s ease;
 
+
+
         }
+
+
+
+
 
 
 
         .nav-links a:hover {
 
+
+
             color: var(--secondary);
 
+
+
         }
+
+
+
+
 
 
 
         .btn-yt {
 
+
+
             display: inline-flex;
+
+
 
             align-items: center;
 
+
+
             gap: 0.5rem;
+
+
 
             background: #FF0000;
 
+
+
             color: white !important;
+
+
 
             padding: 0.6rem 1.25rem;
 
+
+
             border-radius: 9999px;
+
+
 
             font-weight: 700;
 
+
+
             font-size: 0.9rem;
+
+
 
             text-decoration: none;
 
+
+
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+
 
             box-shadow: 0 4px 12px rgba(255, 0, 0, 0.25);
 
+
+
         }
+
+
+
+
 
 
 
         .btn-yt:hover {
 
+
+
             transform: translateY(-2px);
+
+
 
             box-shadow: 0 6px 18px rgba(255, 0, 0, 0.35);
 
+
+
         }
+
+
+
+
 
 
 
         /* HERO SECTION */
 
+
+
         .hero {
+
+
 
             padding: 5rem 0 4rem;
 
+
+
             text-align: center;
+
+
 
             background: radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.08) 0%, transparent 60%);
 
+
+
         }
+
+
+
+
 
 
 
         .badge {
 
+
+
             display: inline-flex;
+
+
 
             align-items: center;
 
+
+
             gap: 0.5rem;
+
+
 
             padding: 0.35rem 1rem;
 
+
+
             background: rgba(0, 112, 192, 0.08);
+
+
 
             border: 1px solid rgba(0, 112, 192, 0.2);
 
+
+
             color: var(--secondary);
+
+
 
             border-radius: 9999px;
 
+
+
             font-size: 0.85rem;
+
+
 
             font-weight: 700;
 
+
+
             text-transform: uppercase;
+
+
 
             letter-spacing: 0.05em;
 
+
+
             margin-bottom: 1.5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hero h1 {
 
+
+
             font-size: 3.25rem;
+
+
 
             font-weight: 800;
 
+
+
             line-height: 1.15;
+
+
 
             color: var(--primary);
 
+
+
             letter-spacing: -0.03em;
+
+
 
             margin-bottom: 1.25rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hero h1 span {
 
+
+
             background: linear-gradient(135deg, var(--secondary), var(--accent));
+
+
 
             -webkit-background-clip: text;
 
+
+
             -webkit-text-fill-color: transparent;
 
+
+
         }
+
+
+
+
 
 
 
         .hero p {
 
+
+
             max-width: 760px;
+
+
 
             margin: 0 auto 2.5rem;
 
+
+
             font-size: 1.15rem;
+
+
 
             color: var(--text-muted);
 
+
+
             line-height: 1.7;
 
+
+
         }
+
+
+
+
 
 
 
         .hero-actions {
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             justify-content: center;
+
+
 
             gap: 1rem;
 
+
+
             flex-wrap: wrap;
 
+
+
         }
+
+
+
+
 
 
 
         .btn-primary {
 
+
+
             display: inline-flex;
+
+
 
             align-items: center;
 
+
+
             gap: 0.6rem;
+
+
 
             background: linear-gradient(135deg, var(--primary), var(--secondary));
 
+
+
             color: white;
+
+
 
             padding: 0.85rem 1.75rem;
 
+
+
             border-radius: 12px;
+
+
 
             font-weight: 700;
 
+
+
             font-size: 1rem;
+
+
 
             text-decoration: none;
 
+
+
             transition: transform 0.2s, box-shadow 0.2s;
+
+
 
             box-shadow: 0 4px 15px rgba(0, 51, 102, 0.2);
 
+
+
         }
+
+
+
+
 
 
 
         .btn-primary:hover {
 
+
+
             transform: translateY(-2px);
+
+
 
             box-shadow: 0 8px 25px rgba(0, 51, 102, 0.3);
 
+
+
         }
+
+
+
+
 
 
 
         .btn-secondary {
 
+
+
             display: inline-flex;
+
+
 
             align-items: center;
 
+
+
             gap: 0.6rem;
+
+
 
             background: var(--surface);
 
+
+
             color: var(--primary);
+
+
 
             border: 1px solid var(--border);
 
+
+
             padding: 0.85rem 1.75rem;
+
+
 
             border-radius: 12px;
 
+
+
             font-weight: 700;
+
+
 
             font-size: 1rem;
 
+
+
             text-decoration: none;
+
+
 
             transition: all 0.2s;
 
+
+
         }
+
+
+
+
 
 
 
         .btn-secondary:hover {
 
+
+
             background: #F1F5F9;
+
+
 
             border-color: #CBD5E1;
 
+
+
         }
+
+
+
+
 
 
 
         /* PILLARS / HIGHLIGHTS */
 
+
+
         .section-title {
+
+
 
             text-align: center;
 
+
+
             margin-bottom: 3rem;
 
+
+
         }
+
+
+
+
 
 
 
         .section-title h2 {
 
+
+
             font-size: 2.25rem;
+
+
 
             font-weight: 800;
 
+
+
             color: var(--primary);
+
+
 
             margin-bottom: 0.5rem;
 
+
+
             letter-spacing: -0.02em;
 
+
+
         }
+
+
+
+
 
 
 
         .section-title p {
 
+
+
             color: var(--text-muted);
+
+
 
             font-size: 1.05rem;
 
+
+
         }
+
+
+
+
 
 
 
         .pillars-grid {
 
+
+
             display: grid;
+
+
 
             grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 
+
+
             gap: 1.5rem;
+
+
 
             margin-bottom: 5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .pillar-card {
 
+
+
             background: var(--surface);
+
+
 
             padding: 2rem;
 
+
+
             border-radius: 16px;
+
+
 
             border: 1px solid var(--border);
 
+
+
             box-shadow: var(--card-shadow);
+
+
 
             transition: transform 0.2s, box-shadow 0.2s;
 
+
+
         }
+
+
+
+
 
 
 
         .pillar-card:hover {
 
+
+
             transform: translateY(-4px);
+
+
 
             box-shadow: var(--card-hover);
 
+
+
         }
+
+
+
+
 
 
 
         .pillar-icon {
 
+
+
             width: 48px;
+
+
 
             height: 48px;
 
+
+
             background: rgba(0, 112, 192, 0.1);
+
+
 
             color: var(--secondary);
 
+
+
             border-radius: 12px;
+
+
 
             display: flex;
 
+
+
             align-items: center;
+
+
 
             justify-content: center;
 
+
+
             font-size: 1.5rem;
+
+
 
             margin-bottom: 1.25rem;
 
+
+
         }
+
+
+
+
 
 
 
         .pillar-card h3 {
 
+
+
             font-size: 1.2rem;
+
+
 
             font-weight: 700;
 
+
+
             color: var(--primary);
+
+
 
             margin-bottom: 0.75rem;
 
+
+
         }
+
+
+
+
 
 
 
         .pillar-card p {
 
+
+
             color: var(--text-muted);
+
+
 
             font-size: 0.95rem;
 
+
+
             line-height: 1.6;
 
+
+
         }
+
+
+
+
 
 
 
         /* CURRICULUM */
 
+
+
         .curriculum-section {
+
+
 
             background: #FFFFFF;
 
+
+
             border-top: 1px solid var(--border);
+
+
 
             border-bottom: 1px solid var(--border);
 
+
+
             padding: 5rem 0;
 
+
+
         }
+
+
+
+
 
 
 
         .topics-grid {
 
+
+
             display: grid;
+
+
 
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
 
+
+
             gap: 1.5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .topic-item {
 
+
+
             display: flex;
+
+
 
             gap: 1.25rem;
 
+
+
             padding: 1.5rem;
+
+
 
             background: var(--bg);
 
+
+
             border: 1px solid var(--border);
+
+
 
             border-radius: 14px;
 
+
+
             transition: border-color 0.2s;
 
+
+
         }
+
+
+
+
 
 
 
         .topic-item:hover {
 
+
+
             border-color: var(--secondary);
 
+
+
         }
+
+
+
+
 
 
 
         .topic-num {
 
+
+
             flex-shrink: 0;
+
+
 
             width: 42px;
 
+
+
             height: 42px;
+
+
 
             background: var(--primary);
 
+
+
             color: white;
+
+
 
             border-radius: 10px;
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             justify-content: center;
+
+
 
             font-weight: 800;
 
+
+
             font-family: 'JetBrains Mono', monospace;
+
+
 
             font-size: 1rem;
 
+
+
         }
+
+
+
+
 
 
 
         .topic-info h4 {
 
+
+
             font-size: 1.05rem;
+
+
 
             font-weight: 700;
 
+
+
             color: var(--primary);
+
+
 
             margin-bottom: 0.35rem;
 
+
+
         }
+
+
+
+
 
 
 
         .topic-info p {
 
+
+
             font-size: 0.88rem;
+
+
 
             color: var(--text-muted);
 
+
+
             line-height: 1.5;
 
+
+
         }
+
+
+
+
 
 
 
         /* ABOUT CREATOR */
 
+
+
         .about-section {
+
+
 
             padding: 5rem 0;
 
+
+
         }
+
+
+
+
 
 
 
         .about-card {
 
+
+
             background: linear-gradient(135deg, #002244, #003366);
+
+
 
             color: white;
 
+
+
             border-radius: 24px;
+
+
 
             padding: 3.5rem;
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             gap: 3rem;
+
+
 
             box-shadow: 0 15px 35px rgba(0, 34, 68, 0.25);
 
+
+
         }
+
+
+
+
 
 
 
         .about-text h3 {
 
+
+
             font-size: 2rem;
+
+
 
             font-weight: 800;
 
+
+
             margin-bottom: 0.5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .about-role {
 
+
+
             display: inline-block;
+
+
 
             color: #38BDF8;
 
+
+
             font-weight: 700;
+
+
 
             font-size: 1rem;
 
+
+
             margin-bottom: 1.25rem;
+
+
 
             text-transform: uppercase;
 
+
+
             letter-spacing: 0.05em;
 
+
+
         }
+
+
+
+
 
 
 
         .about-text p {
 
+
+
             color: #CBD5E1;
+
+
 
             font-size: 1.05rem;
 
+
+
             line-height: 1.7;
+
+
 
             margin-bottom: 1.5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .about-badge-list {
 
+
+
             display: flex;
+
+
 
             gap: 1rem;
 
+
+
             flex-wrap: wrap;
 
+
+
         }
+
+
+
+
 
 
 
         .about-badge {
 
+
+
             background: rgba(255, 255, 255, 0.1);
+
+
 
             backdrop-filter: blur(8px);
 
+
+
             padding: 0.4rem 1rem;
+
+
 
             border-radius: 9999px;
 
+
+
             font-size: 0.85rem;
+
+
 
             font-weight: 600;
 
+
+
             border: 1px solid rgba(255, 255, 255, 0.15);
 
+
+
         }
+
+
+
+
 
 
 
         /* FOOTER */
 
+
+
         footer {
+
+
 
             background: var(--surface);
 
+
+
             border-top: 1px solid var(--border);
+
+
 
             padding: 3rem 0 2rem;
 
+
+
             text-align: center;
+
+
 
             color: var(--text-muted);
 
+
+
             font-size: 0.9rem;
 
+
+
         }
+
+
+
+
 
 
 
         .footer-links {
 
+
+
             display: flex;
+
+
 
             justify-content: center;
 
+
+
             gap: 2rem;
+
+
 
             list-style: none;
 
+
+
             margin-bottom: 1.5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .footer-links a {
 
+
+
             text-decoration: none;
+
+
 
             color: var(--primary);
 
+
+
             font-weight: 600;
 
+
+
         }
+
+
+
+
 
 
 
         @media (max-width: 768px) {
 
+
+
             .hero h1 { font-size: 2.25rem; }
+
+
 
             .nav-links { display: none; }
 
+
+
             .about-card { flex-direction: column; padding: 2rem; gap: 1.5rem; }
 
+
+
         }
+
+
 
     
 
+
+
         /* ==========================================================================
+
+
 
            HSG CHUYÊN ĐỀ SECTION STYLES
 
+
+
            ========================================================================== */
+
+
 
         .hsg-section {
 
+
+
             background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
+
+
 
             border-top: 1px solid var(--border);
 
+
+
             border-bottom: 1px solid var(--border);
+
+
 
             padding: 5rem 0;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-overview-stats {
 
+
+
             display: grid;
+
+
 
             grid-template-columns: repeat(4, 1fr);
 
+
+
             gap: 1.5rem;
+
+
 
             margin: 2.5rem 0 3rem 0;
 
+
+
         }
+
+
+
+
 
 
 
         @media (max-width: 768px) {
 
+
+
             .hsg-overview-stats {
+
+
 
                 grid-template-columns: repeat(2, 1fr);
 
+
+
             }
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-stat-box {
 
+
+
             background: var(--surface);
+
+
 
             border: 1px solid var(--border);
 
+
+
             border-radius: 16px;
+
+
 
             padding: 1.5rem 1rem;
 
+
+
             text-align: center;
+
+
 
             box-shadow: 0 4px 15px -2px rgba(0, 51, 102, 0.05);
 
+
+
             transition: transform 0.2s, border-color 0.2s;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-stat-box:hover {
 
+
+
             transform: translateY(-3px);
+
+
 
             border-color: var(--secondary);
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-stat-num {
 
+
+
             font-size: 2.2rem;
+
+
 
             font-weight: 800;
 
+
+
             font-family: 'JetBrains Mono', monospace;
+
+
 
             color: var(--primary);
 
+
+
             line-height: 1.1;
+
+
 
             margin-bottom: 0.35rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-stat-label {
 
+
+
             font-size: 0.85rem;
+
+
 
             color: var(--text-muted);
 
+
+
             font-weight: 600;
+
+
 
             text-transform: uppercase;
 
+
+
             letter-spacing: 0.5px;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-grid {
 
+
+
             display: grid;
+
+
 
             grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
 
+
+
             gap: 1.75rem;
 
+
+
         }
+
+
+
+
 
 
 
         @media (max-width: 640px) {
 
+
+
             .hsg-grid {
+
+
 
                 grid-template-columns: 1fr;
 
+
+
             }
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-card {
 
+
+
             background: var(--surface);
+
+
 
             border: 1px solid var(--border);
 
+
+
             border-radius: 18px;
+
+
 
             padding: 1.75rem;
 
+
+
             display: flex;
+
+
 
             flex-direction: column;
 
+
+
             box-shadow: 0 4px 20px -2px rgba(0, 51, 102, 0.06);
+
+
 
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 
+
+
             position: relative;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-card:hover {
 
+
+
             transform: translateY(-4px);
+
+
 
             border-color: var(--secondary);
 
+
+
             box-shadow: 0 14px 35px -5px rgba(0, 51, 102, 0.14);
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-card-banner {
 
+
+
             grid-column: 1 / -1;
+
+
 
             background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
 
+
+
             border: 2px dashed #93C5FD;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-card-header {
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             gap: 1rem;
+
+
 
             margin-bottom: 1rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-num-badge {
 
+
+
             width: 44px;
+
+
 
             height: 44px;
 
+
+
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+
+
 
             color: #FFFFFF;
 
+
+
             border-radius: 12px;
+
+
 
             display: flex;
 
+
+
             align-items: center;
+
+
 
             justify-content: center;
 
+
+
             font-weight: 800;
+
+
 
             font-family: 'JetBrains Mono', monospace;
 
+
+
             font-size: 1.1rem;
+
+
 
             box-shadow: 0 4px 10px rgba(0, 51, 102, 0.25);
 
+
+
             flex-shrink: 0;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-meta {
 
+
+
             display: flex;
+
+
 
             flex-direction: column;
 
+
+
             gap: 0.25rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-part {
 
+
+
             font-size: 0.78rem;
+
+
 
             font-weight: 700;
 
+
+
             color: #E11D48;
+
+
 
             text-transform: uppercase;
 
+
+
             letter-spacing: 0.5px;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-pill {
 
+
+
             font-size: 0.75rem;
+
+
 
             font-weight: 600;
 
+
+
             background: rgba(0, 112, 192, 0.1);
+
+
 
             color: var(--secondary);
 
+
+
             padding: 0.15rem 0.6rem;
+
+
 
             border-radius: 9999px;
 
+
+
             display: inline-block;
+
+
 
             width: fit-content;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-title {
 
+
+
             font-size: 1.2rem;
+
+
 
             font-weight: 700;
 
+
+
             color: var(--primary);
+
+
 
             line-height: 1.4;
 
+
+
             margin-bottom: 0.75rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-desc {
 
+
+
             font-size: 0.9rem;
+
+
 
             color: var(--text-muted);
 
+
+
             line-height: 1.6;
+
+
 
             margin-bottom: 1.25rem;
 
+
+
             flex-grow: 1;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-tags {
 
+
+
             display: flex;
+
+
 
             flex-wrap: wrap;
 
+
+
             gap: 0.4rem;
+
+
 
             margin-bottom: 1.25rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-tag {
 
+
+
             font-size: 0.75rem;
+
+
 
             font-weight: 500;
 
+
+
             background: #F1F5F9;
+
+
 
             color: #334155;
 
+
+
             padding: 0.2rem 0.6rem;
+
+
 
             border-radius: 6px;
 
+
+
             border: 1px solid #E2E8F0;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-stats-bar {
 
+
+
             display: flex;
+
+
 
             gap: 1rem;
 
+
+
             padding: 0.6rem 0.9rem;
+
+
 
             background: #F8FAFC;
 
+
+
             border-radius: 10px;
+
+
 
             font-size: 0.8rem;
 
+
+
             color: var(--text-muted);
+
+
 
             font-weight: 600;
 
+
+
             margin-bottom: 1.25rem;
+
+
 
             border: 1px solid #F1F5F9;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-actions {
 
+
+
             display: grid;
+
+
 
             grid-template-columns: 1fr auto;
 
+
+
             gap: 0.75rem;
+
+
 
             align-items: center;
 
+
+
         }
+
+
+
+
 
 
 
         .btn-hsg-pdf {
 
+
+
             display: inline-flex;
+
+
 
             align-items: center;
 
+
+
             justify-content: center;
+
+
 
             gap: 0.5rem;
 
+
+
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+
+
 
             color: #FFFFFF;
 
+
+
             font-size: 0.88rem;
+
+
 
             font-weight: 600;
 
+
+
             padding: 0.7rem 1.25rem;
+
+
 
             border-radius: 10px;
 
+
+
             text-decoration: none;
+
+
 
             transition: all 0.2s;
 
+
+
             box-shadow: 0 4px 12px rgba(0, 51, 102, 0.2);
 
+
+
         }
+
+
+
+
 
 
 
         .btn-hsg-pdf:hover {
 
+
+
             opacity: 0.95;
+
+
 
             transform: translateY(-1px);
 
+
+
             box-shadow: 0 6px 16px rgba(0, 51, 102, 0.28);
 
+
+
         }
+
+
+
+
 
 
 
         .btn-hsg-word {
 
+
+
             display: inline-flex;
+
+
 
             align-items: center;
 
+
+
             justify-content: center;
+
+
 
             gap: 0.4rem;
 
+
+
             background: #FFFFFF;
+
+
 
             color: #2563EB;
 
+
+
             border: 1px solid #BFDBFE;
+
+
 
             font-size: 0.82rem;
 
+
+
             font-weight: 600;
+
+
 
             padding: 0.7rem 0.9rem;
 
+
+
             border-radius: 10px;
+
+
 
             text-decoration: none;
 
+
+
             transition: all 0.2s;
 
+
+
         }
+
+
+
+
 
 
 
         .btn-hsg-word:hover {
 
+
+
             background: #EFF6FF;
+
+
 
             border-color: #3B82F6;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-portal-cta {
 
+
+
             margin-top: 3.5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-cta-card {
 
+
+
             background: #FFFFFF;
+
+
 
             border: 1px solid var(--border);
 
+
+
             border-radius: 20px;
+
+
 
             padding: 2.25rem 2.5rem;
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             justify-content: space-between;
+
+
 
             gap: 2rem;
 
+
+
             box-shadow: 0 8px 30px -4px rgba(0, 51, 102, 0.08);
 
+
+
         }
+
+
+
+
 
 
 
         @media (max-width: 768px) {
 
+
+
             .hsg-cta-card {
+
+
 
                 flex-direction: column;
 
+
+
                 text-align: center;
+
+
 
                 padding: 1.75rem;
 
+
+
             }
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-cta-card h3 {
 
+
+
             font-size: 1.35rem;
+
+
 
             font-weight: 800;
 
+
+
             color: var(--primary);
+
+
 
             margin-bottom: 0.5rem;
 
+
+
         }
+
+
+
+
 
 
 
         .hsg-cta-card p {
 
+
+
             font-size: 0.95rem;
 
+
+
             color: var(--text-muted);
+
+
 
         }
 
 
 
+
+
+
+
     </style>
 
+
+
 </head>
+
+
 
 <body>
 
 
 
+
+
+
+
     <!-- NAVBAR -->
+
+
 
     <nav>
 
+
+
         <div class="container nav-content">
+
+
 
             <a href="#" class="brand-logo">
 
+
+
                 <div class="brand-icon">f(x)</div>
+
+
 
                 <span>TOÁN TRỰC QUAN</span>
 
+
+
             </a>
+
+
 
             <ul class="nav-links">
 
+
+
                 <li><a href="#chuong-trinh">Chuyên Đề 12</a></li>
 
-                <li><a href="do-thi/" style="color: #0070C0; font-weight: 700;">📈 Vẽ Đồ Thị & BBT</a></li>
+
+
+                <li><a href="dau-truong/" style="color: #10B981; font-weight: 800; background: rgba(16,185,129,0.1); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(16,185,129,0.3);">⚔️ Đấu Trường 22 Câu</a></li>
+          <li><a href="do-thi/" style="color: #0070C0; font-weight: 700;">📈 Vẽ Đồ Thị & BBT</a></li>
+
+
 
                 <li><a href="#chuyen-de-hsg" style="color: #E11D48; font-weight: 700;">★ Chuyên Đề HSG</a></li>
 
+
+
                 <li><a href="#phuong-phap">Phương Pháp</a></li>
+
+
 
                 <li><a href="12b2/">Điểm 12B2</a></li>
 
+
+
                 <li><a href="12b5/">Điểm 12B5</a></li>
+
+
 
                 <li><a href="#tac-gia">Giới Thiệu</a></li>
 
+
+
             </ul>
+
+
 
             <a href="https://www.youtube.com/@ToanTrucQuanVN" target="_blank" rel="noopener noreferrer" class="btn-yt">
 
+
+
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+
+
 
                 <span>@ToanTrucQuanVN</span>
 
+
+
             </a>
 
+
+
         </div>
+
+
 
     </nav>
 
 
 
+
+
+
+
     <!-- HERO -->
+
+
 
     <header class="hero">
 
+
+
         <div class="container">
+
+
 
             <div class="badge">📐 Hệ Thống Học Tập GDPT 2018 Chuẩn Mực</div>
 
+
+
             <h1>Toán Trực Quan<br><span>Hiểu Bản Chất • Vững Tư Duy</span></h1>
+
+
 
             <p>Không gian trực quan hóa hình học không gian 3D, giải tích hàm số bằng công nghệ hoạt hình toán học Manim CE và Geogebra. Đồng hành cùng học sinh THPT trên hành trình chinh phục kỳ thi Tốt nghiệp THPT và HSG Toán.</p>
 
+
+
             <div class="hero-actions">
 
+
+
                 <a href="do-thi/" class="btn-primary" style="background: linear-gradient(135deg, #0284c7, #0070C0); box-shadow: 0 4px 15px rgba(0, 112, 192, 0.35);">
+
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M3 3v18h18v-2H5V3H3zm4 14h2v-5H7v5zm4 0h2v-8h-2v8zm4 0h2v-11h-2v11z"/></svg>
+
                     <span>📈 Khảo Sát Đồ Thị & BBT 12</span>
+
                 </a>
+
+
 
                 <a href="https://www.youtube.com/@ToanTrucQuanVN" target="_blank" rel="noopener noreferrer" class="btn-primary">
 
+
+
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+
+
 
                     <span>Xem Video Kênh YouTube</span>
 
+
+
                 </a>
+
+
 
                 <a href="#chuyen-de-hsg" class="btn-secondary" style="border-color: #E11D48; color: #E11D48; font-weight: 700;">
 
+
+
                     <span>★ Tải 8 Chuyên Đề HSG 12</span>
 
+
+
                 </a>
+
+
 
                 <a href="#chuong-trinh" class="btn-secondary">
 
+
+
                     <span>Khám Phá Các Chuyên Đề</span>
+
+
 
                 </a>
 
+
+
             </div>
 
+
+
         </div>
+
+
 
     </header>
 
 
 
+
+
+
+
     <!-- PILLARS -->
+
+
 
     <section class="container" id="phuong-phap">
 
+
+
         <div class="section-title">
+
+
 
             <h2>Trực Quan Hóa Để Thấu Hiểu</h2>
 
+
+
             <p>Phương pháp tiếp cận khoa học, biến công thức trừu tượng thành hình ảnh sống động</p>
 
+
+
         </div>
+
+
 
         <div class="pillars-grid">
 
+
+
             <div class="pillar-card">
+
+
 
                 <div class="pillar-icon">🎬</div>
 
+
+
                 <h3>Hoạt Hình Manim CE</h3>
+
+
 
                 <p>Ứng dụng công nghệ đồ họa toán học 3Blue1Brown để dựng từng lát cắt giải tích, véc-tơ không gian và chuyển động hàm số chính xác đến từng pixel.</p>
 
+
+
             </div>
 
+
+
             <div class="pillar-card">
+
+
 
                 <div class="pillar-icon">🎯</div>
 
+
+
                 <h3>Chuẩn GDPT 2018</h3>
+
+
 
                 <p>Nội dung bám sát cấu trúc đề minh họa mới nhất của Bộ GD&ĐT: Trắc nghiệm 4 lựa chọn, Trắc nghiệm Đúng/Sai và Câu hỏi trả lời ngắn.</p>
 
+
+
             </div>
 
+
+
             <div class="pillar-card">
+
+
 
                 <div class="pillar-icon">💡</div>
 
+
+
                 <h3>Triệt Tiêu Học Vẹt</h3>
+
+
 
                 <p>Tập trung giải thích cội nguồn định lý, cơ chế vận hành của công thức giúp học sinh nhớ lâu, tự tin trước các bài toán vận dụng cao.</p>
 
+
+
             </div>
+
+
 
             <div class="pillar-card">
 
+
+
                 <div class="pillar-icon">📚</div>
+
+
 
                 <h3>Chế Bản Học Thuật</h3>
 
+
+
                 <p>Tài liệu, đề thi và chuyên đề được biên soạn theo thể thức OMML Cambria Math chuẩn mực của Bộ và Sở GD&ĐT, sẵn sàng in ấn chất lượng cao.</p>
+
+
 
             </div>
 
+
+
         </div>
 
+
+
     </section>
+
+
+
+
 
 
 
     <!-- CURRICULUM -->
 
+
+
     
+
+
 
     <!-- CHUYÊN ĐỀ BỒI DƯỠNG HỌC SINH GIỎI TOÁN 12 -->
 
+
+
     <section class="hsg-section" id="chuyen-de-hsg">
+
+
 
         <div class="container">
 
+
+
             <div class="section-title text-center">
+
+
 
                 <span class="badge" style="background: rgba(225, 29, 72, 0.1); color: #E11D48; border-color: rgba(225, 29, 72, 0.2);">🏆 Tinh Hoa Khảo Thí GDPT 2018</span>
 
+
+
                 <h2>Hệ Thống 8 Chuyên Đề Bồi Dưỡng HSG Toán 12</h2>
+
+
 
                 <p>Biên soạn độc quyền phục vụ kỳ thi Học sinh Giỏi cấp Tỉnh (tháng 12). Cấu trúc 4 tầng chuẩn mực: Khung lý thuyết & Bản chất → Kỹ thuật thực chiến & Hộp Callout Bẫy khảo thí ■ → Ví dụ mẫu mực phân tích tư duy → Bài tập rèn luyện chiến trường có gợi ý & đáp số. <strong>Đã kiểm định tự động 100% qua Quy chuẩn 5 Cổng CAS SymPy & OMML.</strong></p>
 
+
+
             </div>
+
+
+
+
 
 
 
             <!-- Stats Bar -->
 
+
+
             <div class="hsg-overview-stats">
 
+
+
                 <div class="hsg-stat-box">
+
+
 
                     <div class="hsg-stat-num">8+1</div>
 
+
+
                     <div class="hsg-stat-label">Chuyên Đề Toàn Diện</div>
+
+
 
                 </div>
 
+
+
                 <div class="hsg-stat-box">
+
+
 
                     <div class="hsg-stat-num">83</div>
 
+
+
                     <div class="hsg-stat-label">Dạng Toán Mở Rộng</div>
+
+
 
                 </div>
 
+
+
                 <div class="hsg-stat-box">
+
+
 
                     <div class="hsg-stat-num">154</div>
 
+
+
                     <div class="hsg-stat-label">Trang In Chuẩn TNR 12pt</div>
 
+
+
                 </div>
+
+
 
                 <div class="hsg-stat-box">
 
+
+
                     <div class="hsg-stat-num">100%</div>
+
+
 
                     <div class="hsg-stat-label">Không Rò Rỉ Mã Lỗi</div>
 
+
+
                 </div>
 
+
+
             </div>
+
+
+
+
 
 
 
             <div class="hsg-grid">
 
+
+
                 
+
+
 
         <div class="hsg-card hsg-card-banner" data-category="tong-quan">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">00</div>
 
+
+
                 <div class="hsg-meta">
+
+
 
                     <span class="hsg-part">Tổng Quan Khảo Thí</span>
 
+
+
                     <span class="hsg-pill">Cẩm Nang Toàn Diện</span>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Danh Mục Mở Rộng 80 Dạng Toán HSG 12</h3>
 
+
+
             <p class="hsg-desc">Cẩm nang tra cứu và định vị toàn diện 80 dạng toán phân loại cao nhất theo cấu trúc đề thi HSG Toán 12 Cấp Tỉnh GDPT 2018 (4 Phần chuẩn Sở).</p>
 
+
+
             <div class="hsg-tags">
+
+
 
                 <span class="hsg-tag">Ma trận đề thi</span><span class="hsg-tag">80 Dạng toán</span><span class="hsg-tag">Khung 4 tầng</span><span class="hsg-tag">Chuẩn GDPT 2018</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-stats-bar">
+
+
 
                 <span>📊 80 Dạng toán</span>
 
+
+
                 <span>📄 31 trang</span>
+
+
 
                 <span>📦 1.3 MB</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-actions">
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_00_Danh_Muc_Mo_Rong_Cac_Dang_Toan_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
 
+
+
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+
+
 
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_00_Danh_Muc_Mo_Rong_Cac_Dang_Toan_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
+
+
 
             </div>
 
+
+
         </div>
+
+
 
         
 
+
+
         <div class="hsg-card" data-category="dai-so">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">01</div>
 
+
+
                 <div class="hsg-meta">
 
+
+
                     <span class="hsg-part">Phần I — Câu 1</span>
+
+
 
                     <span class="hsg-pill">Đại Số & Vô Tỉ</span>
 
+
+
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Phương Trình, Hệ Phương Trình & PT Vô Tỉ</h3>
 
+
+
             <p class="hsg-desc">Kỹ thuật ẩn phụ hóa không hoàn toàn, nhân liên hợp trục căn thức truy ngược nghiệm, hàm số đặc trưng đơn điệu, đánh giá BĐT kẹp nghiệm, hệ phương trình đối xứng và đẳng cấp.</p>
 
+
+
             <div class="hsg-tags">
+
+
 
                 <span class="hsg-tag">Phương trình vô tỉ</span><span class="hsg-tag">Hệ đối xứng</span><span class="hsg-tag">Nhân liên hợp</span><span class="hsg-tag">Hàm đặc trưng</span>
 
+
+
             </div>
+
+
 
             <div class="hsg-stats-bar">
 
+
+
                 <span>📊 11 Dạng toán</span>
 
+
+
                 <span>📄 16 trang</span>
+
+
 
                 <span>📦 855 KB</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-actions">
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_01_Phuong_Trinh_He_Phuong_Trinh_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
 
+
+
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+
+
 
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_01_Phuong_Trinh_He_Phuong_Trinh_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
+
+
 
             </div>
 
+
+
         </div>
+
+
 
         
 
+
+
         <div class="hsg-card" data-category="dai-so">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">02</div>
 
+
+
                 <div class="hsg-meta">
 
+
+
                     <span class="hsg-part">Phần I — Câu 1</span>
+
+
 
                     <span class="hsg-pill">Đại Số & Cực Trị</span>
 
+
+
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Bất Đẳng Thức, Cực Trị & Quy Hoạch Tuyến Tính</h3>
 
+
+
             <p class="hsg-desc">Kỹ thuật chọn điểm rơi AM-GM, Cauchy-Schwarz dạng Engel, đổi biến đối xứng p-q-r, dồn biến về biên, BĐT bằng phương pháp đạo hàm/hàm lồi và bài toán miền nghiệm quy hoạch tuyến tính.</p>
 
+
+
             <div class="hsg-tags">
+
+
 
                 <span class="hsg-tag">BĐT Cauchy-Schwarz</span><span class="hsg-tag">Biến đổi p-q-r</span><span class="hsg-tag">Dồn biến</span><span class="hsg-tag">Quy hoạch tuyến tính</span>
 
+
+
             </div>
+
+
 
             <div class="hsg-stats-bar">
 
+
+
                 <span>📊 9 Dạng toán</span>
+
+
 
                 <span>📄 12 trang</span>
 
+
+
                 <span>📦 824 KB</span>
+
+
 
             </div>
 
+
+
             <div class="hsg-actions">
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_02_Bat_Dang_Thuc_Cuc_Tri_Quy_Hoach_Tuyen_Tinh_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
 
+
+
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+
+
 
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_02_Bat_Dang_Thuc_Cuc_Tri_Quy_Hoach_Tuyen_Tinh_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
+
+
 
             </div>
 
+
+
         </div>
 
+
+
         
+
+
 
         <div class="hsg-card" data-category="dai-so">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">03</div>
 
+
+
                 <div class="hsg-meta">
+
+
 
                     <span class="hsg-part">Phần I — Câu 1</span>
 
+
+
                     <span class="hsg-pill">Giải Tích & Rời Rạc</span>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Dãy Số, Giới Hạn & Tổ Hợp Rời Rạc</h3>
 
+
+
             <p class="hsg-desc">Xác định công thức tổng quát dãy số sai phân tuyến tính bậc 2, khử căn thức truy hồi, định lý kẹp và giới hạn dãy số, phương pháp quy nạp giải toán cực trị, nguyên lý Dirichlet và đại lượng bất biến.</p>
 
+
+
             <div class="hsg-tags">
+
+
 
                 <span class="hsg-tag">Dãy số truy hồi</span><span class="hsg-tag">Sai phân</span><span class="hsg-tag">Định lý kẹp</span><span class="hsg-tag">Dirichlet & Bất biến</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-stats-bar">
+
+
 
                 <span>📊 9 Dạng toán</span>
 
+
+
                 <span>📄 19 trang</span>
+
+
 
                 <span>📦 927 KB</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-actions">
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_03_Day_So_Gioi_Han_To_Hop_Roi_Rac_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
 
+
+
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+
+
 
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_03_Day_So_Gioi_Han_To_Hop_Roi_Rac_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
+
+
 
             </div>
 
+
+
         </div>
+
+
 
         
 
+
+
         <div class="hsg-card" data-category="giai-tich">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">04</div>
 
+
+
                 <div class="hsg-meta">
 
+
+
                     <span class="hsg-part">Phần II — Câu 2</span>
+
+
 
                     <span class="hsg-pill">Giải Tích 12 HK1</span>
 
+
+
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Khảo Sát Hàm Số & Đồ Thị Chứa Tham Số m</h3>
 
+
+
             <p class="hsg-desc">Đơn điệu hàm phân thức bậc hai/bậc nhất, cực trị hàm số chứa dấu giá trị tuyệt đối, tương giao đồ thị và cô lập tham số m, tiệm cận đứng/ngang/xiên, điểm uốn và biện luận qua đồ thị đạo hàm f'(x).</p>
 
+
+
             <div class="hsg-tags">
+
+
 
                 <span class="hsg-tag">Khảo sát hàm số</span><span class="hsg-tag">Cực trị hàm trị tuyệt đối</span><span class="hsg-tag">Tiệm cận xiên</span><span class="hsg-tag">Đồ thị f'(x)</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-stats-bar">
+
+
 
                 <span>📊 13 Dạng toán</span>
 
+
+
                 <span>📄 19 trang</span>
+
+
 
                 <span>📦 937 KB</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-actions">
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_04_Khao_Sat_Ham_So_Va_Do_Thi_Chua_Tham_So_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
 
+
+
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+
+
 
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_04_Khao_Sat_Ham_So_Va_Do_Thi_Chua_Tham_So_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
+
+
 
             </div>
 
+
+
         </div>
 
+
+
         
+
+
 
         <div class="hsg-card" data-category="giai-tich">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">05</div>
 
+
+
                 <div class="hsg-meta">
+
+
 
                     <span class="hsg-part">Phần II — Câu 2</span>
 
+
+
                     <span class="hsg-pill">Toán Thực Tế 12</span>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Ứng Dụng Đạo Hàm Vào Thực Tiễn & Tối Ưu Hóa</h3>
 
+
+
             <p class="hsg-desc">Tốc độ biến thiên liên đới (Related Rates: bồn nón, máng lăng trụ, thang trượt, bóng đèn, tời cáp) và bài toán mô hình hóa tối ưu hóa hình học, chi phí vật liệu lon bia, đường ống xuyên biển, kinh tế vi mô.</p>
 
+
+
             <div class="hsg-tags">
+
+
 
                 <span class="hsg-tag">Related Rates</span><span class="hsg-tag">Đạo hàm theo thời gian</span><span class="hsg-tag">Tối ưu hóa hình học</span><span class="hsg-tag">Kinh tế vi mô</span>
 
+
+
             </div>
+
+
 
             <div class="hsg-stats-bar">
 
+
+
                 <span>📊 8 Dạng toán</span>
+
+
 
                 <span>📄 15 trang</span>
 
+
+
                 <span>📦 871 KB</span>
+
+
 
             </div>
 
+
+
             <div class="hsg-actions">
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_05_Ung_Dung_Dao_Ham_Vao_Thuc_Tien_Toi_Uu_Hoa_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
 
+
+
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+
+
 
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_05_Ung_Dung_Dao_Ham_Vao_Thuc_Tien_Toi_Uu_Hoa_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
+
+
 
             </div>
 
+
+
         </div>
+
+
 
         
 
+
+
         <div class="hsg-card" data-category="hinh-hoc">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">06</div>
 
+
+
                 <div class="hsg-meta">
 
+
+
                     <span class="hsg-part">Phần III — Câu 3</span>
+
+
 
                     <span class="hsg-pill">Hình Học Phẳng & Conic</span>
 
+
+
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Hình Học Phẳng & Trắc Địa Thực Địa</h3>
 
+
+
             <p class="hsg-desc">Trắc địa tam giác ngoài thực địa bằng định lý Sin-Cosin, định lý Stewart nâng cao, trục đẳng phương & tâm đẳng phương, tọa độ Oxy đường tròn Euler và trực tâm H, 3 đường Conic quang học, cực trị Regiomontanus và Fermat-Heron.</p>
 
+
+
             <div class="hsg-tags">
+
+
 
                 <span class="hsg-tag">Trắc địa giác kế</span><span class="hsg-tag">Định lý Stewart</span><span class="hsg-tag">Trục đẳng phương</span><span class="hsg-tag">Đường tròn Euler</span><span class="hsg-tag">Conic quang học</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-stats-bar">
+
+
 
                 <span>📊 8 Dạng toán</span>
 
+
+
                 <span>📄 16 trang</span>
+
+
 
                 <span>📦 868 KB</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-actions">
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_06_Hinh_Hoc_Phang_Va_Trac_Dia_Thuc_Dia_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
 
+
+
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+
+
 
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_06_Hinh_Hoc_Phang_Va_Trac_Dia_Thuc_Dia_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
+
+
 
             </div>
 
+
+
         </div>
 
+
+
         
+
+
 
         <div class="hsg-card" data-category="hinh-hoc">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">07</div>
 
+
+
                 <div class="hsg-meta">
+
+
 
                     <span class="hsg-part">Phần III — Câu 3</span>
 
+
+
                     <span class="hsg-pill">Hình Không Gian & Oxyz</span>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Hình Học Không Gian Cổ Điển & Oxyz HK1</h3>
 
+
+
             <p class="hsg-desc">Phân chia thể tích khối chóp, tỉ số thể tích Simson mở rộng đáy hình bình hành, thiết diện, góc đường-mặt và nhị diện, khoảng cách (2 phương pháp: chân đường cao vs thể tích), vectơ cơ sở Gram, mặt cầu ngoại tiếp và cực trị không gian.</p>
 
+
+
             <div class="hsg-tags">
+
+
 
                 <span class="hsg-tag">Tỉ số Simson mở rộng</span><span class="hsg-tag">Khoảng cách 2 phương pháp</span><span class="hsg-tag">Ma trận Gram</span><span class="hsg-tag">Mặt cầu ngoại tiếp</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-stats-bar">
+
+
 
                 <span>📊 11 Dạng toán</span>
 
+
+
                 <span>📄 17 trang</span>
+
+
 
                 <span>📦 878 KB</span>
 
+
+
             </div>
 
+
+
             <div class="hsg-actions">
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_07_Hinh_Hoc_Khong_Gian_Va_Toa_Do_Oxyz_HK1_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
 
+
+
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+
+
 
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_07_Hinh_Hoc_Khong_Gian_Va_Toa_Do_Oxyz_HK1_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
+
+
 
             </div>
 
+
+
         </div>
 
+
+
         
+
+
 
         <div class="hsg-card" data-category="xac-suat">
 
+
+
             <div class="hsg-card-header">
+
+
 
                 <div class="hsg-num-badge">08</div>
 
+
+
                 <div class="hsg-meta">
+
+
 
                     <span class="hsg-part">Phần IV — Câu 4</span>
 
+
+
                     <span class="hsg-pill">Thống Kê 12 & Xác Suất</span>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
             <h3 class="hsg-title">Thống Kê Ghép Nhóm & Tổ Hợp - Xác Suất Rời Rạc</h3>
 
+
+
             <p class="hsg-desc">Đặc trưng phân tán mẫu ghép nhóm (tứ phân vị, độ lệch chuẩn), biến đổi tuyến tính, tiêu chuẩn Tukey xác định ngoại lệ, biểu đồ Boxplot Skewness, đếm số học chia hết, tổ hợp hình học, nguyên lý bù trừ PIE, vách ngăn Euler và Bernoulli.</p>
+
+
 
             <div class="hsg-tags">
 
+
+
                 <span class="hsg-tag">Mẫu ghép nhóm 12</span><span class="hsg-tag">Hàng rào Tukey</span><span class="hsg-tag">Đếm chia hết</span><span class="hsg-tag">Nguyên lý bù trừ PIE</span><span class="hsg-tag">Bernoulli</span>
 
+
+
             </div>
+
+
 
             <div class="hsg-stats-bar">
 
+
+
                 <span>📊 14 Dạng toán</span>
+
+
 
                 <span>📄 20 trang</span>
 
+
+
                 <span>📦 933 KB</span>
 
+
+
             </div>
+
+
 
             <div class="hsg-actions">
 
+
+
                 <a href="tai-lieu-hsg/Chuyen_De_08_Thong_Ke_Ghep_Nhom_To_Hop_Xac_Suat_Roi_Rac_HSG_12.pdf" target="_blank" rel="noopener noreferrer" class="btn-hsg-pdf">
+
+
 
                     <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
 
+
+
                     <span>Tải PDF Bản In</span>
 
+
+
                 </a>
+
+
 
                 <a href="tai-lieu-hsg/Chuyen_De_08_Thong_Ke_Ghep_Nhom_To_Hop_Xac_Suat_Roi_Rac_HSG_12.docx" download class="btn-hsg-word" title="Tải file Word OMML biên soạn">
 
+
+
                     <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+
+
 
                     <span>File Word</span>
 
+
+
                 </a>
 
+
+
             </div>
+
+
 
         </div>
 
+
+
         
 
+
+
             </div>
+
+
+
+
 
 
 
             <div class="hsg-portal-cta">
 
+
+
                 <div class="hsg-cta-card">
+
+
 
                     <div>
 
+
+
                         <h3>Cổng Tra Cứu Trực Tuyến Bộ Chuyên Đề HSG</h3>
+
+
 
                         <p>Tra cứu nhanh dạng toán, tìm kiếm từ khóa và xem trước trực tiếp trên trình duyệt mọi thiết bị.</p>
 
+
+
                     </div>
+
+
 
                     <a href="tai-lieu-hsg/" class="btn-primary" style="white-space: nowrap;">
 
+
+
                         <span>Mở Cổng Tra Cứu Chuyên Đề →</span>
+
+
 
                     </a>
 
+
+
                 </div>
+
+
 
             </div>
 
+
+
         </div>
 
+
+
     </section>
+
+
 
     
 
 
 
+
+
+
+
     <section class="curriculum-section" id="chuong-trinh">
+
+
 
         <div class="container">
 
+
+
             <div class="section-title">
+
+
 
                 <h2>Khung Chuyên Đề Trọng Tâm Toán 12</h2>
 
+
+
                 <p>Hệ sinh thái kiến thức phục vụ kỳ thi Tốt nghiệp THPT Quốc gia 2026</p>
 
+
+
             </div>
+
+
 
             <div class="topics-grid">
 
+
+
                 <div class="topic-item">
+
+
 
                     <div class="topic-num">01</div>
 
+
+
                     <div class="topic-info">
+
+
 
                         <h4>Ứng Dụng Đạo Hàm Khảo Sát Hàm Số</h4>
 
+
+
                         <p>Tính đơn điệu, cực trị, GTLN-GTNN, bảng biến thiên, đường tiệm cận và bài toán thực tế tối ưu hóa.</p>
+
+
 
                     </div>
 
+
+
                 </div>
 
+
+
                 <div class="topic-item">
+
+
 
                     <div class="topic-num">02</div>
 
+
+
                     <div class="topic-info">
+
+
 
                         <h4>Tọa Độ Vectơ Trong Không Gian</h4>
 
+
+
                         <p>Hệ trục Oxyz, tích vô hướng, biểu thức tọa độ của vectơ và ứng dụng đo đạc trong thực tiễn.</p>
+
+
 
                     </div>
 
+
+
                 </div>
 
+
+
                 <div class="topic-item">
+
+
 
                     <div class="topic-num">03</div>
 
+
+
                     <div class="topic-info">
+
+
 
                         <h4>Thống Kê Mẫu Số Liệu Ghép Nhóm</h4>
 
+
+
                         <p>Khoảng biến thiên, khoảng tứ phân vị, phương sai và độ lệch chuẩn của số liệu thống kê hiện đại.</p>
+
+
 
                     </div>
 
+
+
                 </div>
 
+
+
                 <div class="topic-item">
+
+
 
                     <div class="topic-num">04</div>
 
+
+
                     <div class="topic-info">
+
+
 
                         <h4>Nguyên Hàm & Tích Phân</h4>
 
+
+
                         <p>Định nghĩa, tính chất, phương pháp đổi biến, từng phần và ý nghĩa hình học của tích phân.</p>
+
+
 
                     </div>
 
+
+
                 </div>
 
+
+
                 <div class="topic-item">
+
+
 
                     <div class="topic-num">05</div>
 
+
+
                     <div class="topic-info">
+
+
 
                         <h4>Ứng Dụng Hình Học Của Tích Phân</h4>
 
+
+
                         <p>Tính diện tích hình phẳng giới hạn bởi đồ thị và tính thể tích khối tròn xoay quanh trục tọa độ.</p>
+
+
 
                     </div>
 
+
+
                 </div>
 
+
+
                 <div class="topic-item">
+
+
 
                     <div class="topic-num">06</div>
 
+
+
                     <div class="topic-info">
+
+
 
                         <h4>Phương Pháp Tọa Độ Không Gian</h4>
 
+
+
                         <p>Phương trình mặt phẳng, phương trình chính tắc/tham số đường thẳng và phương trình mặt cầu.</p>
+
+
 
                     </div>
 
+
+
                 </div>
 
+
+
                 <div class="topic-item">
+
+
 
                     <div class="topic-num">07</div>
 
+
+
                     <div class="topic-info">
+
+
 
                         <h4>Xác Suất Có Điều Kiện & Bayes</h4>
 
+
+
                         <p>Công thức xác suất toàn phần, định lý Bayes và mô hình ra quyết định xác suất trong đời sống.</p>
+
+
 
                     </div>
 
+
+
                 </div>
+
+
 
                 <div class="topic-item">
 
+
+
                     <div class="topic-num">08</div>
+
+
 
                     <div class="topic-info">
 
+
+
                         <h4>Luyện Đề Thực Chiến Chuẩn Cấu Trúc</h4>
+
+
 
                         <p>Hệ thống đề thi thử 3 phần theo định dạng mới của Bộ GD&ĐT kèm video trực quan hóa lời giải chi tiết.</p>
 
+
+
                     </div>
+
+
 
                 </div>
 
+
+
             </div>
+
+
 
         </div>
 
+
+
     </section>
+
+
+
+
 
 
 
     <!-- ABOUT CREATOR -->
 
+
+
     <section class="container about-section" id="tac-gia">
+
+
 
         <div class="about-card">
 
+
+
             <div class="about-text">
+
+
 
                 <span class="about-role">Chủ Nhiệm Kênh & Biên Soạn</span>
 
+
+
                 <h3>Thầy Lê Bá Lâm</h3>
+
+
 
                 <p>Giáo viên Toán học tại Trường THPT A Túc (Hướng Hóa, Quảng Trị). Với tâm huyết đem tri thức và công nghệ trực quan hóa hiện đại đến với học sinh vùng cao và các bạn trẻ trên khắp mọi miền đất nước, kênh Toán Trực Quan ra đời nhằm lan tỏa niềm say mê toán học đích thực.</p>
 
+
+
                 <div class="about-badge-list">
+
+
 
                     <span class="about-badge">🏛️ THPT A Túc - Quảng Trị</span>
 
+
+
                     <span class="about-badge">🎥 Kênh YouTube @ToanTrucQuanVN</span>
+
+
 
                     <span class="about-badge">📐 Manim Mathematical Animations</span>
 
+
+
                 </div>
+
+
 
             </div>
 
+
+
         </div>
+
+
 
     </section>
 
 
 
+
+
+
+
     <!-- FOOTER -->
+
+
 
     <footer>
 
+
+
         <div class="container">
+
+
 
             <ul class="footer-links">
 
+
+
                 <li><a href="https://www.youtube.com/@ToanTrucQuanVN" target="_blank" rel="noopener noreferrer">YouTube @ToanTrucQuanVN</a></li>
+
+
 
                 <li><a href="https://github.com/lebalam-wq" target="_blank" rel="noopener noreferrer">GitHub lebalam-wq</a></li>
 
+
+
                 <li><a href="mailto:lebalam.com@gmail.com">Liên Hệ Học Vụ</a></li>
+
+
 
             </ul>
 
+
+
             <p>© 2026 Toán Trực Quan — Thầy Lê Bá Lâm. Trang web chính thức phục vụ học tập và nghiên cứu Toán THPT.</p>
 
+
+
         </div>
+
+
 
     </footer>
 
 
 
+
+
+
+
 </body>
 
+
+
 </html>
+
+
 
