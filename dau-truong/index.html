@@ -40,7 +40,9 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
         body { font-family: 'Be Vietnam Pro', sans-serif; }
-        .katex { font-size: 1.05em; }
+                .katex { font-size: 1.28em !important; line-height: 1.4 !important; }
+        .katex-display { font-size: 1.35em !important; margin: 0.8em 0 !important; }
+        .katex .mfrac .vlist-t .vlist-r .vlist { font-size: 1em !important; }
         .tab-active { border-bottom: 3px solid #2563eb; color: #2563eb; font-weight: 700; }
         .dark .tab-active { border-bottom: 3px solid #60a5fa; color: #60a5fa; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -738,7 +740,7 @@
                         row.innerHTML = `
                             <input type="radio" name="opt_exam" value="${letter}" ${currentSel === letter ? 'checked' : ''} class="w-4 h-4 text-blue-600 focus:ring-blue-500 mt-1 shrink-0">
                             <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-700 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">${letter}</span>
-                            <span class="text-sm font-medium text-slate-800 dark:text-slate-100 leading-relaxed">${optText}</span>
+                            <span class="text-base sm:text-lg font-medium text-slate-800 dark:text-slate-100 leading-relaxed">${optText}</span>
                         `;
                         row.onclick = () => {
                             arena.selectTNKQ(letter);
@@ -758,7 +760,7 @@
                         div.innerHTML = `
                             <div class="flex items-start gap-2 max-w-xl">
                                 <span class="font-bold text-xs uppercase bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded mt-0.5 shrink-0">${k})</span>
-                                <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-100">${itemText}</span>
+                                <span class="text-sm sm:text-base text-slate-800 dark:text-slate-100 font-medium">${itemText}</span>
                             </div>
                             <div class="flex items-center gap-2 shrink-0 ml-2">
                                 <button type="button" onclick="arena.selectDS('${k}', true)" class="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition ${
@@ -963,7 +965,7 @@
                             return `
                                 <button type="button" id="p-opt-${idx}-${letter}" onclick="practice.pickTNKQ(${idx}, '${letter}')" class="text-left flex items-start gap-2.5 p-3 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50/30 dark:hover:bg-slate-800 transition">
                                     <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-slate-700 font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">${letter}</span>
-                                    <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed">${optText}</span>
+                                    <span class="text-base sm:text-lg text-slate-800 dark:text-slate-100 leading-relaxed">${optText}</span>
                                 </button>
                             `;
                         }).join('');
@@ -991,7 +993,7 @@
                                 <div class="flex items-center justify-between p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/40">
                                     <div class="flex items-start gap-2 max-w-lg">
                                         <span class="font-bold text-xs uppercase bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded mt-0.5 shrink-0">${k})</span>
-                                        <span class="text-xs sm:text-sm text-slate-800 dark:text-slate-100">${itemText}</span>
+                                        <span class="text-sm sm:text-base text-slate-800 dark:text-slate-100 font-medium">${itemText}</span>
                                     </div>
                                     <div class="flex items-center gap-1.5 shrink-0 ml-2">
                                         <button type="button" id="p-ds-${idx}-${k}-true" onclick="practice.pickDS(${idx}, '${k}', true)" class="px-3 py-1 rounded-lg text-xs font-bold border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">Đúng</button>
