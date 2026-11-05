@@ -4,20 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Khảo Sát & Vẽ Đồ Thị Hàm Số 12 GDPT 2018 | Toán Trực Quan - Thầy Lê Bá Lâm</title>
-    <meta name="description" content="Ứng dụng trực quan hóa đồ thị hàm số và bảng biến thiên Toán 12 GDPT 2018. Hỗ trợ 4 dạng hàm, trị tuyệt đối, tương giao y=m và xuất ảnh chuẩn đề thi Word. Thầy Lê Bá Lâm - THPT A Túc.">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-
-    <!-- JSXGraph CSS & JS -->
+    
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
-    <!-- html2canvas for High-Res Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
-    <!-- MathJax 3 -->
     <script>
         MathJax = {
             tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
@@ -28,33 +19,24 @@
 
     <style>
         :root { 
-            --primary: #003366;
-            --primary-light: #0070C0;
-            --accent: #0EA5E9;
-            --accent-orange: #ea580c;
+            --primary: #2563eb;
             --bg: #f8fafc; 
             --panel: #ffffff; 
-            --text: #0f172a; 
-            --text-muted: #64748b;
+            --text: #1e293b; 
             --border: #e2e8f0;
             --input-bg: #ffffff;
             --input-border: #cbd5e1;
-            --formula-bg: #f0f7ff;
+            --formula-bg: #eff6ff;
             --toggle-bg: #f1f5f9;
-            --bbt-border: #0f172a;
+            --bbt-border: #1e293b;
             --bbt-bg: #ffffff;
-            --card-shadow: 0 4px 20px -2px rgba(0, 51, 102, 0.07);
         }
 
         body.dark-mode {
-            --primary: #38bdf8;
-            --primary-light: #60a5fa;
-            --accent: #38bdf8;
-            --accent-orange: #fb923c;
-            --bg: #0b1120; 
+            --primary: #3b82f6;
+            --bg: #0f172a; 
             --panel: #1e293b; 
             --text: #f8fafc; 
-            --text-muted: #94a3b8;
             --border: #334155;
             --input-bg: #0f172a;
             --input-border: #475569;
@@ -62,748 +44,529 @@
             --toggle-bg: #334155;
             --bbt-border: #94a3b8;
             --bbt-bg: #1e293b;
-            --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
         }
 
-        /* Chế độ chuẩn đề thi Word */
-        body.exam-mode {
-            --primary: #1e293b;
-            --primary-light: #334155;
-            --accent: #0f172a;
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg); color: var(--text); margin: 0; padding: 20px; transition: background-color 0.3s, color 0.3s;
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg); 
-            color: var(--text); 
-            padding: 16px 20px 40px 20px; 
-            transition: background-color 0.25s, color 0.25s;
+        .header { max-width: 1220px; margin: 0 auto 20px auto; display: flex;
+            justify-content: space-between; align-items: center; }
+        .header h1 { margin: 0; font-size: 1.5rem;
+            color: var(--primary); }
+        .container { max-width: 1220px; margin: 0 auto; display: grid;
+            grid-template-columns: 460px 1fr; gap: 20px; align-items: start; }
+        @media (max-width: 980px) { .container { grid-template-columns: 1fr;
+            } }
+        
+        .card { background: var(--panel);
+            border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); transition: background-color 0.3s;
         }
-
-        /* Header Bar */
-        .header-bar {
-            max-width: 1380px;
-            margin: 0 auto 16px auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding-bottom: 14px;
-            border-bottom: 1px solid var(--border);
+        h2 { margin-top: 0; color: var(--primary); font-size: 1.15rem; border-bottom: 2px solid var(--border);
+            padding-bottom: 8px; }
+        
+        .select-group { margin-bottom: 15px;
         }
-
-        .brand-badge {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+        .select-group label { font-weight: 600; font-size: 0.9rem; display: block; margin-bottom: 6px;
         }
-
-        .brand-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, #003366, #0070C0);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ffffff;
-            font-size: 22px;
-            font-weight: 800;
-            box-shadow: 0 4px 10px rgba(0, 51, 102, 0.25);
+        select { width: 100%; padding: 8px 12px; border-radius: 6px;
+            border: 1px solid var(--input-border); font-size: 0.95rem; background-color: var(--input-bg); color: var(--text); outline: none; cursor: pointer; transition: 0.3s;
         }
-
-        .brand-title h1 {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--text);
-            line-height: 1.2;
+        
+        .input-group { display: grid;
+            grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 15px; }
+        .input-field { display: flex;
+            flex-direction: column; background: var(--toggle-bg); padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); transition: 0.3s;
         }
-
-        .brand-title p {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            font-weight: 500;
+        .input-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;
         }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-wrap: wrap;
+        .input-header label { font-weight: 600; font-size: 0.85rem;
         }
-
-        .btn-header {
-            padding: 7px 14px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--text);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-            transition: all 0.2s;
+        .input-header input[type="text"] { width: 60px; padding: 3px 5px; border: 1px solid var(--input-border);
+            border-radius: 6px; font-size: 0.85rem; text-align: center; background: var(--input-bg); color: var(--text);
         }
-
-        .btn-header:hover {
-            border-color: var(--primary-light);
-            color: var(--primary-light);
+        input[type="range"] { width: 100%; margin-top: 4px; cursor: pointer; accent-color: var(--primary);
         }
-
-        .btn-exam-toggle {
-            background: #0f172a;
-            color: #ffffff !important;
-            border: 1px solid #334155;
+        
+        .btn-main-group { display: grid;
+            grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px; }
+        button { background-color: var(--primary);
+            color: white; border: none; padding: 9px 12px; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: background 0.2s;
         }
-
-        body.dark-mode .btn-exam-toggle {
-            background: #f8fafc;
-            color: #0f172a !important;
+        button:hover { filter: brightness(1.1);
         }
-
-        .btn-exam-toggle.active {
-            background: #2563eb !important;
-            color: #ffffff !important;
-            border-color: #1d4ed8;
-            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.35);
+        .btn-secondary { background-color: #64748b;
         }
-
-        /* Container Layout */
-        .app-container {
-            max-width: 1380px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 460px 1fr;
-            gap: 20px;
-            align-items: start;
+        .btn-action { background-color: #059669;
+        } 
+        .btn-theme { background-color: transparent; border: 1px solid var(--border); color: var(--text);
         }
-
-        @media (max-width: 1080px) {
-            .app-container {
-                grid-template-columns: 1fr;
-            }
+        .btn-theme:hover { background-color: var(--toggle-bg); filter: none;
         }
-
-        /* Cards */
-        .card {
-            background: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 18px 20px;
-            box-shadow: var(--card-shadow);
-            margin-bottom: 18px;
+        
+        .formula-display { background: var(--formula-bg);
+            padding: 10px; border-radius: 6px; text-align: center; margin: 15px 0 5px 0; font-size: 1.1rem; min-height: 45px; display: flex; align-items: center;
+            justify-content: center; overflow-x: auto; transition: 0.3s; }
+        #tangent-info { text-align: center; font-size: 1.05rem;
+            font-weight: bold; margin-bottom: 15px; min-height: 24px; transition: color 0.2s; }
+        
+        .bbt-container { margin-top: 15px;
+            overflow-x: auto; }
+        
+        .controls-header { display: flex;
+            justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .toggle-group { display: flex; gap: 12px;
+            align-items: center; flex-wrap: wrap; background: var(--toggle-bg); padding: 10px 14px; border-radius: 8px; margin-bottom: 15px; font-size: 0.85rem; font-weight: 500; transition: 0.3s;
         }
-
-        .card-title {
-            font-size: 0.98rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 8px;
-            color: var(--text);
+        .toggle-group label { display: flex; align-items: center; gap: 5px; cursor: pointer;
         }
-
-        .card-title span.badge {
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 6px;
-            background: var(--formula-bg);
-            color: var(--primary-light);
+        
+        .board-wrapper { position: relative;
+            width: 100%; max-width: 650px; margin: 0 auto; background: #ffffff; padding: 8px; border-radius: 10px; box-shadow: inset 0 0 0 1px var(--border);
         }
-
-        /* Form Controls */
-        .select-group {
-            margin-bottom: 12px;
-        }
-
-        .select-group label {
-            display: block;
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-        }
-
-        select {
-            width: 100%;
-            padding: 8px 12px;
-            font-size: 0.88rem;
-            font-family: inherit;
-            font-weight: 500;
-            border-radius: 8px;
-            border: 1px solid var(--input-border);
-            background: var(--input-bg);
-            color: var(--text);
-            outline: none;
-            cursor: pointer;
-            transition: border-color 0.2s;
-        }
-
-        select:focus {
-            border-color: var(--primary-light);
-        }
-
-        /* Presets Bar */
-        .presets-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-bottom: 12px;
-        }
-
-        .btn-preset {
-            padding: 4px 9px;
-            font-size: 0.74rem;
-            font-weight: 600;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            background: var(--toggle-bg);
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .btn-preset:hover {
-            border-color: var(--primary-light);
-            background: var(--formula-bg);
-            color: var(--primary-light);
-        }
-
-        /* Coefficient Inputs */
-        .input-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
-
-        .input-field {
-            background: var(--toggle-bg);
-            padding: 8px 10px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .input-field-full {
-            grid-column: span 2;
-        }
-
-        .input-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
-        .input-header label {
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: var(--text-muted);
-        }
-
-        .input-header input[type="text"] {
-            width: 70px;
-            padding: 3px 6px;
-            font-size: 0.82rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            text-align: right;
-            border-radius: 5px;
-            border: 1px solid var(--input-border);
-            background: var(--input-bg);
-            color: var(--text);
-            outline: none;
-        }
-
-        input[type="range"] {
-            width: 100%;
-            height: 5px;
-            border-radius: 3px;
-            accent-color: var(--primary-light);
-            cursor: pointer;
-        }
-
-        /* Action Buttons */
-        .btn-group-main {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .btn-primary {
-            padding: 9px 14px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            border-radius: 8px;
-            border: none;
-            background: linear-gradient(135deg, #003366, #0070C0);
-            color: #ffffff;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .btn-primary:hover { opacity: 0.95; }
-        .btn-primary:active { transform: scale(0.98); }
-
-        .btn-secondary {
-            padding: 9px 14px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--text);
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .btn-secondary:hover { border-color: var(--primary-light); color: var(--primary-light); }
-
-        /* Formula Box */
-        .formula-display {
-            background: var(--formula-bg);
-            border: 1px solid rgba(0, 112, 192, 0.18);
-            border-radius: 10px;
-            padding: 12px 14px;
-            margin-bottom: 12px;
-            font-size: 1.05rem;
-            text-align: center;
-            min-height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text);
-            overflow-x: auto;
-        }
-
-        /* Tangent & Intersection Panels */
-        .info-panel {
-            background: var(--toggle-bg);
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 0.82rem;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .info-panel strong { font-weight: 700; }
-
-        /* Tương giao y = m */
-        .tuong-giao-box {
-            background: rgba(234, 88, 12, 0.06);
-            border: 1px solid rgba(234, 88, 12, 0.3);
-            border-radius: 10px;
-            padding: 10px 12px;
-            margin-top: 10px;
-            margin-bottom: 12px;
-        }
-
-        .tuong-giao-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .tuong-giao-title {
-            font-size: 0.82rem;
-            font-weight: 700;
-            color: var(--accent-orange);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .tuong-giao-result {
-            font-size: 0.82rem;
-            font-weight: 600;
-            color: var(--text);
-            margin-top: 6px;
-            padding-top: 6px;
-            border-top: 1px dashed rgba(234, 88, 12, 0.3);
-        }
-
-        /* Bảng Biến Thiên */
-        .bbt-wrapper {
-            margin-top: 8px;
-            border-radius: 10px;
-            overflow-x: auto;
-            background: var(--bbt-bg);
-            padding: 6px;
-            border: 1px solid var(--border);
-        }
-
-        /* Right Column: Board Controls & Graph Canvas */
-        .board-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .toggle-elements {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            background: var(--toggle-bg);
-            padding: 6px 12px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-
-        .toggle-elements label {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .toggle-elements input[type="checkbox"] {
-            cursor: pointer;
-            accent-color: var(--primary-light);
-        }
-
-        .zoom-controls {
-            display: flex;
-            gap: 4px;
-        }
-
-        .btn-icon {
-            padding: 5px 10px;
-            font-size: 0.82rem;
-            font-weight: 600;
-            border-radius: 6px;
-            border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--text);
-            cursor: pointer;
-        }
-
-        .btn-icon:hover { border-color: var(--primary-light); }
-
-        /* Board Canvas Wrapper */
-        .board-wrapper {
-            position: relative;
-            width: 100%;
-            height: 540px;
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            background: #ffffff;
-            box-shadow: inset 0 2px 6px rgba(0,0,0,0.03);
-        }
-
-        .jxgbox {
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff !important;
-        }
-
-        /* Exam Export Bar */
-        .export-bar {
-            margin-top: 14px;
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            padding-top: 12px;
-            border-top: 1px solid var(--border);
-        }
-
-        .btn-export-exam {
-            padding: 10px 18px;
-            font-size: 0.86rem;
-            font-weight: 700;
-            border-radius: 8px;
-            border: 1px solid #000000;
-            background: #000000;
-            color: #ffffff;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn-export-exam:hover {
-            background: #334155;
-            border-color: #334155;
-            transform: translateY(-1px);
-        }
-
-        .btn-export-color {
-            padding: 10px 16px;
-            font-size: 0.86rem;
-            font-weight: 600;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--panel);
-            color: var(--text);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .btn-export-color:hover {
-            border-color: var(--primary-light);
-            color: var(--primary-light);
-        }
-
-        .export-hint {
-            font-size: 0.76rem;
-            color: var(--text-muted);
-            width: 100%;
-            margin-top: 4px;
-            line-height: 1.4;
-        }
-
-        /* Footer */
-        .footer {
-            max-width: 1380px;
-            margin: 24px auto 0 auto;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            padding-top: 16px;
-            border-top: 1px solid var(--border);
-        }
-
-        .footer a {
-            color: var(--primary-light);
-            text-decoration: none;
-            font-weight: 600;
-        }
+        #jxgbox { width: 100%; aspect-ratio: 1 / 1; border-radius: 8px;
+            background-color: #ffffff !important; }
     </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header-bar">
-    <div class="brand-badge">
-        <div class="brand-icon">∫</div>
-        <div class="brand-title">
-            <h1>Khảo Sát & Vẽ Đồ Thị Hàm Số 12</h1>
-            <p>Toán Trực Quan • Thầy Lê Bá Lâm — Trường THPT A Túc</p>
+<div class="header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 0.6px; display: flex; align-items: center; gap: 6px;">
+            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
+            Toán Trực Quan • Thầy Lê Bá Lâm — Trường THPT A Túc
         </div>
+        <h1 style="margin: 0; font-size: 1.55rem; color: var(--text);">Khảo Sát & Vẽ Đồ Thị Hàm Số 12</h1>
     </div>
-    <div class="header-actions">
-        <a href="../" class="btn-header">← Về Portal Toán Trực Quan</a>
-        <button id="btn-exam-mode" class="btn-header btn-exam-toggle" onclick="toggleExamMode()">📄 Chuẩn Đề Thi Word</button>
-        <button id="theme-btn" class="btn-header" onclick="toggleTheme()">🌙 Nền Tối</button>
+    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <a href="../" class="btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; font-size: 0.88rem; font-weight: 600; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); color: var(--text);">
+            ← Về Portal Toán Trực Quan
+        </a>
+        <button id="exam-btn" class="btn-secondary" onclick="toggleExamMode()" style="font-weight: 700; border: 1.5px solid #0070C0; color: #0070C0; background: #eff6ff; display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: 6px; cursor: pointer;">
+            📄 Chuẩn Đề Thi Word
+        </button>
+        <button id="theme-btn" class="btn-theme" onclick="toggleTheme()" style="padding: 7px 14px; border-radius: 6px; font-weight: 600; cursor: pointer;">🌙 Nền Tối</button>
     </div>
 </div>
 
-<!-- Main App Layout -->
-<div class="app-container">
-    <!-- LEFT COLUMN: CONTROLS & BBT -->
-    <div class="left-col">
-        <!-- Card 1: Cấu hình hàm số -->
-        <div class="card">
-            <div class="card-title">
-                <span>Cấu Hình Hàm Số GDPT 2018</span>
-                <span class="badge" id="badge-type">Bậc 3</span>
-            </div>
+<div class="container">
+    <div class="card">
+        <h2>Cấu Hình Hàm Số</h2>
 
-            <!-- Presets Button Bar -->
-            <div class="presets-bar" id="presets-container">
-                <!-- Injected via JS -->
-            </div>
+        <!-- Presets Bar -->
+        <div style="margin-bottom: 14px; padding: 10px 12px; border-radius: 8px; background: var(--toggle-bg); border: 1px solid var(--border);">
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">⚡ Mẫu hàm thi hay gặp:</div>
+            <div id="preset-buttons" style="display: flex; flex-wrap: wrap; gap: 6px;"></div>
+        </div>
 
-            <div class="select-group">
-                <label for="func-type">1. Chọn dạng hàm gốc f(x):</label>
-                <select id="func-type" onchange="onTypeChange()">
-                    <option value="cubic">1. Hàm Bậc 3: y = ax³ + bx² + cx + d</option>
-                    <option value="quartic">2. Hàm Trùng Phương: y = ax⁴ + bx² + c</option>
-                    <option value="frac11">3. Hàm Nhất Biến: y = (ax + b) / (cx + d)</option>
-                    <option value="frac21">4. Hàm Phân Thức: y = (ax² + bx + c) / (dx + e)</option>
-                </select>
-            </div>
+        <div class="select-group">
+            <label for="func-type">1. Chọn dạng hàm gốc f(x):</label>
+            <select id="func-type" onchange="onTypeChange()">
+                <option value="cubic">1. Hàm Bậc 3: y = ax³ + bx² + cx + d</option>
+                <option value="quartic">2. Hàm Trùng Phương: y = ax⁴ + bx² + c</option>
+                <option value="frac11">3. Hàm Nhất Biến: y = (ax + b) / (cx + d)</option>
+                <option value="frac21">4. Hàm Phân Thức: y = (ax² + bx + c) / (dx + e)</option>
+            </select>
+        </div>
 
-            <div class="select-group">
-                <label for="abs-type">2. Phép suy đồ thị trị tuyệt đối:</label>
-                <select id="abs-type" onchange="updateAll()">
-                    <option value="none">Không áp dụng: y = f(x)</option>
-                    <option value="abs_f">Dạng 1: y = |f(x)| (Lật phần dưới Ox lên trên)</option>
-                    <option value="abs_x">Dạng 2: y = f(|x|) (Đối xứng qua trục Oy)</option>
-                    <option value="abs_both">Dạng 3: y = |f(|x|)| (Kết hợp cả hai)</option>
-                </select>
+        <div class="select-group">
+            <label for="abs-type">2. Dạng trị tuyệt đối:</label>
+            <select id="abs-type" onchange="updateAll()">
+                <option value="none">Không áp dụng: y = f(x)</option>
+                <option value="abs_f">Dạng 1: y = |f(x)| (Lấy đối xứng qua Ox)</option>
+                <option value="abs_x">Dạng 2: y = f(|x|) (Lấy đối xứng qua Oy)</option>
+                <option value="abs_both">Dạng 3: y = |f(|x|)| (Kết hợp cả hai)</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <div class="input-field" id="box-a">
+                <div class="input-header"><label>Hệ số a</label><input type="text" id="coef-a" value="1/3" onchange="syncSliderFromText('a')"></div>
+                <input type="range" id="slider-a" min="-5" max="5" step="0.1" value="0.33" oninput="syncTextFromSlider('a')">
             </div>
+            <div class="input-field" id="box-b">
+                <div class="input-header"><label>Hệ số b</label><input type="text" id="coef-b" value="0" onchange="syncSliderFromText('b')"></div>
+                <input type="range" id="slider-b" min="-10" max="10" step="0.1" value="0" oninput="syncTextFromSlider('b')">
+            </div>
+            <div class="input-field" id="box-c">
+                <div class="input-header"><label>Hệ số c</label><input type="text" id="coef-c" value="-1" onchange="syncSliderFromText('c')"></div>
+                <input type="range" id="slider-c" min="-10" max="10" step="0.1" value="-1" oninput="syncTextFromSlider('c')">
+            </div>
+            <div class="input-field" id="box-d">
+                <div class="input-header"><label>Hệ số d</label><input type="text" id="coef-d" value="1" onchange="syncSliderFromText('d')"></div>
+                <input type="range" id="slider-d" min="-10" max="10" step="0.1" value="1" oninput="syncTextFromSlider('d')">
+            </div>
+            <div class="input-field" id="box-e" style="display:none;">
+                <div class="input-header"><label>Hệ số e</label><input type="text" id="coef-e" value="-1" onchange="syncSliderFromText('e')"></div>
+                <input type="range" id="slider-e" min="-10" max="10" step="0.1" value="-1" oninput="syncTextFromSlider('e')">
+            </div>
+        </div>
 
-            <!-- Inputs -->
-            <div class="input-grid">
-                <div class="input-field" id="box-a">
-                    <div class="input-header"><label>Hệ số a</label><input type="text" id="coef-a" value="1/3" onchange="syncSliderFromText('a')"></div>
-                    <input type="range" id="slider-a" min="-5" max="5" step="0.1" value="0.33" oninput="syncTextFromSlider('a')">
+        <div class="btn-main-group">
+            <button style="grid-column: span 2;" onclick="updateAll()">🔄 Cập nhật Đồ thị</button>
+            <button class="btn-action" onclick="exportPNG()">📸 Tải ảnh PNG</button>
+            <button class="btn-secondary" onclick="resetView()">🎯 Reset Góc Nhìn</button>
+        </div>
+
+        <div class="formula-display" id="math-formula"></div>
+        <div id="tangent-info"></div>
+
+        <!-- Biện luận tương giao y = m -->
+        <div class="tuong-giao-card" style="margin-top: 14px; padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border); background: var(--toggle-bg);">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <label style="font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; color: var(--text); font-size: 0.95rem;">
+                    <input type="checkbox" id="chk-tuong-giao" onchange="toggleTuongGiao()">
+                    <span>Biện luận tương giao đường thẳng <span style="font-family:'Times New Roman', serif; font-style:italic; font-weight:bold;">y = m</span></span>
+                </label>
+                <span id="m-display-badge" style="font-family:'Times New Roman', serif; font-size:1.05rem; font-weight:700; color: #ea580c; display: none;">m = 0.00</span>
+            </div>
+            <div id="tuong-giao-controls" style="display:none; margin-top: 10px;">
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+                    <span style="font-size:0.85rem; font-weight:600; color:var(--text);">m:</span>
+                    <input type="range" id="slider-m" min="-8" max="8" step="0.1" value="0" style="flex:1;" oninput="syncMFromSlider()">
+                    <input type="number" id="input-m" value="0" step="0.1" style="width:70px; padding:4px 6px; border:1px solid var(--input-border); border-radius:4px; text-align:center; font-weight:600; background:var(--input-bg); color:var(--text);" onchange="syncMFromInput()">
                 </div>
-                <div class="input-field" id="box-b">
-                    <div class="input-header"><label>Hệ số b</label><input type="text" id="coef-b" value="0" onchange="syncSliderFromText('b')"></div>
-                    <input type="range" id="slider-b" min="-10" max="10" step="0.1" value="0" oninput="syncTextFromSlider('b')">
-                </div>
-                <div class="input-field" id="box-c">
-                    <div class="input-header"><label>Hệ số c</label><input type="text" id="coef-c" value="-1" onchange="syncSliderFromText('c')"></div>
-                    <input type="range" id="slider-c" min="-10" max="10" step="0.1" value="-1" oninput="syncTextFromSlider('c')">
-                </div>
-                <div class="input-field" id="box-d">
-                    <div class="input-header"><label>Hệ số d</label><input type="text" id="coef-d" value="1" onchange="syncSliderFromText('d')"></div>
-                    <input type="range" id="slider-d" min="-10" max="10" step="0.1" value="1" oninput="syncTextFromSlider('d')">
-                </div>
-                <div class="input-field input-field-full" id="box-e" style="display:none;">
-                    <div class="input-header"><label>Hệ số e</label><input type="text" id="coef-e" value="-1" onchange="syncSliderFromText('e')"></div>
-                    <input type="range" id="slider-e" min="-10" max="10" step="0.1" value="-1" oninput="syncTextFromSlider('e')">
-                </div>
-            </div>
-
-            <!-- Main Action Buttons -->
-            <div class="btn-group-main">
-                <button class="btn-primary" onclick="updateAll()">🔄 Cập nhật Đồ thị</button>
-                <button class="btn-secondary" onclick="resetView()">🎯 Reset Góc Nhìn</button>
-            </div>
-
-            <!-- Math Formula Display -->
-            <div class="formula-display" id="math-formula"></div>
-
-            <!-- Tangent Slope Info -->
-            <div class="info-panel" id="tangent-info-box">
-                <span id="tangent-info">Rê điểm M màu tím trên đồ thị để xem tiếp tuyến</span>
-            </div>
-
-            <!-- Biện luận tương giao y = m -->
-            <div class="tuong-giao-box">
-                <div class="tuong-giao-header">
-                    <div class="tuong-giao-title">
-                        <input type="checkbox" id="chk-tuong-giao" onchange="toggleTuongGiao()">
-                        <label for="chk-tuong-giao" style="cursor:pointer;">Biện luận tương giao đường thẳng $y = m$</label>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:5px;">
-                        <span style="font-size:0.78rem; font-weight:700;">m =</span>
-                        <input type="text" id="val-m" value="1" style="width:45px; text-align:center; padding:2px 4px; font-family:'JetBrains Mono'; font-weight:600; border-radius:4px; border:1px solid #ea580c; background:var(--input-bg); color:var(--text);" onchange="syncMSliderFromText()">
-                    </div>
-                </div>
-                <input type="range" id="slider-m" min="-8" max="8" step="0.1" value="1" style="accent-color:#ea580c;" oninput="syncMTextFromSlider()">
-                <div class="tuong-giao-result" id="tuong-giao-res">
-                    Số giao điểm: <em>Tích chọn để kích hoạt</em>
+                <div id="tuong-giao-result" style="font-size:0.88rem; font-weight:600; padding:7px 10px; border-radius:6px; background:var(--panel); border:1px solid var(--border); color:var(--text);">
+                    Số giao điểm: <span id="so-nghiem-text" style="color:#ea580c; font-weight:700;">Chưa kích hoạt</span>
                 </div>
             </div>
         </div>
 
-        <!-- Card 2: Bảng biến thiên -->
-        <div class="card">
-            <div class="card-title">
-                <span>Bảng Biến Thiên Hàm Gốc f(x)</span>
-                <button class="btn-preset" onclick="exportBBT()">📋 Tải Ảnh BBT</button>
-            </div>
-            <div class="bbt-wrapper" id="bbt-output"></div>
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 18px; margin-bottom: 8px;">
+            <h2 style="margin: 0; padding: 0; border: none; font-size: 1.15rem;">Bảng Biến Thiên Hàm Gốc</h2>
+            <button class="btn-secondary" onclick="exportBBTPNG()" style="padding: 4px 10px; font-size: 0.82rem; font-weight: 700; border-radius: 4px; display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--border); cursor: pointer;">
+                📋 Tải Ảnh BBT (PNG)
+            </button>
         </div>
+        <div class="bbt-container" id="bbt-output"></div>
     </div>
 
-    <!-- RIGHT COLUMN: GRAPH CANVAS & EXPORT -->
-    <div class="right-col">
-        <div class="card">
-            <!-- Controls above canvas -->
-            <div class="board-controls">
-                <div class="toggle-elements">
-                    <label id="lbl-chk-extrema"><input type="checkbox" id="chk-extrema" checked onchange="toggleVisibility()"><span style="color:#ef4444;">●</span> Cực trị</label>
-                    <label id="lbl-chk-inflection"><input type="checkbox" id="chk-inflection" checked onchange="toggleVisibility()"><span style="color:#f59e0b;">●</span> Điểm uốn</label>
-                    <label id="lbl-chk-asymptote" style="display:none;"><input type="checkbox" id="chk-asymptote" checked onchange="toggleVisibility()"><span style="color:#8b5cf6;">- -</span> Tiệm cận</label>
-                    <label><input type="checkbox" id="chk-ox" checked onchange="toggleVisibility()"><span style="color:#10b981;">●</span> Giao Ox</label>
-                    <label><input type="checkbox" id="chk-oy" checked onchange="toggleVisibility()"><span style="color:#3b82f6;">●</span> Giao Oy</label>
-                    <label><input type="checkbox" id="chk-tangent" checked onchange="toggleVisibility()"><span style="color:#d946ef;">/</span> Tiếp tuyến</label>
-                    <label><input type="checkbox" id="chk-grid" onchange="toggleVisibility()"><span style="color:#94a3b8;">▦</span> Lưới</label>
-                </div>
-
-                <div class="zoom-controls">
-                    <button class="btn-icon" onclick="zoomIn()" title="Phóng to">➕</button>
-                    <button class="btn-icon" onclick="zoomOut()" title="Thu nhỏ">➖</button>
-                    <button class="btn-icon" onclick="resetView()" title="Góc nhìn mặc định">🎯</button>
-                </div>
+    <div class="card">
+        <div class="controls-header">
+            <h2 style="border:none; margin:0; padding:0;">Đồ Thị Hàm Số</h2>
+            <div style="display:flex; gap:6px;">
+                <button class="btn-secondary" onclick="zoomIn()">➕ Phóng to</button>
+                <button class="btn-secondary" onclick="zoomOut()">➖ Thu nhỏ</button>
             </div>
+        </div>
+        
+        <div class="toggle-group">
+            <label id="lbl-chk-extrema"><input type="checkbox" id="chk-extrema" checked onchange="toggleVisibility()"><span style="color:#ef4444;">●</span> Cực trị</label>
+            <label id="lbl-chk-inflection"><input type="checkbox" id="chk-inflection" checked onchange="toggleVisibility()"><span style="color:#f59e0b;">●</span> Điểm uốn</label>
+            <label id="lbl-chk-asymptote" style="display:none;"><input type="checkbox" id="chk-asymptote" checked onchange="toggleVisibility()"><span style="color:#8b5cf6;">- -</span> Tiệm cận</label>
+            <label><input type="checkbox" id="chk-ox" checked onchange="toggleVisibility()"><span style="color:#10b981;">●</span> Giao Ox</label>
+            <label><input type="checkbox" id="chk-oy" checked onchange="toggleVisibility()"><span style="color:#3b82f6;">●</span> Giao Oy</label>
+            <label><input type="checkbox" id="chk-tangent" checked onchange="toggleVisibility()"><span style="color:#d946ef;">/</span> Tiếp tuyến</label>
+<label><input type="checkbox" id="chk-grid" onchange="toggleVisibility()"><span style="color:#94a3b8;">▦</span> Lưới</label>        
+</div>
 
-            <!-- Canvas Area -->
-            <div class="board-wrapper" id="capture-area">
-                <div id="jxgbox" class="jxgbox"></div>
-            </div>
+        <div class="board-wrapper" id="capture-area">
+            <div id="jxgbox" class="jxgbox"></div>
+        </div>
 
-            <!-- Export Bar -->
-            <div class="export-bar">
-                <button class="btn-export-exam" onclick="exportExamPNG()">
-                    <span>📄 Xuất Ảnh Chuẩn Đề Thi Word (300 DPI)</span>
-                </button>
-                <button class="btn-export-color" onclick="exportColorPNG()">
-                    <span>📸 Tải Ảnh Trực Quan Màu</span>
-                </button>
-                <button class="btn-export-color" onclick="exportBBT()">
-                    <span>📋 Tải Bảng Biến Thiên</span>
-                </button>
-                <div class="export-hint">
-                    💡 <strong>Mẹo biên soạn đề thi:</strong> Bấm <em>"Chuẩn Đề Thi Word"</em> ở góc trên để đồ thị tự động chuyển sang nét đen mực in chuẩn Bộ/Sở (ẩn lưới, dóng cực trị nét đứt, font Times New Roman). Sau đó bấm nút <strong>Xuất Ảnh Chuẩn Đề Thi Word</strong> để tải ảnh PNG sắc nét chèn thẳng vào cột 2 đề thi Word!
-                </div>
-            </div>
+        <!-- Action Buttons Bar -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 14px;">
+            <button class="btn-action" onclick="exportExamPNG()" style="background: linear-gradient(135deg, #0284c7, #0070C0); color:#fff; font-weight:700; padding:10px 14px; border:none; border-radius:6px; cursor:pointer; font-size:0.92rem; display:flex; align-items:center; justify-content:center; gap:6px; box-shadow:0 2px 8px rgba(0, 112, 192, 0.25);">
+                📄 Xuất Ảnh Chuẩn Đề Thi Word (300 DPI)
+            </button>
+            <button class="btn-action" onclick="exportColorPNG()" style="background: #10b981; color:#fff; font-weight:700; padding:10px 14px; border:none; border-radius:6px; cursor:pointer; font-size:0.92rem; display:flex; align-items:center; justify-content:center; gap:6px;">
+                📸 Tải Ảnh Trực Quan Màu
+            </button>
+        </div>
+        <div style="margin-top: 10px; padding: 10px 12px; border-radius: 6px; background: var(--formula-bg); border-left: 4px solid var(--primary); font-size: 0.85rem; line-height: 1.45; color: var(--text);">
+            💡 <b>Mẹo biên soạn đề thi:</b> Bấm <i>"Chuẩn Đề Thi Word"</i> ở góc trên để đồ thị tự động chuyển sang nét đen mực in chuẩn Bộ/Sở (ẩn lưới, dóng cực trị nét đứt, font Times New Roman). Sau đó bấm nút <b>Xuất Ảnh Chuẩn Đề Thi Word</b> để tải ảnh PNG sắc nét chèn thẳng vào cột 2 đề thi Word!
         </div>
     </div>
 </div>
 
-<!-- Footer -->
-<div class="footer">
-    <p>Hệ Thống Trực Quan Hóa Đồ Thị & Bảng Biến Thiên Toán 12 GDPT 2018</p>
-    <p>Phát triển bởi <strong>Thầy Lê Bá Lâm</strong> — Tổ Toán - Tin, Trường THPT A Túc, Tỉnh Quảng Trị</p>
-    <p style="margin-top:4px;"><a href="https://www.youtube.com/@ToanTrucQuanVN" target="_blank">YouTube @ToanTrucQuanVN</a> • <a href="https://lebalam-wq.github.io/toan-truc-quan/" target="_blank">Portal lebalam-wq.github.io/toan-truc-quan</a></p>
-</div>
+<footer style="margin-top: 30px; padding: 20px 0; border-top: 1px solid var(--border); text-align: center; font-size: 0.88rem; color: #64748b; line-height: 1.6;">
+    <div style="font-weight: 700; color: var(--text); margin-bottom: 4px;">Hệ Thống Trực Quan Hóa Đồ Thị & Bảng Biến Thiên Toán 12 GDPT 2018</div>
+    <div>Phát triển bởi <b>Thầy Lê Bá Lâm</b> — Tổ Toán - Tin, Trường THPT A Túc, Tỉnh Quảng Trị</div>
+    <div style="margin-top: 6px;">
+        <a href="https://www.youtube.com/@ToanTrucQuanVN" target="_blank" style="color: var(--primary); text-decoration: none; font-weight: 600;">YouTube @ToanTrucQuanVN</a> • 
+        <a href="https://lebalam-wq.github.io/toan-truc-quan/" style="color: var(--primary); text-decoration: none; font-weight: 600;">Portal lebalam-wq.github.io/toan-truc-quan</a>
+    </div>
+</footer>
 
-<!-- JAVASCRIPT LOGIC -->
 <script>
-    const DEFAULT_BOUNDING_BOX = [-6, 6, 6, -6];
+    function toggleTheme() {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        document.getElementById('theme-btn').innerText = isDark ? '☀️ Nền Sáng' : '🌙 Nền Tối';
+    }
+
+    const DEFAULT_BOUNDING_BOX = [-8, 8, 8, -8];
+
+    // --- NÂNG CẤP BỞI THẦY LÊ BÁ LÂM & MAI LINH ---
     let isExamMode = false;
-    
-    // Khởi tạo bảng vẽ JSXGraph
+    let currentFVal = null;
+    let mLine = null;
+    let mPoints = [];
+    let mText = null;
+
+    const PRESETS = {
+        cubic: [
+            { name: "2 Cực trị (a > 0)", vals: { a: "1/3", b: "0", c: "-1", d: "1" } },
+            { name: "2 Cực trị (a < 0)", vals: { a: "-1", b: "3", c: "0", d: "-1" } },
+            { name: "Đơn điệu tăng", vals: { a: "1/3", b: "0", c: "1", d: "0" } },
+            { name: "Có uốn trên Ox", vals: { a: "1", b: "-3", c: "0", d: "2" } }
+        ],
+        quartic: [
+            { name: "3 Cực trị hình W", vals: { a: "1", b: "-2", c: "-1" } },
+            { name: "3 Cực trị hình M", vals: { a: "-1", b: "2", c: "1" } },
+            { name: "1 Cực trị đáy", vals: { a: "1", b: "2", c: "-1" } },
+            { name: "1 Cực trị đỉnh", vals: { a: "-1", b: "-1", c: "2" } }
+        ],
+        frac11: [
+            { name: "Đồng biến (ad-bc>0)", vals: { a: "2", b: "-1", c: "1", d: "1" } },
+            { name: "Nghịch biến (ad-bc<0)", vals: { a: "-1", b: "2", c: "1", d: "-1" } },
+            { name: "TCĐ x=2, TCN y=1", vals: { a: "1", b: "1", c: "1", d: "-2" } },
+            { name: "Tâm I(-1; 2)", vals: { a: "2", b: "3", c: "1", d: "1" } }
+        ],
+        frac21: [
+            { name: "2 Cực trị (a>0)", vals: { a: "1", b: "-1", c: "1", d: "1", e: "-1" } },
+            { name: "2 Cực trị (a<0)", vals: { a: "-1", b: "2", c: "-4", d: "1", e: "-2" } },
+            { name: "Không cực trị", vals: { a: "1", b: "1", c: "1", d: "1", e: "0" } }
+        ]
+    };
+
+    function renderPresets(type) {
+        let container = document.getElementById('preset-buttons');
+        if (!container) return;
+        container.innerHTML = "";
+        let list = PRESETS[type] || [];
+        list.forEach((item, idx) => {
+            let btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'btn-secondary';
+            btn.style.cssText = "padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--panel); color: var(--text);";
+            btn.innerText = item.name;
+            btn.onclick = () => applyPreset(item.vals);
+            container.appendChild(btn);
+        });
+    }
+
+    function applyPreset(vals) {
+        ['a', 'b', 'c', 'd', 'e'].forEach(p => {
+            if (vals[p] !== undefined) {
+                document.getElementById(`coef-${p}`).value = vals[p];
+                syncSliderFromText(p);
+            }
+        });
+        updateAll();
+    }
+
+    function toggleExamMode() {
+        isExamMode = !isExamMode;
+        let btn = document.getElementById('exam-btn');
+        if (isExamMode) {
+            btn.style.background = "#0070C0";
+            btn.style.color = "#ffffff";
+            btn.innerHTML = "✓ Đang Chế Độ Đề Thi (Mực Đen)";
+            document.getElementById('chk-grid').checked = false;
+            document.getElementById('chk-tangent').checked = false;
+        } else {
+            btn.style.background = "#eff6ff";
+            btn.style.color = "#0070C0";
+            btn.innerHTML = "📄 Chuẩn Đề Thi Word";
+        }
+        updateAll();
+    }
+
+    function toggleTuongGiao() {
+        let chk = document.getElementById('chk-tuong-giao');
+        let controls = document.getElementById('tuong-giao-controls');
+        let badge = document.getElementById('m-display-badge');
+        if (chk.checked) {
+            controls.style.display = 'block';
+            badge.style.display = 'inline-block';
+            updateTuongGiao();
+        } else {
+            controls.style.display = 'none';
+            badge.style.display = 'none';
+            clearTuongGiaoObjects();
+        }
+    }
+
+    function syncMFromSlider() {
+        let val = parseFloat(document.getElementById('slider-m').value) || 0;
+        document.getElementById('input-m').value = val.toFixed(1);
+        updateTuongGiao();
+    }
+
+    function syncMFromInput() {
+        let val = parseFloat(document.getElementById('input-m').value) || 0;
+        document.getElementById('slider-m').value = val;
+        updateTuongGiao();
+    }
+
+    function clearTuongGiaoObjects() {
+        if (mLine) { board.removeObject(mLine); mLine = null; }
+        if (mText) { board.removeObject(mText); mText = null; }
+        mPoints.forEach(pt => board.removeObject(pt));
+        mPoints = [];
+    }
+
+    function findRootsOfFMinusM(mVal) {
+        if (typeof currentFVal !== 'function') return [];
+        let roots = [];
+        let xMin = -9.0, xMax = 9.0;
+        let steps = 400;
+        let dx = (xMax - xMin) / steps;
+        let prevX = xMin;
+        let prevY = currentFVal(prevX) - mVal;
+
+        for (let i = 1; i <= steps; i++) {
+            let curX = xMin + i * dx;
+            let curY = currentFVal(curX) - mVal;
+
+            if (isNaN(prevY) || isNaN(curY) || Math.abs(prevY) > 60 || Math.abs(curY) > 60) {
+                prevX = curX;
+                prevY = curY;
+                continue;
+            }
+
+            if (prevY * curY <= 0) {
+                let x0 = prevX, x1 = curX;
+                for (let k = 0; k < 14; k++) {
+                    let mid = (x0 + x1) / 2;
+                    let midY = currentFVal(mid) - mVal;
+                    if (Math.abs(midY) < 1e-6) { x0 = mid; break; }
+                    if (prevY * midY <= 0) x1 = mid;
+                    else { x0 = mid; prevY = midY; }
+                }
+                let root = (x0 + x1) / 2;
+                if (Math.abs(currentFVal(root) - mVal) < 0.25) {
+                    if (roots.length === 0 || Math.abs(root - roots[roots.length - 1]) > 0.08) {
+                        roots.push(root);
+                    }
+                }
+            }
+            prevX = curX;
+            prevY = curY;
+        }
+        return roots;
+    }
+
+    function updateTuongGiao() {
+        let chk = document.getElementById('chk-tuong-giao');
+        if (!chk || !chk.checked) return;
+
+        let mVal = parseFloat(document.getElementById('slider-m').value) || 0;
+        document.getElementById('m-display-badge').innerText = `m = ${mVal.toFixed(2)}`;
+
+        clearTuongGiaoObjects();
+
+        let lineColor = isExamMode ? "#000000" : "#ea580c";
+        let lineDash = isExamMode ? 2 : 0;
+
+        mLine = board.create('line', [[0, mVal], [1, mVal]], {
+            strokeColor: lineColor,
+            strokeWidth: 2,
+            dash: lineDash,
+            name: '',
+            fixed: true
+        });
+
+        mText = board.create('text', [6.5, mVal + 0.35, `d: y = ${mVal.toFixed(2)}`], {
+            fontSize: 13,
+            color: lineColor,
+            fixed: true,
+            display: 'internal'
+        });
+
+        let roots = findRootsOfFMinusM(mVal);
+        let resBox = document.getElementById('so-nghiem-text');
+
+        if (roots.length === 0) {
+            resBox.innerHTML = `<b>0 giao điểm</b> (Phương trình vô nghiệm tại m = ${mVal.toFixed(2)})`;
+        } else {
+            let xList = roots.map(r => r.toFixed(2)).join('; ');
+            resBox.innerHTML = `<b>${roots.length} giao điểm</b> tại x ∈ { ${xList} }`;
+            roots.forEach((rx, idx) => {
+                let pt = board.create('point', [rx, mVal], {
+                    name: `M${idx + 1}(${rx.toFixed(2)}; ${mVal.toFixed(2)})`,
+                    size: isExamMode ? 2.5 : 3.5,
+                    color: isExamMode ? "#000000" : "#ea580c",
+                    fixed: true
+                });
+                mPoints.push(pt);
+            });
+        }
+    }
+
+    function exportExamPNG() {
+        let wasExam = isExamMode;
+        if (!isExamMode) {
+            isExamMode = true;
+            document.getElementById('chk-grid').checked = false;
+            document.getElementById('chk-tangent').checked = false;
+            updateAll();
+        }
+        const area = document.getElementById('capture-area');
+        if (!area) return;
+        html2canvas(area, {
+            scale: 3,
+            backgroundColor: '#ffffff',
+            useCORS: true,
+            logging: false
+        }).then(canvas => {
+            const link = document.createElement('a');
+            let type = document.getElementById('func-type').value;
+            link.download = `dothi_toan12_${type}_chuan_de_thi.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            if (!wasExam) {
+                isExamMode = false;
+                updateAll();
+            }
+        });
+    }
+
+    function exportColorPNG() {
+        const area = document.getElementById('capture-area');
+        if (!area) return;
+        let isDark = document.body.classList.contains('dark-mode');
+        html2canvas(area, {
+            scale: 2,
+            backgroundColor: isDark ? '#1e293b' : '#ffffff',
+            useCORS: true,
+            logging: false
+        }).then(canvas => {
+            const link = document.createElement('a');
+            let type = document.getElementById('func-type').value;
+            link.download = `dothi_toan12_${type}_mau.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    }
+
+    function exportBBTPNG() {
+        const bbtArea = document.getElementById('bbt-output');
+        if (!bbtArea) return;
+        html2canvas(bbtArea, {
+            scale: 3,
+            backgroundColor: '#ffffff',
+            useCORS: true,
+            logging: false
+        }).then(canvas => {
+            const link = document.createElement('a');
+            let type = document.getElementById('func-type').value;
+            link.download = `bang_bien_thien_toan12_${type}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+    }
+
     let board = JXG.JSXGraph.initBoard('jxgbox', {
         boundingbox: DEFAULT_BOUNDING_BOX,
-        axis: false,
-        grid: false,
-        showCopyright: false,
-        showNavigation: true,
-        showInfobox: true,
-        zoom: { wheel: false, enabled: true }, 
-        pan: { enabled: true }
+        axis: false, showCopyright: false, keepaspectratio: true, showInfobox: true,
+        zoom: { wheel: false, enabled: true }, pan: { enabled: false }
     });
-
-    let xAxis = board.create('axis', [[0, 0], [1, 0]], { 
+   let xAxis = board.create('axis', [[0, 0], [1, 0]], { 
         name: 'x', 
         withLabel: true, 
         label: { position: 'rt', offset: [-15, 12], fontSize: 14, cssStyle: 'font-weight: bold; font-style: italic;', display: 'internal' },
-        ticks: { majorHeight: 10 }
+        ticks: { majorHeight: 10 } // Số 10 giúp tạo vạch chia nhỏ thay vì lưới vô tận (-1)
     });
     
     let yAxis = board.create('axis', [[0, 0], [0, 1]], { 
@@ -812,141 +575,39 @@
         label: { position: 'rt', offset: [10, -10], fontSize: 14, cssStyle: 'font-weight: bold; font-style: italic;', display: 'internal' },
         ticks: { majorHeight: 10 } 
     });
-
-    let originLabel = board.create('text', [-0.45, -0.5, 'O'], { 
-        fontSize: 14, 
-        cssStyle: 'font-weight: bold; font-style: italic;', 
-        fixed: true, 
-        highlight: false, 
-        display: 'internal' 
-    });
-
+    board.create('text', [-0.45, -0.5, 'O'], { fontSize: 14, cssStyle: 'font-weight: bold; font-style: italic;', fixed: true, highlight: false, display: 'internal' });
+// THÊM DÒNG NÀY ĐỂ TẠO LƯỚI TỌA ĐỘ BẰNG JSXGRAPH
     let gridCurve = board.create('grid', [], { visible: false });       
-    let graphCurve = null;
+ let graphCurve = null;
     let extremaElements = [], inflectionElements = [], asymptoteElements = [], oxElements = [], oyElements = [];
     let tangentGlider = null, tangentLine = null;
-    let extremaXValues = []; 
+    let extremaXValues = []; // Lưu trữ hoành độ các điểm cực trị để tạo điểm hút (magnetic snap)
 
-    // Các đối tượng tương giao y = m
-    let tuongGiaoLine = null;
-    let tuongGiaoPoints = [];
-
-    // Presets dữ liệu mẫu cho giáo viên
-    const PRESETS = {
-        cubic: [
-            { label: "Bậc 3 (2 Cực trị)", a: "1/3", b: "0", c: "-1", d: "1" },
-            { label: "Bậc 3 (Nghịch biến)", a: "-1", b: "3", c: "0", d: "-1" },
-            { label: "Bậc 3 (Đơn điệu)", a: "1", b: "0", c: "1", d: "0" },
-            { label: "Bậc 3 (Tâm O)", a: "1", b: "0", c: "-3", d: "0" }
-        ],
-        quartic: [
-            { label: "Trùng phương (W)", a: "1", b: "-2", c: "-1" },
-            { label: "Trùng phương (M)", a: "-1", b: "2", c: "1" },
-            { label: "Trùng phương (1 CT)", a: "1", b: "2", c: "-1" }
-        ],
-        frac11: [
-            { label: "Đồng biến (ad-bc > 0)", a: "2", b: "-1", c: "1", d: "1" },
-            { label: "Nghịch biến (ad-bc < 0)", a: "-1", b: "2", c: "1", d: "-1" },
-            { label: "Tâm I(1; 2)", a: "2", b: "1", c: "1", d: "-1" }
-        ],
-        frac21: [
-            { label: "2 Cực trị (TCX: y=x)", a: "1", b: "-1", c: "1", d: "1", e: "-1" },
-            { label: "2 Cực trị (TCX: y=2x-1)", a: "2", b: "-3", c: "2", d: "1", e: "-1" },
-            { label: "Không cực trị", a: "1", b: "1", c: "1", d: "1", e: "1" }
-        ]
+    const DEFAULTS = {
+        cubic:   { a: '1/3', b: '0', c: '-1', d: '1' },
+        quartic: { a: '0.25', b: '-1.5', c: '1', d: '0' },
+        frac11:  { a: '2', b: '1', c: '1', d: '-1' },
+        frac21:  { a: '1', b: '-1', c: '-2', d: '1', e: '-1' }
     };
 
-    function renderPresets(type) {
-        const container = document.getElementById('presets-container');
-        if (!container) return;
-        container.innerHTML = `<span style="font-size:0.72rem; font-weight:700; color:var(--text-muted); align-self:center;">Mẫu nhanh:</span>`;
-        const list = PRESETS[type] || [];
-        list.forEach((p, idx) => {
-            const btn = document.createElement('button');
-            btn.className = 'btn-preset';
-            btn.innerText = p.label;
-            btn.onclick = () => loadPreset(type, p);
-            container.appendChild(btn);
-        });
-    }
-
-    function loadPreset(type, p) {
-        if (p.a !== undefined) { document.getElementById('coef-a').value = p.a; syncSliderFromText('a'); }
-        if (p.b !== undefined) { document.getElementById('coef-b').value = p.b; syncSliderFromText('b'); }
-        if (p.c !== undefined) { document.getElementById('coef-c').value = p.c; syncSliderFromText('c'); }
-        if (p.d !== undefined) { document.getElementById('coef-d').value = p.d; syncSliderFromText('d'); }
-        if (p.e !== undefined) { document.getElementById('coef-e').value = p.e; syncSliderFromText('e'); }
-        updateAll();
-    }
-
-    // Toggle Theme (Dark / Light)
-    function toggleTheme() {
-        document.body.classList.toggle('dark-mode');
-        const btn = document.getElementById('theme-btn');
-        const isDark = document.body.classList.contains('dark-mode');
-        btn.innerHTML = isDark ? '☀️ Nền Sáng' : '🌙 Nền Tối';
-        applyExamColors();
-        updateAll();
-    }
-
-    // Toggle Exam Mode (Chuẩn đề thi Word)
-    function toggleExamMode() {
-        isExamMode = !isExamMode;
-        document.body.classList.toggle('exam-mode', isExamMode);
-        const btn = document.getElementById('btn-exam-mode');
-        btn.classList.toggle('active', isExamMode);
-        btn.innerHTML = isExamMode ? '✓ Đang bật: Chuẩn Đề Thi' : '📄 Chuẩn Đề Thi Word';
-
-        if (isExamMode) {
-            // Tự động tắt lưới và tiếp tuyến khi vào chế độ thi
-            document.getElementById('chk-grid').checked = false;
-            document.getElementById('chk-tangent').checked = false;
-        }
-
-        applyExamColors();
-        updateAll();
-    }
-
-    function applyExamColors() {
-        if (isExamMode) {
-            board.containerObj.style.backgroundColor = '#ffffff';
-            xAxis.setAttribute({ strokeColor: '#000000', strokeWidth: 1.5 });
-            yAxis.setAttribute({ strokeColor: '#000000', strokeWidth: 1.5 });
-            xAxis.defaultTicks.setAttribute({ strokeColor: '#000000' });
-            yAxis.defaultTicks.setAttribute({ strokeColor: '#000000' });
-            originLabel.setAttribute({ strokeColor: '#000000', cssStyle: 'font-family:"Times New Roman", serif; font-style:italic; font-weight:bold; font-size:16px;' });
-        } else {
-            const isDark = document.body.classList.contains('dark-mode');
-            const axisColor = isDark ? '#94a3b8' : '#334155';
-            xAxis.setAttribute({ strokeColor: axisColor, strokeWidth: 1.2 });
-            yAxis.setAttribute({ strokeColor: axisColor, strokeWidth: 1.2 });
-            xAxis.defaultTicks.setAttribute({ strokeColor: axisColor });
-            yAxis.defaultTicks.setAttribute({ strokeColor: axisColor });
-            originLabel.setAttribute({ strokeColor: axisColor, cssStyle: 'font-weight:bold; font-style:italic; font-size:14px;' });
-        }
-    }
-
-    // Type change
     function onTypeChange() {
         let type = document.getElementById('func-type').value;
-        document.getElementById('box-d').style.display = (type === 'quartic') ? 'none' : 'block';
-        document.getElementById('box-e').style.display = (type === 'frac21') ? 'block' : 'none';
-        
-        let showAsymp = (type === 'frac11' || type === 'frac21');
-        document.getElementById('lbl-chk-asymptote').style.display = showAsymp ? 'inline-flex' : 'none';
-        document.getElementById('lbl-chk-inflection').style.display = (type === 'cubic') ? 'inline-flex' : 'none';
-        
-        let badge = document.getElementById('badge-type');
-        if (type === 'cubic') badge.innerText = 'Bậc 3';
-        else if (type === 'quartic') badge.innerText = 'Trùng Phương';
-        else if (type === 'frac11') badge.innerText = 'Nhất Biến';
-        else if (type === 'frac21') badge.innerText = 'Phân Thức 2/1';
+        document.getElementById('box-d').style.display = (type === 'quartic') ? 'none' : 'flex';
+        document.getElementById('box-e').style.display = (type === 'frac21') ? 'flex' : 'none';
+        document.getElementById('lbl-chk-inflection').style.display = (type === 'cubic' || type === 'quartic') ? 'flex' : 'none';
+        document.getElementById('lbl-chk-asymptote').style.display = (type === 'frac11' || type === 'frac21') ? 'flex' : 'none';
 
         renderPresets(type);
+        let defs = DEFAULTS[type];
+        ['a', 'b', 'c', 'd', 'e'].forEach(p => {
+            if (defs[p] !== undefined) {
+                document.getElementById(`coef-${p}`).value = defs[p];
+                syncSliderFromText(p);
+            }
+        });
         updateAll();
     }
 
-    // Parsing & Exact Math
     function parseInput(inputStr) {
         if (!inputStr) return { val: 0, latex: "0" };
         let str = inputStr.toString().trim().replace(',', '.');
@@ -956,7 +617,7 @@
                 let num = parseFloat(parts[0]), den = parseFloat(parts[1]);
                 if (!isNaN(num) && !isNaN(den) && den !== 0) {
                     let sign = (num * den < 0) ? "-" : "";
-                    let latex = `${sign}\frac{${Math.abs(num)}}{${Math.abs(den)}}`;
+                    let latex = `${sign}\\frac{${Math.abs(num)}}{${Math.abs(den)}}`;
                     return { val: num / den, latex: latex };
                 }
             }
@@ -978,33 +639,11 @@
         if (!isNaN(parsed.val)) {
             slider.value = Math.min(Math.max(parsed.val, parseFloat(slider.min)), parseFloat(slider.max));
         }
-        updateAll();
     }
 
-    function syncMTextFromSlider() {
-        let val = parseFloat(document.getElementById('slider-m').value);
-        document.getElementById('val-m').value = val.toFixed(1);
-        updateTuongGiao();
+    function gcd(a, b) { a = Math.abs(a); b = Math.abs(b);
+        while (b) { let t = b; b = a % b; a = t; } return a;
     }
-
-    function syncMSliderFromText() {
-        let val = parseFloat(document.getElementById('val-m').value);
-        if (!isNaN(val)) {
-            document.getElementById('slider-m').value = Math.min(Math.max(val, -8), 8);
-        }
-        updateTuongGiao();
-    }
-
-    function toggleTuongGiao() {
-        updateTuongGiao();
-    }
-
-    function gcd(a, b) { 
-        a = Math.abs(a); b = Math.abs(b);
-        while (b) { let t = b; b = a % b; a = t; } 
-        return a;
-    }
-
     function makeFrac(n, d) {
         if (d === 0) return { n: 0, d: 1 };
         let g = gcd(Math.round(n), Math.round(d));
@@ -1012,10 +651,8 @@
         if (d < 0) { n = -n; d = -d; }
         return { n, d };
     }
-
     function addFrac(f1, f2) { return makeFrac(f1.n * f2.d + f2.n * f1.d, f1.d * f2.d); }
     function mulFrac(f1, f2) { return makeFrac(f1.n * f2.n, f1.d * f2.d); }
-
     function simplifyRadical(n) {
         n = Math.abs(Math.round(n));
         let out = 1, inside = n;
@@ -1024,13 +661,11 @@
         }
         return [out, inside];
     }
-
     function fracToLatex(f) {
         if (f.d === 1) return f.n.toString();
         let sign = f.n < 0 ? "-" : "";
-        return `${sign}\frac{${Math.abs(f.n)}}{${f.d}}`;
+        return `${sign}\\frac{${Math.abs(f.n)}}{${f.d}}`;
     }
-
     function floatToFrac(val) {
         let sign = val < 0 ? -1 : 1; val = Math.abs(val);
         for(let d=1; d<=100; d++) {
@@ -1039,7 +674,6 @@
         }
         return makeFrac(Math.round(val * 10000) * sign, 10000);
     }
-
     function formatIrrational(q, c, S) {
         if (c.n === 0 || S === 0) return fracToLatex(q);
         let lcm = Math.abs(q.d * c.d) / gcd(q.d, c.d);
@@ -1048,12 +682,11 @@
         let absN2 = Math.abs(n2);
         let s2_abs = absN2 === 1 ? "" : absN2.toString();
         let numStr = "";
-        if (n1 === 0) { numStr = (n2 < 0 ? "-" : "") + `${s2_abs}\sqrt{${S}}`; } 
-        else { let sign2 = n2 > 0 ? "+" : "-"; numStr = `${n1} ${sign2} ${s2_abs}\sqrt{${S}}`; }
+        if (n1 === 0) { numStr = (n2 < 0 ? "-" : "") + `${s2_abs}\\sqrt{${S}}`; } 
+        else { let sign2 = n2 > 0 ? "+" : "-"; numStr = `${n1} ${sign2} ${s2_abs}\\sqrt{${S}}`; }
         if (lcm === 1) return numStr;
-        return `\frac{${numStr}}{${lcm}}`;
+        return `\\frac{${numStr}}{${lcm}}`;
     }
-
     function exactRoots(A, B, C) {
         A = Math.round(A * 10000);
         B = Math.round(B * 10000); C = Math.round(C * 10000);
@@ -1085,13 +718,92 @@
         ];
         return roots.sort((a,b) => a.val - b.val);
     }
-
     function evalLinearExact(m, n_const, exactX) {
         let fm = floatToFrac(m);
         let fn = floatToFrac(n_const);
         let newQ = addFrac(mulFrac(fm, exactX.q), fn);
         let newC = mulFrac(fm, exactX.c);
         return formatIrrational(newQ, newC, exactX.s);
+    }
+
+    function clearElements(arr) { arr.forEach(el => board.removeObject(el)); return []; }
+    function addPointWithLines(x, y, color, arr) {
+        let p = board.create('point', [x, y], { withLabel: false, size: 2.5, color: color, showInfobox: true });
+        let lv = board.create('segment', [[x, y], [x, 0]], { dash: 2, strokeColor: color, strokeWidth: 1 });
+        let lh = board.create('segment', [[0, y], [x, y]], { dash: 2, strokeColor: color, strokeWidth: 1 });
+        arr.push(p, lv, lh);
+    }
+    function addPoint(x, y, color, arr) {
+        let p = board.create('point', [x, y], { withLabel: false, size: 2.5, color: color, showInfobox: true });
+        arr.push(p);
+    }
+
+   function toggleVisibility() {
+        let showExtrema = document.getElementById('chk-extrema').checked;
+        let showInflection = document.getElementById('chk-inflection').checked;
+        let showAsymptotes = document.getElementById('chk-asymptote').checked;
+        let showOx = document.getElementById('chk-ox').checked;
+        let showOy = document.getElementById('chk-oy').checked;
+        let showTangent = document.getElementById('chk-tangent').checked;
+        
+        // Kiểm tra checkbox lưới có đang được tích hay không
+        let showGrid = document.getElementById('chk-grid').checked;
+        
+        // Bật/tắt lưới bằng cách thay đổi độ dài vạch chia (ticks) giữa -1 và 10
+        if (typeof xAxis !== 'undefined') xAxis.defaultTicks.setAttribute({ majorHeight: showGrid ? -1 : 10 });
+        if (typeof yAxis !== 'undefined') yAxis.defaultTicks.setAttribute({ majorHeight: showGrid ? -1 : 10 });
+        
+        extremaElements.forEach(el => el.setAttribute({ visible: showExtrema }));
+        inflectionElements.forEach(el => el.setAttribute({ visible: showInflection }));
+        asymptoteElements.forEach(el => el.setAttribute({ visible: showAsymptotes }));
+        oxElements.forEach(el => el.setAttribute({ visible: showOx }));
+        oyElements.forEach(el => el.setAttribute({ visible: showOy }));
+// THÊM DÒNG NÀY ĐỂ ẨN/HIỆN LƯỚI TỌA ĐỘ
+        if (typeof gridCurve !== 'undefined') gridCurve.setAttribute({ visible: showGrid });
+        if (tangentGlider) tangentGlider.setAttribute({ visible: showTangent });
+        if (tangentLine) tangentLine.setAttribute({ visible: showTangent });
+        if (isExamMode) {
+            if (typeof graphCurve !== 'undefined' && graphCurve) graphCurve.setAttribute({ strokeColor: '#000000', strokeWidth: 2.2 });
+            asymptoteElements.forEach(el => el.setAttribute({ strokeColor: '#000000', strokeWidth: 1.2, dash: 2 }));
+            extremaElements.forEach(el => {
+                if (el.elType === 'point') el.setAttribute({ color: '#000000', size: 2.2 });
+                else el.setAttribute({ strokeColor: '#000000', strokeWidth: 1, dash: 1 });
+            });
+        }
+        board.update();
+        updateTangentText();
+    }
+
+    function zoomIn() { board.zoomIn(); }
+    function zoomOut() { board.zoomOut(); }
+    function resetView() { board.setBoundingBox(DEFAULT_BOUNDING_BOX, false); }
+
+    function updateTangentText() {
+        let info = document.getElementById('tangent-info');
+        if (tangentLine && document.getElementById('chk-tangent').checked) {
+            let m = tangentLine.getSlope();
+            let isDark = document.body.classList.contains('dark-mode');
+            let color = m > 0 ? (isDark ? "#60a5fa" : "blue") : (m < 0 ? (isDark ? "#f87171" : "red") : (isDark ? "#f8fafc" : "black"));
+            info.innerHTML = `Hệ số góc tiếp tuyến tại x = ${tangentGlider.X().toFixed(2)}: <span style="color:${color};">k = ${m.toFixed(4)}</span>`;
+            tangentLine.setAttribute({strokeColor: m > 0 ? "blue" : (m < 0 ? "red" : "black")});
+        } else {
+            info.innerHTML = "";
+        }
+    }
+
+    function formatTerm(latex, power, isFirst) {
+        if (latex === "0") return "";
+        let isNegative = latex.startsWith("-");
+        let absLatex = isNegative ? latex.substring(1) : latex;
+        let term = "";
+        if (isFirst) {
+            term += isNegative ? "-" : "";
+        } else {
+            term += isNegative ? " - " : " + ";
+        }
+        if (absLatex !== "1" || power === "") term += absLatex;
+        term += power;
+        return term;
     }
 
     function solveCubic(a, b, c, d) {
@@ -1115,90 +827,10 @@
         return roots.filter((r, i, arr) => i === 0 || Math.abs(r - arr[i - 1]) > 1e-4);
     }
 
-    function clearElements(arr) { arr.forEach(el => board.removeObject(el)); return []; }
-
-    function addPointWithLines(x, y, color, arr) {
-        let pColor = isExamMode ? '#000000' : color;
-        let lColor = isExamMode ? '#444444' : color;
-        let p = board.create('point', [x, y], { withLabel: false, size: 2.5, color: pColor, showInfobox: true });
-        let lv = board.create('segment', [[x, y], [x, 0]], { dash: 1, strokeColor: lColor, strokeWidth: 1 });
-        let lh = board.create('segment', [[0, y], [x, y]], { dash: 1, strokeColor: lColor, strokeWidth: 1 });
-        arr.push(p, lv, lh);
-    }
-
-    function addPoint(x, y, color, arr) {
-        let pColor = isExamMode ? '#000000' : color;
-        let p = board.create('point', [x, y], { withLabel: false, size: 2.5, color: pColor, showInfobox: true });
-        arr.push(p);
-    }
-
-    function formatTerm(latex, power, isFirst) {
-        if (latex === "0") return "";
-        let isNegative = latex.startsWith("-");
-        let absLatex = isNegative ? latex.substring(1) : latex;
-        let term = "";
-        if (isFirst) {
-            term += isNegative ? "-" : "";
-        } else {
-            term += isNegative ? " - " : " + ";
-        }
-        if (absLatex !== "1" || power === "") term += absLatex;
-        term += power;
-        return term;
-    }
-
-    // Toggle Visibility of Elements
-    function toggleVisibility() {
-        let showExtrema = document.getElementById('chk-extrema').checked;
-        let showInflection = document.getElementById('chk-inflection').checked;
-        let showAsymptotes = document.getElementById('chk-asymptote').checked;
-        let showOx = document.getElementById('chk-ox').checked;
-        let showOy = document.getElementById('chk-oy').checked;
-        let showTangent = document.getElementById('chk-tangent').checked;
-        let showGrid = document.getElementById('chk-grid').checked;
-        
-        if (typeof xAxis !== 'undefined') xAxis.defaultTicks.setAttribute({ majorHeight: showGrid ? -1 : 10 });
-        if (typeof yAxis !== 'undefined') yAxis.defaultTicks.setAttribute({ majorHeight: showGrid ? -1 : 10 });
-        if (typeof gridCurve !== 'undefined') gridCurve.setAttribute({ visible: showGrid });
-
-        extremaElements.forEach(el => el.setAttribute({ visible: showExtrema }));
-        inflectionElements.forEach(el => el.setAttribute({ visible: showInflection }));
-        asymptoteElements.forEach(el => el.setAttribute({ visible: showAsymptotes }));
-        oxElements.forEach(el => el.setAttribute({ visible: showOx }));
-        oyElements.forEach(el => el.setAttribute({ visible: showOy }));
-        
-        if (tangentGlider) tangentGlider.setAttribute({ visible: showTangent });
-        if (tangentLine) tangentLine.setAttribute({ visible: showTangent });
-        
-        board.update();
-        updateTangentText();
-    }
-
-    function zoomIn() { board.zoomIn(); }
-    function zoomOut() { board.zoomOut(); }
-    function resetView() { board.setBoundingBox(DEFAULT_BOUNDING_BOX, false); }
-
-    function updateTangentText() {
-        let info = document.getElementById('tangent-info');
-        if (tangentLine && document.getElementById('chk-tangent').checked) {
-            let m = tangentLine.getSlope();
-            let isDark = document.body.classList.contains('dark-mode');
-            let color = m > 0 ? (isDark ? "#60a5fa" : "blue") : (m < 0 ? (isDark ? "#f87171" : "red") : (isDark ? "#f8fafc" : "black"));
-            info.innerHTML = `Tiếp tuyến tại $x = ${tangentGlider.X().toFixed(2)}$: <span style="font-weight:700; color:${color};">k = ${m.toFixed(4)}</span>`;
-            if (window.MathJax) MathJax.typesetPromise([info]);
-            tangentLine.setAttribute({ strokeColor: isExamMode ? '#000000' : (m > 0 ? "blue" : (m < 0 ? "red" : "black")) });
-        } else {
-            info.innerHTML = "<em>(Tiếp tuyến đang ẩn)</em>";
-        }
-    }
-
-    // MAIN UPDATE FUNCTION
-    let current_f_val = null;
-
     function updateAll() {
         let type = document.getElementById('func-type').value;
         let absType = document.getElementById('abs-type').value;
-
+        
         let pA = parseInput(document.getElementById('coef-a').value);
         let pB = parseInput(document.getElementById('coef-b').value);
         let pC = parseInput(document.getElementById('coef-c').value);
@@ -1206,199 +838,123 @@
         let pE = parseInput(document.getElementById('coef-e').value);
 
         let a = pA.val, b = pB.val, c = pC.val, d = pD.val, e = pE.val;
-        let a_lat = pA.latex, b_lat = pB.latex, c_lat = pC.latex, d_lat = pD.latex, e_lat = pE.latex;
-
+        let f_base, finalFormula = "";
+        
         extremaElements = clearElements(extremaElements);
         inflectionElements = clearElements(inflectionElements);
         asymptoteElements = clearElements(asymptoteElements);
         oxElements = clearElements(oxElements);
         oyElements = clearElements(oyElements);
-        extremaXValues = [];
-
-        let f_base = x => 0;
-        let finalFormula = "";
-        let extremaColor = isExamMode ? '#000000' : '#ef4444';
-        let inflectionColor = isExamMode ? '#000000' : '#f59e0b';
-        let oxColor = isExamMode ? '#000000' : '#10b981';
-        let oyColor = isExamMode ? '#000000' : '#3b82f6';
-        let asympColor = isExamMode ? '#000000' : '#8b5cf6';
+        extremaXValues = []; // Reset danh sách hoành độ cực trị
 
         if (type === 'cubic') {
-            f_base = x => a * x * x * x + b * x * x + c * x + d;
-            let parts = [formatTerm(a_lat, "x^3", true), formatTerm(b_lat, "x^2", false), formatTerm(c_lat, "x", false), formatTerm(d_lat, "", false)].filter(Boolean);
-            finalFormula = `y = ${parts.join("") || "0"}`;
-
-            if (a !== 0) {
-                let roots = exactRoots(3 * a, 2 * b, c);
-                roots.forEach(r => {
-                    let yVal = f_base(r.val);
-                    addPointWithLines(r.val, yVal, extremaColor, extremaElements);
-                    extremaXValues.push(r.val);
-                });
-                let x_uon = -b / (3 * a), y_uon = f_base(x_uon);
-                addPoint(x_uon, y_uon, inflectionColor, inflectionElements);
-
-                let x_roots = solveCubic(a, b, c, d);
-                x_roots.forEach(rx => addPoint(rx, 0, oxColor, oxElements));
-                addPoint(0, d, oyColor, oyElements);
+            f_base = x => a*x*x*x + b*x*x + c*x + d;
+            let t1 = formatTerm(pA.latex, "x^3", true);
+            let t2 = formatTerm(pB.latex, "x^2", t1 === "");
+            let t3 = formatTerm(pC.latex, "x", t1 === "" && t2 === "");
+            let t4 = formatTerm(pD.latex, "", t1 === "" && t2 === "" && t3 === "");
+            finalFormula = `y = ${t1}${t2}${t3}${t4}`;
+            
+            let deltaExt = b*b - 3*a*c;
+            if(deltaExt > 0) {
+                let x1 = (-b - Math.sqrt(deltaExt))/(3*a), x2 = (-b + Math.sqrt(deltaExt))/(3*a);
+                addPointWithLines(x1, f_base(x1), '#ef4444', extremaElements);
+                addPointWithLines(x2, f_base(x2), '#ef4444', extremaElements);
+                extremaXValues = [x1, x2];
             }
-        }
-        else if (type === 'quartic') {
-            f_base = x => a * x * x * x * x + b * x * x + c;
-            let parts = [formatTerm(a_lat, "x^4", true), formatTerm(b_lat, "x^2", false), formatTerm(c_lat, "", false)].filter(Boolean);
-            finalFormula = `y = ${parts.join("") || "0"}`;
-
-            if (a !== 0) {
-                addPointWithLines(0, c, extremaColor, extremaElements);
-                extremaXValues.push(0);
-                if (-b / (2 * a) > 0) {
-                    let x1 = Math.sqrt(-b / (2 * a)), x2 = -x1;
-                    addPointWithLines(x1, f_base(x1), extremaColor, extremaElements);
-                    addPointWithLines(x2, f_base(x2), extremaColor, extremaElements);
-                    extremaXValues.push(x1, x2);
-                }
-                let delta = b * b - 4 * a * c;
-                if (delta >= 0) {
-                    let t1 = (-b + Math.sqrt(delta)) / (2 * a);
-                    let t2 = (-b - Math.sqrt(delta)) / (2 * a);
-                    [t1, t2].forEach(t => {
-                        if (t > 0) {
-                            addPoint(Math.sqrt(t), 0, oxColor, oxElements);
-                            addPoint(-Math.sqrt(t), 0, oxColor, oxElements);
-                        } else if (t === 0) {
-                            addPoint(0, 0, oxColor, oxElements);
-                        }
-                    });
-                }
-                addPoint(0, c, oyColor, oyElements);
+            let xU = -b/(3*a);
+            addPointWithLines(xU, f_base(xU), '#f59e0b', inflectionElements);
+            solveCubic(a, b, c, d).forEach(r => addPoint(r, 0, '#10b981', oxElements));
+        } else if (type === 'quartic') {
+            f_base = x => a*x*x*x*x + b*x*x + c;
+            let t1 = formatTerm(pA.latex, "x^4", true);
+            let t2 = formatTerm(pB.latex, "x^2", t1 === "");
+            let t3 = formatTerm(pC.latex, "", t1 === "" && t2 === "");
+            finalFormula = `y = ${t1}${t2}${t3}`;
+            
+            extremaXValues = [0];
+            addPointWithLines(0, c, '#ef4444', extremaElements);
+            if (-b/(2*a) > 0) {
+                let xE = Math.sqrt(-b/(2*a));
+                addPointWithLines(xE, f_base(xE), '#ef4444', extremaElements);
+                addPointWithLines(-xE, f_base(-xE), '#ef4444', extremaElements);
+                extremaXValues = [-xE, 0, xE];
             }
-        }
-        else if (type === 'frac11') {
-            // Air-gap protection: tránh vẽ dính vào tiệm cận đứng
-            f_base = x => {
-                let denom = c * x + d;
-                if (Math.abs(denom) < 1e-4) return NaN;
-                let val = (a * x + b) / denom;
-                return Math.abs(val) > 100 ? NaN : val;
-            };
-
-            let num = [formatTerm(a_lat, "x", true), formatTerm(b_lat, "", false)].filter(Boolean).join("") || "0";
-            let den = [formatTerm(c_lat, "x", true), formatTerm(d_lat, "", false)].filter(Boolean).join("") || "0";
-            finalFormula = `y = \frac{${num}}{${den}}`;
-
-            if (c !== 0) {
-                let x_asymp = -d / c;
-                let y_asymp = a / c;
-                asymptoteElements.push(board.create('line', [[x_asymp, 0], [x_asymp, 1]], { strokeColor: asympColor, dash: 2, strokeWidth: isExamMode ? 1.2 : 1 }));
-                asymptoteElements.push(board.create('line', [[0, y_asymp], [1, y_asymp]], { strokeColor: asympColor, dash: 2, strokeWidth: isExamMode ? 1.2 : 1 }));
-
-                if (a !== 0) {
-                    let x_ox = -b / a;
-                    if (Math.abs(x_ox - x_asymp) > 1e-4) addPoint(x_ox, 0, oxColor, oxElements);
-                }
-                if (d !== 0) {
-                    addPoint(0, b / d, oyColor, oyElements);
-                }
+            if (-b/(6*a) > 0) {
+                let xU = Math.sqrt(-b/(6*a));
+                addPointWithLines(xU, f_base(xU), '#f59e0b', inflectionElements);
+                addPointWithLines(-xU, f_base(-xU), '#f59e0b', inflectionElements);
             }
-        }
-        else if (type === 'frac21') {
-            // Air-gap protection cho hàm phân thức bậc 2/1
-            f_base = x => {
-                let denom = d * x + e;
-                if (Math.abs(denom) < 1e-4) return NaN;
-                let val = (a * x * x + b * x + c) / denom;
-                return Math.abs(val) > 100 ? NaN : val;
-            };
-
-            let num = [formatTerm(a_lat, "x^2", true), formatTerm(b_lat, "x", false), formatTerm(c_lat, "", false)].filter(Boolean).join("") || "0";
-            let den = [formatTerm(d_lat, "x", true), formatTerm(e_lat, "", false)].filter(Boolean).join("") || "0";
-            finalFormula = `y = \frac{${num}}{${den}}`;
-
-            if (d !== 0) {
-                let x_asymp = -e / d;
-                asymptoteElements.push(board.create('line', [[x_asymp, 0], [x_asymp, 1]], { strokeColor: asympColor, dash: 2, strokeWidth: isExamMode ? 1.2 : 1 }));
-                
-                // Tiệm cận xiên y = (a/d)x + (b/d - ae/d^2)
-                let m_asymp = a / d;
-                let n_asymp = (b / d) - (a * e / (d * d));
-                asymptoteElements.push(board.create('functiongraph', [x => m_asymp * x + n_asymp], { strokeColor: asympColor, dash: 2, strokeWidth: isExamMode ? 1.2 : 1 }));
-
-                let roots = exactRoots(a * d, 2 * a * e, b * e - c * d);
-                roots.forEach(r => {
-                    let yVal = (2 * a * r.val + b) / d;
-                    addPointWithLines(r.val, yVal, extremaColor, extremaElements);
-                    extremaXValues.push(r.val);
-                });
-
-                let delta = b * b - 4 * a * c;
-                if (delta >= 0) {
-                    let rx1 = (-b + Math.sqrt(delta)) / (2 * a);
-                    let rx2 = (-b - Math.sqrt(delta)) / (2 * a);
-                    if (Math.abs(rx1 - x_asymp) > 1e-4) addPoint(rx1, 0, oxColor, oxElements);
-                    if (Math.abs(rx2 - x_asymp) > 1e-4 && Math.abs(rx1 - rx2) > 1e-4) addPoint(rx2, 0, oxColor, oxElements);
-                }
-                if (e !== 0) {
-                    addPoint(0, c / e, oyColor, oyElements);
-                }
+            let deltaRoot = b*b - 4*a*c;
+            if(deltaRoot >= 0) {
+                let r1 = (-b - Math.sqrt(deltaRoot))/(2*a);
+                let r2 = (-b + Math.sqrt(deltaRoot))/(2*a);
+                if(r1 >= 0) { addPoint(Math.sqrt(r1), 0, '#10b981', oxElements); addPoint(-Math.sqrt(r1), 0, '#10b981', oxElements); }
+                if(r2 >= 0 && r2 !== r1) { addPoint(Math.sqrt(r2), 0, '#10b981', oxElements); addPoint(-Math.sqrt(r2), 0, '#10b981', oxElements); }
             }
+
+        } else if (type === 'frac11') {
+            f_base = x => (Math.abs(c*x + d) < 1e-5) ? NaN : (a*x + b)/(c*x + d);
+            finalFormula = `y = \\frac{${formatTerm(pA.latex, "x", true)}${formatTerm(pB.latex, "", pA.latex==="0")}}{${formatTerm(pC.latex, "x", true)}${formatTerm(pD.latex, "", pC.latex==="0")}}`;
+            if (a !== 0) addPoint(-b/a, 0, '#10b981', oxElements);
+            asymptoteElements.push(board.create('line', [[-d/c, 0], [-d/c, 1]], { strokeColor: '#8b5cf6', dash: 2 }));
+            asymptoteElements.push(board.create('line', [[0, a/c], [1, a/c]], { strokeColor: '#8b5cf6', dash: 2 }));
+        } else if (type === 'frac21') {
+            f_base = x => (Math.abs(d*x + e) < 1e-5) ? NaN : (a*x*x + b*x + c)/(d*x + e);
+            let tu = `${formatTerm(pA.latex, "x^2", true)}${formatTerm(pB.latex, "x", pA.latex==="0")}${formatTerm(pC.latex, "", pA.latex==="0" && pB.latex==="0")}`;
+            let mau = `${formatTerm(pD.latex, "x", true)}${formatTerm(pE.latex, "", pD.latex==="0")}`;
+            finalFormula = `y = \\frac{${tu}}{${mau}}`;
+            
+            let deltaRoot = b*b - 4*a*c;
+            if(deltaRoot >= 0 && a !== 0) {
+                addPoint((-b - Math.sqrt(deltaRoot))/(2*a), 0, '#10b981', oxElements);
+                if (deltaRoot > 0) addPoint((-b + Math.sqrt(deltaRoot))/(2*a), 0, '#10b981', oxElements);
+            }
+            let A_der = a*d, B_der = 2*a*e, C_der = b*e - c*d;
+            let deltaDer = B_der*B_der - 4*A_der*C_der;
+            if(deltaDer > 0 && A_der !== 0) {
+                let x1 = (-B_der - Math.sqrt(deltaDer))/(2*A_der), x2 = (-B_der + Math.sqrt(deltaDer))/(2*A_der);
+                addPointWithLines(x1, f_base(x1), '#ef4444', extremaElements);
+                addPointWithLines(x2, f_base(x2), '#ef4444', extremaElements);
+                extremaXValues = [x1, x2];
+            }
+            asymptoteElements.push(board.create('line', [[-e/d, 0], [-e/d, 1]], { strokeColor: '#8b5cf6', dash: 2 }));
+            asymptoteElements.push(board.create('line', [[0, (b*d-a*e)/(d*d)], [1, a/d + (b*d-a*e)/(d*d)]], { strokeColor: '#8b5cf6', dash: 2 }));
         }
 
-        // Apply Absolute Value
+        if(!isNaN(f_base(0)) && Math.abs(f_base(0)) !== Infinity) {
+            addPoint(0, f_base(0), '#3b82f6', oyElements);
+        }
+
         let f_val = f_base;
         if (absType === 'abs_f') {
             f_val = x => Math.abs(f_base(x));
             finalFormula = `y = |${finalFormula.substring(4)}|`;
         } else if (absType === 'abs_x') {
             f_val = x => f_base(Math.abs(x));
-            finalFormula = finalFormula.replace(/x/g, '|x|');
         } else if (absType === 'abs_both') {
             f_val = x => Math.abs(f_base(Math.abs(x)));
-            let inside = finalFormula.substring(4).replace(/x/g, '|x|');
-            finalFormula = `y = |${inside}|`;
         }
 
-        current_f_val = f_val;
-
-        // Render Formula MathJax
-        document.getElementById('math-formula').innerHTML = `$${finalFormula}$`;
-        if (window.MathJax) MathJax.typesetPromise([document.getElementById('math-formula')]);
-
-        // Recreate Graph Curve
         if (graphCurve) board.removeObject(graphCurve);
         if (tangentGlider) board.removeObject(tangentGlider);
         if (tangentLine) board.removeObject(tangentLine);
 
-        let curveColor = isExamMode ? '#000000' : '#0070C0';
-        let curveWidth = isExamMode ? 2.2 : 2.0;
-
-        graphCurve = board.create('functiongraph', [f_val], { 
-            strokeWidth: curveWidth, 
-            strokeColor: curveColor,
-            highlight: false
-        });
+        currentFVal = f_val;
+        graphCurve = board.create('functiongraph', [f_val], { strokeWidth: 2, strokeColor: '#2563eb' });
         
-        let showTangent = document.getElementById('chk-tangent').checked && !isExamMode;
-        tangentGlider = board.create('glider', [1, f_val(1), graphCurve], { 
-            name: 'M', 
-            size: 3, 
-            color: '#d946ef', 
-            visible: showTangent,
-            showInfobox: false
-        });
-
-        tangentLine = board.create('tangent', [tangentGlider], { 
-            dash: 1, 
-            strokeWidth: 1.2, 
-            visible: showTangent 
-        });
+        let showTangent = document.getElementById('chk-tangent').checked;
+        tangentGlider = board.create('glider', [1, f_val(1), graphCurve], { name: '', size: 3, color: '#d946ef', visible: showTangent });
+        tangentLine = board.create('tangent', [tangentGlider], { dash: 1, visible: showTangent });
         
-        // Magnetic Snap: hút dính vào cực trị
+        // Thêm tính năng điểm hút (magnetic snap) khi kéo điểm M đi qua các điểm cực trị
         tangentGlider.on('drag', function() {
             if (extremaXValues.length > 0) {
                 let currentX = tangentGlider.X();
-                for (let extX of extremaXValues) {
-                    if (Math.abs(currentX - extX) < 0.35) {
-                        tangentGlider.moveTo([extX, f_val(extX)]);
+                let snapThreshold = 0.35; // Khoảng cách nhận điểm hút
+                for (let xExt of extremaXValues) {
+                    if (Math.abs(currentX - xExt) < snapThreshold) {
+                        tangentGlider.setPosition(JXG.COORDS_BY_USER, [xExt, f_val(xExt)]);
                         break;
                     }
                 }
@@ -1406,211 +962,127 @@
             updateTangentText();
         });
 
-        // Bảng biến thiên
-        document.getElementById('bbt-output').innerHTML = renderBBT(type, a, b, c, d, e);
-        if (window.MathJax) MathJax.typesetPromise([document.getElementById('bbt-output')]);
+        board.on('update', updateTangentText);
+        updateTangentText();
 
+        document.getElementById('math-formula').innerHTML = `\\[${finalFormula}\\]`;
+        document.getElementById('bbt-output').innerHTML = renderBBT(type, a, b, c, d, e, f_base);
         toggleVisibility();
-        updateTuongGiao();
-        board.update();
-    }
-
-    // Biện luận tương giao y = m
-    function updateTuongGiao() {
-        let isEnabled = document.getElementById('chk-tuong-giao').checked;
-        let m = parseFloat(document.getElementById('slider-m').value);
-        let resBox = document.getElementById('tuong-giao-res');
-
-        // Xóa đối tượng cũ
-        if (tuongGiaoLine) { board.removeObject(tuongGiaoLine); tuongGiaoLine = null; }
-        tuongGiaoPoints = clearElements(tuongGiaoPoints);
-
-        if (!isEnabled || !current_f_val) {
-            resBox.innerHTML = "Số giao điểm: <em>Tích chọn để kích hoạt</em>";
-            return;
-        }
-
-        // Vẽ đường thẳng y = m
-        let lineColor = isExamMode ? '#000000' : '#ea580c';
-        tuongGiaoLine = board.create('line', [[0, m], [1, m]], {
-            strokeColor: lineColor,
-            strokeWidth: 1.8,
-            dash: 2,
-            name: `d: y = ${m.toFixed(1)}`,
-            withLabel: true,
-            label: { position: 'rt', offset: [-60, 10], fontSize: 13, cssStyle: 'font-weight:bold; color:'+lineColor+';' }
-        });
-
-        // Tìm nghiệm tương giao trên [-8, 8]
-        let roots = [];
-        let xMin = -8, xMax = 8, steps = 320;
-        let dx = (xMax - xMin) / steps;
-        let prevX = xMin;
-        let prevY = current_f_val(prevX) - m;
-
-        for (let i = 1; i <= steps; i++) {
-            let curX = xMin + i * dx;
-            let curY = current_f_val(curX) - m;
-
-            if (isNaN(prevY) || isNaN(curY) || Math.abs(prevY) > 50 || Math.abs(curY) > 50) {
-                prevX = curX;
-                prevY = curY;
-                continue;
-            }
-
-            if (prevY * curY <= 0) {
-                let x0 = prevX, x1 = curX;
-                for (let k = 0; k < 14; k++) {
-                    let mid = (x0 + x1) / 2;
-                    let midY = current_f_val(mid) - m;
-                    if (Math.abs(midY) < 1e-7) { x0 = mid; break; }
-                    if (prevY * midY <= 0) { x1 = mid; } else { x0 = mid; prevY = midY; }
-                }
-                let root = (x0 + x1) / 2;
-                if (roots.length === 0 || Math.abs(root - roots[roots.length - 1]) > 0.08) {
-                    if (Math.abs(current_f_val(root) - m) < 0.25) {
-                        roots.push(root);
-                    }
-                }
-            }
-            prevX = curX;
-            prevY = curY;
-        }
-
-        // Vẽ các điểm giao
-        let ptColor = isExamMode ? '#000000' : '#ea580c';
-        roots.forEach((rx, idx) => {
-            let p = board.create('point', [rx, m], {
-                name: `N_${idx+1}`,
-                size: 3,
-                color: ptColor,
-                withLabel: false,
-                showInfobox: true
-            });
-            tuongGiaoPoints.push(p);
-        });
-
-        let rootsStr = roots.map(r => r.toFixed(2)).join("; ");
-        let count = roots.length;
-        resBox.innerHTML = `Số giao điểm: <strong style="color:${lineColor}; font-size:0.95rem;">${count} nghiệm</strong>` +
-                           (count > 0 ? ` (hoành độ $x \approx ${rootsStr}$)` : ` (vô nghiệm trên $[-8; 8]$)`);
-        if (window.MathJax) MathJax.typesetPromise([resBox]);
-        board.update();
-    }
-
-    // Engine Render Bảng Biến Thiên SVG
-    function renderBBT(type, a, b, c, d, e) {
-        let isDark = document.body.classList.contains('dark-mode');
-        let strokeColor = isExamMode ? "#000000" : (isDark ? "#94a3b8" : "#0f172a");
-        let textColor = isExamMode ? "#000000" : (isDark ? "#f8fafc" : "#0f172a");
-        let arrowColor = isExamMode ? "#000000" : (isDark ? "#60a5fa" : "#0070C0");
-        let dlineColor = isExamMode ? "#000000" : (isDark ? "#cbd5e1" : "#0f172a");
-
-        let html = `<div style="display:flex; justify-content:center; width:100%;"><div style="display:inline-block; border:1px solid ${strokeColor}; background:var(--bbt-bg); padding:10px 14px; border-radius:8px;">`;
-        let svg = `<svg viewBox="0 0 540 160" style="width:100%; min-width:440px; max-width:540px; height:auto; overflow:visible; font-family:'Times New Roman', Times, serif;">`;
-        svg += `<defs><marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="${arrowColor}"/></marker></defs>`;
         
-        let w_label = 55, w_total = 540, h_x = 35, h_yp = 35, h_y = 90;
-        let ty_top = h_x + h_yp + 18, ty_bot = h_x + h_yp + h_y - 14;
-        let ay_top = ty_top + 4, ay_bot = ty_bot - 8;
+        updateTuongGiao();
+        if (window.MathJax) MathJax.typesetPromise();
+    }
 
-        // Đường lưới phân chia
-        svg += `<line x1="${w_label}" y1="0" x2="${w_label}" y2="${h_x + h_yp + h_y}" stroke="${strokeColor}" stroke-width="1.2"/>`;
-        svg += `<line x1="0" y1="${h_x}" x2="${w_total}" y2="${h_x}" stroke="${strokeColor}" stroke-width="1.2"/>`;
-        svg += `<line x1="0" y1="${h_x + h_yp}" x2="${w_total}" y2="${h_x + h_yp}" stroke="${strokeColor}" stroke-width="1.2"/>`;
+    function renderBBT(type, a, b, c, d, e, f) {
+        let h_x = 36, h_yp = 36, h_y = 120;
+        let y_st = h_x + h_yp;
+        
+        let html = `
+        <div style="display: flex; border: 1px solid var(--bbt-border); background: var(--bbt-bg); color: var(--text); font-size: 0.95rem; position: relative; font-family: 'Times New Roman', serif;">
+            <div style="width: 55px; border-right: 1px solid var(--bbt-border); display: flex; flex-direction: column; text-align: center; font-style: italic; z-index: 2; background: var(--bbt-bg);">
+                <div style="height: ${h_x}px; line-height: ${h_x}px; border-bottom: 1px solid var(--bbt-border);">x</div>
+                <div style="height: ${h_yp}px; line-height: ${h_yp}px; border-bottom: 1px solid var(--bbt-border);">y'</div>
+                <div style="height: ${h_y}px; display: flex; align-items: center; justify-content: center;">y</div>
+            </div>
+            <div style="flex: 1; position: relative; overflow: hidden; min-height: ${h_x + h_yp + h_y}px;">
+                <div style="position: absolute; top: ${h_x}px; left: 0; right: 0; border-bottom: 1px solid var(--bbt-border); z-index: 1;"></div>
+                <div style="position: absolute; top: ${h_x + h_yp}px; left: 0; right: 0; border-bottom: 1px solid var(--bbt-border); z-index: 1;"></div>
+        `;
+        
+        let svg = `<svg width="100%" height="${h_y}px" style="position: absolute; top: ${y_st}px; left: 0; z-index: 2; pointer-events: none;">
+            <defs><marker id="arr-head" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto-start-reverse"><path d="M 0 1 L 10 5 L 0 9 z" fill="var(--text)"/></marker></defs>`;
+            
+        function txt(t, x, y) { html += `<div style="position: absolute; left: ${x}%; top: ${y}px; transform: translate(-50%, -50%); white-space: nowrap; z-index: 3;">${t}</div>`; }
+        function arr(x1, y1, x2, y2) { svg += `<line x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%" stroke="var(--text)" stroke-width="1.2" marker-end="url(#arr-head)" />`; }
+        function dLine(x, top, h) { html += `<div style="position: absolute; left: ${x}%; top: ${top}px; height: ${h}px; width: 4px; border-left: 1px solid var(--bbt-border); border-right: 1px solid var(--bbt-border); transform: translateX(-50%); z-index: 1; background: var(--bbt-bg);"></div>`; }
 
-        // Nhãn x, y', y
-        svg += `<text x="${w_label/2}" y="${h_x/2 + 5}" font-size="16" font-style="italic" font-weight="bold" fill="${textColor}" text-anchor="middle">x</text>`;
-        svg += `<text x="${w_label/2}" y="${h_x + h_yp/2 + 5}" font-size="16" font-style="italic" font-weight="bold" fill="${textColor}" text-anchor="middle">y'</text>`;
-        svg += `<text x="${w_label/2}" y="${h_x + h_yp + h_y/2 + 5}" font-size="16" font-style="italic" font-weight="bold" fill="${textColor}" text-anchor="middle">y</text>`;
-
-        const txt = (str, pct, y) => {
-            let x = w_label + (w_total - w_label) * (pct / 100);
-            svg += `<text x="${x}" y="${y + 5}" font-size="14" fill="${textColor}" text-anchor="middle">${str}</text>`;
-        };
-        const arr = (p1, y1, p2, y2) => {
-            let x1 = w_label + (w_total - w_label) * (p1 / 100);
-            let x2 = w_label + (w_total - w_label) * (p2 / 100);
-            svg += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${arrowColor}" stroke-width="1.6" marker-end="url(#arrow)"/>`;
-        };
-        const dLine = (pct, y_start, h) => {
-            let x = w_label + (w_total - w_label) * (pct / 100);
-            svg += `<line x1="${x-2}" y1="${y_start}" x2="${x-2}" y2="${y_start + h}" stroke="${dlineColor}" stroke-width="1.2"/>`;
-            svg += `<line x1="${x+2}" y1="${y_start}" x2="${x+2}" y2="${y_start + h}" stroke="${dlineColor}" stroke-width="1.2"/>`;
-        };
+        let ty_top = y_st + h_y * 0.18, ty_bot = y_st + h_y * 0.82; 
+        let ay_top = 28, ay_bot = 72;
 
         if (type === 'cubic') {
             let roots = exactRoots(3*a, 2*b, c);
             if (roots.length === 2) {
-                let px = [8, 36, 64, 92], ps = [22, 50, 78];
-                txt("$-\infty$", px[0], h_x / 2); txt(`$${roots[0].latex}$`, px[1], h_x / 2);
-                txt(`$${roots[1].latex}$`, px[2], h_x / 2); txt("$+\infty$", px[3], h_x / 2);
+                let px = [10, 36, 64, 90], ps = [23, 50, 77];
+                txt("$-\\infty$", px[0], h_x / 2); txt(`$${roots[0].latex}$`, px[1], h_x / 2); txt(`$${roots[1].latex}$`, px[2], h_x / 2); txt("$+\\infty$", px[3], h_x / 2);
+                
                 let s1 = a > 0 ? "+" : "-", s2 = a > 0 ? "-" : "+";
-                txt(`$${s1}$`, ps[0], h_x + h_yp / 2); txt("$0$", px[1], h_x + h_yp / 2);
-                txt(`$${s2}$`, ps[1], h_x + h_yp / 2); txt("$0$", px[2], h_x + h_yp / 2);
-                txt(`$${s1}$`, ps[2], h_x + h_yp / 2);
-                let y1_latex = evalLinearExact((2*c/3) - (2*b*b/(9*a)), d - (b*c/(9*a)), roots[0].exact);
-                let y2_latex = evalLinearExact((2*c/3) - (2*b*b/(9*a)), d - (b*c/(9*a)), roots[1].exact);
+                txt(`$${s1}$`, ps[0], h_x + h_yp / 2); txt("$0$", px[1], h_x + h_yp / 2); txt(`$${s2}$`, ps[1], h_x + h_yp / 2); txt("$0$", px[2], h_x + h_yp / 2); txt(`$${s1}$`, ps[2], h_x + h_yp / 2);
+                
+                let m = (2*c)/3 - (2*b*b)/(9*a), n_const = d - (b*c)/(9*a);
+                let y1_latex = evalLinearExact(m, n_const, roots[0].exact);
+                let y2_latex = evalLinearExact(m, n_const, roots[1].exact);
+                
                 if (a > 0) {
-                    txt("$-\infty$", px[0], ty_bot); txt(`$${y1_latex}$`, px[1], ty_top);
-                    txt(`$${y2_latex}$`, px[2], ty_bot); txt("$+\infty$", px[3], ty_top);
-                    arr(px[0]+4, ay_bot, px[1]-4, ay_top); arr(px[1]+4, ay_top, px[2]-4, ay_bot); arr(px[2]+4, ay_bot, px[3]-4, ay_top);
+                    txt("$-\\infty$", px[0], ty_bot);
+                    txt(`$${y1_latex}$`, px[1], ty_top); txt(`$${y2_latex}$`, px[2], ty_bot); txt("$+\\infty$", px[3], ty_top);
+                    arr(px[0]+4, ay_bot, px[1]-4, ay_top); arr(px[1]+4, ay_top, px[2]-4, ay_bot);
+                    arr(px[2]+4, ay_bot, px[3]-4, ay_top);
                 } else {
-                    txt("$+\infty$", px[0], ty_top); txt(`$${y1_latex}$`, px[1], ty_bot);
-                    txt(`$${y2_latex}$`, px[2], ty_top); txt("$-\infty$", px[3], ty_bot);
-                    arr(px[0]+4, ay_top, px[1]-4, ay_bot); arr(px[1]+4, ay_top, px[2]-4, ay_bot); arr(px[2]+4, ay_bot, px[3]-4, ay_top);
+                    txt("$+\\infty$", px[0], ty_top);
+                    txt(`$${y1_latex}$`, px[1], ty_bot); txt(`$${y2_latex}$`, px[2], ty_top); txt("$-\\infty$", px[3], ty_bot);
+                    arr(px[0]+4, ay_top, px[1]-4, ay_bot); arr(px[1]+4, ay_bot, px[2]-4, ay_top);
+                    arr(px[2]+4, ay_top, px[3]-4, ay_bot);
                 }
             } else {
-                let px = [15, 85];
-                txt("$-\infty$", px[0], h_x / 2); txt("$+\infty$", px[1], h_x / 2);
-                let sign = a > 0 ? "+" : "-";
-                txt(`$${sign}$`, 50, h_x + h_yp / 2);
+                let px = [15, 85], ps = [50];
+                txt("$-\\infty$", px[0], h_x / 2); txt("$+\\infty$", px[1], h_x / 2);
+                txt(a > 0 ? "$+$" : "$-$", ps[0], h_x + h_yp / 2);
                 if (a > 0) {
-                    txt("$-\infty$", px[0], ty_bot); txt("$+\infty$", px[1], ty_top);
-                    arr(px[0]+5, ay_bot, px[1]-5, ay_top);
+                    txt("$-\\infty$", px[0], ty_bot);
+                    txt("$+\\infty$", px[1], ty_top); arr(px[0]+6, ay_bot, px[1]-6, ay_top);
                 } else {
-                    txt("$+\infty$", px[0], ty_top); txt("$-\infty$", px[1], ty_bot);
-                    arr(px[0]+5, ay_top, px[1]-5, ay_bot);
+                    txt("$+\\infty$", px[0], ty_top);
+                    txt("$-\\infty$", px[1], ty_bot); arr(px[0]+6, ay_top, px[1]-6, ay_bot);
                 }
             }
-        }
+        } 
         else if (type === 'quartic') {
-            let roots = exactRoots(4*a, 0, 2*b);
-            let has3 = (roots.length === 2 && -b/(2*a) > 0);
-            let v_inf = a > 0 ? "$+\infty$" : "$-\infty$";
-            if (has3) {
-                let x1_val = Math.sqrt(-b/(2*a));
-                let sim = simplifyRadical(Math.round((-b/(2*a))*10000));
-                let q_sim = makeFrac(sim[0], 100);
-                let x_latex = formatIrrational(makeFrac(0,1), q_sim, sim[1]);
-                let y_ct_latex = fracToLatex(floatToFrac(c - (b*b)/(4*a)));
+            if (-b/(2*a) > 0) {
+                let f_x2 = floatToFrac(-b/(2*a));
+                let sim = simplifyRadical(f_x2.n * f_x2.d);
+                let exactX2 = {q: makeFrac(0,1), c: makeFrac(sim[0], f_x2.d), s: sim[1]};
+                let exactX1 = {q: makeFrac(0,1), c: makeFrac(-exactX2.c.n, exactX2.c.d), s: sim[1]};
+                
+                let r1_latex = formatIrrational(exactX1.q, exactX1.c, exactX1.s);
+                let r2_latex = formatIrrational(exactX2.q, exactX2.c, exactX2.s);
+                let y_latex = fracToLatex(floatToFrac(c - (b*b)/(4*a)));
                 let c_latex = fracToLatex(floatToFrac(c));
-                let px = [6, 28, 50, 72, 94], ps = [17, 39, 61, 83];
-                txt("$-\infty$", px[0], h_x/2); txt(`$-${x_latex}$`, px[1], h_x/2); txt("$0$", px[2], h_x/2); txt(`$${x_latex}$`, px[3], h_x/2); txt("$+\infty$", px[4], h_x/2);
+                let px = [8, 29, 50, 71, 92], ps = [18.5, 39.5, 60.5, 81.5];
+                txt("$-\\infty$", px[0], h_x/2); txt(`$${r1_latex}$`, px[1], h_x/2);
+                txt("$0$", px[2], h_x/2); txt(`$${r2_latex}$`, px[3], h_x/2); txt("$+\\infty$", px[4], h_x/2);
+                
                 let s1 = a > 0 ? "-" : "+", s2 = a > 0 ? "+" : "-";
-                txt(`$${s1}$`, ps[0], h_x + h_yp/2); txt("$0$", px[1], h_x + h_yp/2);
-                txt(`$${s2}$`, ps[1], h_x + h_yp/2); txt("$0$", px[2], h_x + h_yp/2);
-                txt(`$${s1}$`, ps[2], h_x + h_yp/2); txt("$0$", px[3], h_x + h_yp/2);
-                txt(`$${s2}$`, ps[3], h_x + h_yp/2);
+                txt(`$${s1}$`, ps[0], h_x + h_yp/2);
+                txt("$0$", px[1], h_x + h_yp/2); txt(`$${s2}$`, ps[1], h_x + h_yp/2); txt("$0$", px[2], h_x + h_yp/2); txt(`$${s1}$`, ps[2], h_x + h_yp/2);
+                txt("$0$", px[3], h_x + h_yp/2); txt(`$${s2}$`, ps[3], h_x + h_yp/2);
+
+                let v_inf = a > 0 ? "$+\\infty$" : "$-\\infty$";
                 if (a > 0) {
-                    txt(v_inf, px[0], ty_top); txt(`$${y_ct_latex}$`, px[1], ty_bot); txt(`$${c_latex}$`, px[2], ty_top); txt(`$${y_ct_latex}$`, px[3], ty_bot); txt(v_inf, px[4], ty_top);
-                    arr(px[0]+4, ay_top, px[1]-4, ay_bot); arr(px[1]+4, ay_bot, px[2]-4, ay_top); arr(px[2]+4, ay_top, px[3]-4, ay_bot); arr(px[3]+4, ay_bot, px[4]-4, ay_top);
+                    txt(v_inf, px[0], ty_top);
+                    txt(`$${y_latex}$`, px[1], ty_bot); txt(`$${c_latex}$`, px[2], ty_top); txt(`$${y_latex}$`, px[3], ty_bot); txt(v_inf, px[4], ty_top);
+                    arr(px[0]+3, ay_top, px[1]-3, ay_bot); arr(px[1]+3, ay_bot, px[2]-3, ay_top);
+                    arr(px[2]+3, ay_top, px[3]-3, ay_bot); arr(px[3]+3, ay_bot, px[4]-3, ay_top);
                 } else {
-                    txt(v_inf, px[0], ty_bot); txt(`$${y_ct_latex}$`, px[1], ty_top); txt(`$${c_latex}$`, px[2], ty_bot); txt(`$${y_ct_latex}$`, px[3], ty_top); txt(v_inf, px[4], ty_bot);
-                    arr(px[0]+4, ay_bot, px[1]-4, ay_top); arr(px[1]+4, ay_top, px[2]-4, ay_bot); arr(px[2]+4, ay_bot, px[3]-4, ay_top); arr(px[3]+4, ay_top, px[4]-4, ay_bot);
+                    txt(v_inf, px[0], ty_bot);
+                    txt(`$${y_latex}$`, px[1], ty_top); txt(`$${c_latex}$`, px[2], ty_bot); txt(`$${y_latex}$`, px[3], ty_top); txt(v_inf, px[4], ty_bot);
+                    arr(px[0]+3, ay_bot, px[1]-3, ay_top); arr(px[1]+3, ay_top, px[2]-3, ay_bot);
+                    arr(px[2]+3, ay_bot, px[3]-3, ay_top); arr(px[3]+3, ay_top, px[4]-3, ay_bot);
                 }
             } else {
-                let px = [10, 50, 90], ps = [30, 70];
-                txt("$-\infty$", px[0], h_x / 2); txt("$0$", px[1], h_x / 2); txt("$+\infty$", px[2], h_x / 2);
+                let px = [15, 50, 85], ps = [32.5, 67.5];
+                txt("$-\\infty$", px[0], h_x/2); txt("$0$", px[1], h_x/2); txt("$+\\infty$", px[2], h_x/2);
                 let s1 = a > 0 ? "-" : "+", s2 = a > 0 ? "+" : "-";
-                txt(`$${s1}$`, ps[0], h_x + h_yp / 2); txt("$0$", px[1], h_x + h_yp / 2); txt(`$${s2}$`, ps[1], h_x + h_yp / 2);
+                txt(`$${s1}$`, ps[0], h_x + h_yp/2);
+                txt("$0$", px[1], h_x + h_yp/2); txt(`$${s2}$`, ps[1], h_x + h_yp/2);
+                let v_inf = a > 0 ? "$+\\infty$" : "$-\\infty$";
                 let c_latex = fracToLatex(floatToFrac(c));
                 if (a > 0) {
-                    txt(v_inf, px[0], ty_top); txt(`$${c_latex}$`, px[1], ty_bot); txt(v_inf, px[2], ty_top);
+                    txt(v_inf, px[0], ty_top);
+                    txt(`$${c_latex}$`, px[1], ty_bot); txt(v_inf, px[2], ty_top);
                     arr(px[0]+5, ay_top, px[1]-5, ay_bot); arr(px[1]+5, ay_bot, px[2]-5, ay_top);
                 } else {
-                    txt(v_inf, px[0], ty_top); txt(`$${c_latex}$`, px[1], ty_top); txt(v_inf, px[2], ty_bot);
+                    txt(v_inf, px[0], ty_top);
+                    txt(`$${c_latex}$`, px[1], ty_top); txt(v_inf, px[2], ty_bot);
                     arr(px[0]+5, ay_top, px[1]-5, ay_bot); arr(px[1]+5, ay_top, px[2]-5, ay_bot);
                 }
             }
@@ -1620,19 +1092,19 @@
             let yh_latex = fracToLatex(floatToFrac(a/c));
             let det = a*d - b*c;
             let px = [15, 50, 85], ps = [32.5, 67.5];
-            txt("$-\infty$", px[0], h_x / 2); txt(`$${x0_latex}$`, px[1], h_x / 2); txt("$+\infty$", px[2], h_x / 2);
+            txt("$-\\infty$", px[0], h_x / 2); txt(`$${x0_latex}$`, px[1], h_x / 2); txt("$+\\infty$", px[2], h_x / 2);
             let sign = det > 0 ? "+" : "-";
             txt(`$${sign}$`, ps[0], h_x + h_yp / 2);
             dLine(px[1], h_x, h_yp + h_y); txt(`$${sign}$`, ps[1], h_x + h_yp / 2);
             if (det > 0) {
                 txt(`$${yh_latex}$`, px[0], ty_bot);
-                txt("$+\infty$", px[1] - 4, ty_top); arr(px[0] + 6, ay_bot, px[1] - 7, ay_top);
-                txt("$-\infty$", px[1] + 4, ty_bot);
+                txt("$+\\infty$", px[1] - 4, ty_top); arr(px[0] + 6, ay_bot, px[1] - 7, ay_top);
+                txt("$-\\infty$", px[1] + 4, ty_bot);
                 txt(`$${yh_latex}$`, px[2], ty_top); arr(px[1] + 7, ay_bot, px[2] - 6, ay_top);
             } else {
                 txt(`$${yh_latex}$`, px[0], ty_top);
-                txt("$-\infty$", px[1] - 4, ty_bot); arr(px[0] + 6, ay_top, px[1] - 7, ay_bot);
-                txt("$+\infty$", px[1] + 4, ty_top);
+                txt("$-\\infty$", px[1] - 4, ty_bot); arr(px[0] + 6, ay_top, px[1] - 7, ay_bot);
+                txt("$+\\infty$", px[1] + 4, ty_top);
                 txt(`$${yh_latex}$`, px[2], ty_bot); arr(px[1] + 7, ay_top, px[2] - 6, ay_bot);
             }
         }
@@ -1642,42 +1114,42 @@
             
             if (roots.length === 2) {
                 let px = [8, 29, 50, 71, 92], ps = [18.5, 39.5, 60.5, 81.5];
-                txt("$-\infty$", px[0], h_x/2); txt(`$${roots[0].latex}$`, px[1], h_x/2); txt(`$${x0_latex}$`, px[2], h_x/2); txt(`$${roots[1].latex}$`, px[3], h_x/2); txt("$+\infty$", px[4], h_x/2);
+                txt("$-\\infty$", px[0], h_x/2); txt(`$${roots[0].latex}$`, px[1], h_x/2); txt(`$${x0_latex}$`, px[2], h_x/2); txt(`$${roots[1].latex}$`, px[3], h_x/2); txt("$+\\infty$", px[4], h_x/2);
                 let s1 = (a*d) > 0 ? "+" : "-", s2 = (a*d) > 0 ? "-" : "+";
                 txt(`$${s1}$`, ps[0], h_x + h_yp/2); txt("$0$", px[1], h_x + h_yp/2); txt(`$${s2}$`, ps[1], h_x + h_yp/2); dLine(px[2], h_x, h_yp + h_y);
                 txt(`$${s2}$`, ps[2], h_x + h_yp/2); txt("$0$", px[3], h_x + h_yp/2); txt(`$${s1}$`, ps[3], h_x + h_yp/2);
                 let y1_latex = evalLinearExact(2*a/d, b/d, roots[0].exact);
                 let y2_latex = evalLinearExact(2*a/d, b/d, roots[1].exact);
-                let vi_s = (a*d) > 0 ? "$-\infty$" : "$+\infty$", vi_e = (a*d) > 0 ? "$+\infty$" : "$-\infty$";
+                let vi_s = (a*d) > 0 ? "$-\\infty$" : "$+\\infty$", vi_e = (a*d) > 0 ? "$+\\infty$" : "$-\\infty$";
                 if (a*d > 0) {
                     txt(vi_s, px[0], ty_bot);
-                    txt(`$${y1_latex}$`, px[1], ty_top); txt("$-\infty$", px[2]-3, ty_bot);
+                    txt(`$${y1_latex}$`, px[1], ty_top); txt("$-\\infty$", px[2]-3, ty_bot);
                     arr(px[0]+3, ay_bot, px[1]-3, ay_top); arr(px[1]+3, ay_top, px[2]-5, ay_bot);
-                    txt("$+\infty$", px[2]+3, ty_top); txt(`$${y2_latex}$`, px[3], ty_bot);
+                    txt("$+\\infty$", px[2]+3, ty_top); txt(`$${y2_latex}$`, px[3], ty_bot);
                     txt(vi_e, px[4], ty_top);
                     arr(px[2]+5, ay_top, px[3]-3, ay_bot); arr(px[3]+3, ay_bot, px[4]-3, ay_top);
                 } else {
                     txt(vi_s, px[0], ty_top);
-                    txt(`$${y1_latex}$`, px[1], ty_bot); txt("$+\infty$", px[2]-3, ty_top);
+                    txt(`$${y1_latex}$`, px[1], ty_bot); txt("$+\\infty$", px[2]-3, ty_top);
                     arr(px[0]+3, ay_top, px[1]-3, ay_bot); arr(px[1]+3, ay_bot, px[2]-5, ay_top);
-                    txt("$-\infty$", px[2]+3, ty_bot); txt(`$${y2_latex}$`, px[3], ty_top);
+                    txt("$-\\infty$", px[2]+3, ty_bot); txt(`$${y2_latex}$`, px[3], ty_top);
                     txt(vi_e, px[4], ty_bot);
-                    arr(px[2]+5, ay_top, px[3]-3, ay_bot); arr(px[3]+3, ay_top, px[4]-3, ay_bot);
+                    arr(px[2]+5, ay_bot, px[3]-3, ay_top); arr(px[3]+3, ay_top, px[4]-3, ay_bot);
                 }
             } else {
                 let px = [15, 50, 85], ps = [32.5, 67.5];
-                txt("$-\infty$", px[0], h_x/2); txt(`$${x0_latex}$`, px[1], h_x/2); txt("$+\infty$", px[2], h_x/2);
+                txt("$-\\infty$", px[0], h_x/2); txt(`$${x0_latex}$`, px[1], h_x/2); txt("$+\\infty$", px[2], h_x/2);
                 let s1 = (a*d) > 0 ? "+" : "-";
                 txt(`$${s1}$`, ps[0], h_x + h_yp/2); dLine(px[1], h_x, h_yp + h_y); txt(`$${s1}$`, ps[1], h_x + h_yp/2);
-                let vi_s = (a*d) > 0 ? "$-\infty$" : "$+\infty$", vi_e = (a*d) > 0 ? "$+\infty$" : "$-\infty$";
+                let vi_s = (a*d) > 0 ? "$-\\infty$" : "$+\\infty$", vi_e = (a*d) > 0 ? "$+\\infty$" : "$-\\infty$";
                 if (a*d > 0) {
                     txt(vi_s, px[0], ty_bot);
-                    txt("$+\infty$", px[1]-4, ty_top); arr(px[0]+6, ay_bot, px[1]-7, ay_top);
-                    txt("$-\infty$", px[1]+4, ty_bot); txt(vi_e, px[2], ty_top); arr(px[1]+7, ay_bot, px[2]-6, ay_top);
+                    txt("$+\\infty$", px[1]-4, ty_top); arr(px[0]+6, ay_bot, px[1]-7, ay_top);
+                    txt("$-\\infty$", px[1]+4, ty_bot); txt(vi_e, px[2], ty_top); arr(px[1]+7, ay_bot, px[2]-6, ay_top);
                 } else {
-                    txt(vi_s, px[0], ty_top);
-                    txt("$-\infty$", px[1]-4, ty_bot); arr(px[0]+6, ay_top, px[1]-7, ay_bot);
-                    txt("$+\infty$", px[1]+4, ty_top); txt(vi_e, px[2], ty_top); arr(px[1]+7, ay_top, px[2]-6, ay_top);
+                    txt(vi_s, px[0], ty_bot);
+                    txt("$-\\infty$", px[1]-4, ty_bot); arr(px[0]+6, ay_top, px[1]-7, ay_bot);
+                    txt("$+\\infty$", px[1]+4, ty_top); txt(vi_e, px[2], ty_top); arr(px[1]+7, ay_top, px[2]-6, ay_top);
                 }
             }
         }
@@ -1687,75 +1159,20 @@
         return html;
     }
 
-    // EXPORT FUNCTIONS (300 DPI High-Res)
-    function exportExamPNG() {
-        // Tạm thời bật chế độ thi nếu chưa bật để đảm bảo ảnh chuẩn đề thi Word
-        let prevExamMode = isExamMode;
-        if (!isExamMode) {
-            toggleExamMode();
-        }
-
+    function exportPNG() {
         const area = document.getElementById('capture-area');
         if (!area) return;
-
-        html2canvas(area, { 
-            scale: 3, // 300 DPI
-            backgroundColor: '#ffffff', 
-            useCORS: true, 
-            logging: false 
-        }).then(canvas => {
+        html2canvas(area, { scale: 2, backgroundColor: '#ffffff', useCORS: true, logging: false }).then(canvas => {
             const link = document.createElement('a');
-            let ftype = document.getElementById('func-type').value;
-            link.download = `dothi_toan12_${ftype}_chuan_de_thi.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-
-            if (!prevExamMode) {
-                // Trả về trạng thái cũ nếu trước đó người dùng không bật exam mode
-                toggleExamMode();
-            }
-        });
-    }
-
-    function exportColorPNG() {
-        const area = document.getElementById('capture-area');
-        if (!area) return;
-        html2canvas(area, { 
-            scale: 2.5, 
-            backgroundColor: '#ffffff', 
-            useCORS: true, 
-            logging: false 
-        }).then(canvas => {
-            const link = document.createElement('a');
-            let ftype = document.getElementById('func-type').value;
-            link.download = `dothi_toan12_${ftype}_truc_quan.png`;
-            link.href = canvas.toDataURL('image/png');
+            link.download = 'dothi_ham_so.png';
+            link.href = canvas.toDataURL();
             link.click();
         });
     }
 
-    function exportBBT() {
-        const bbtArea = document.getElementById('bbt-output');
-        if (!bbtArea) return;
-        html2canvas(bbtArea, { 
-            scale: 3, 
-            backgroundColor: '#ffffff', 
-            useCORS: true, 
-            logging: false 
-        }).then(canvas => {
-            const link = document.createElement('a');
-            let ftype = document.getElementById('func-type').value;
-            link.download = `bang_bien_thien_${ftype}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        });
+    window.onload = function() {
+        onTypeChange();
     }
-
-    // Initial boot
-    window.addEventListener('load', () => {
-        renderPresets('cubic');
-        updateAll();
-    });
 </script>
 
 </body>
