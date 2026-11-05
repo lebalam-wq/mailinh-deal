@@ -402,6 +402,8 @@
     // --- NÂNG CẤP BỞI THẦY LÊ BÁ LÂM & MAI LINH ---
     let isExamMode = false;
     let currentFVal = null;
+    let currentFBase = null;
+    let f_base = null;
     let mLine = null;
     let mPoints = [];
     let mText = null;
@@ -1053,7 +1055,7 @@
         let pE = parseInput(document.getElementById('coef-e').value);
 
         let a = pA.val, b = pB.val, c = pC.val, d = pD.val, e = pE.val;
-        let f_base, finalFormula = "";
+        let finalFormula = "";
         
         extremaElements = clearElements(extremaElements);
         inflectionElements = clearElements(inflectionElements);
@@ -1156,6 +1158,7 @@
         if (tangentLine) board.removeObject(tangentLine);
 
         currentFVal = f_val;
+        currentFBase = f_base;
         graphCurve = board.create('functiongraph', [f_val], { strokeWidth: 2, strokeColor: '#2563eb' });
         
         let showTangent = document.getElementById('chk-tangent').checked;
@@ -1512,7 +1515,8 @@ function updateTrail(curX) {
     for (let i = 0; i <= nSteps; i++) {
         let px = startX + (curX - startX) * (i / nSteps);
         if (mb.x0 !== null && Math.abs(px - mb.x0) < 0.12) continue;
-        let py = currentFVal ? currentFVal(px) : f_base(px);
+        let evalF = currentFVal || f_base || currentFBase;
+        let py = evalF ? evalF(px) : 0;
         if (!isNaN(py) && Math.abs(py) < 120) {
             ptsX.push(px);
             ptsY.push(py);
@@ -1523,7 +1527,8 @@ function updateTrail(curX) {
     trailCurveInner.dataX = ptsX;
     trailCurveInner.dataY = ptsY;
 
-    let curY = currentFVal ? currentFVal(curX) : f_base(curX);
+    let evalF = currentFVal || f_base || currentFBase;
+    let curY = evalF ? evalF(curX) : 0;
     if (!isNaN(curY) && Math.abs(curY) < 120) {
         if (trailHeadHalo) {
             trailHeadHalo.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
@@ -1548,7 +1553,8 @@ function applyMotionProgress(prog) {
     if (!tangentGlider) return;
     let mb = getMotionBounds();
     let curX = getCurXFromProgress(prog, mb);
-    let curY = currentFVal ? currentFVal(curX) : f_base(curX);
+    let evalF = currentFVal || f_base || currentFBase;
+    let curY = evalF ? evalF(curX) : 0;
 
     if (!isNaN(curY) && Math.abs(curY) !== Infinity) {
         tangentGlider.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
@@ -1741,10 +1747,18 @@ async function exportMotionGIF() {
         let cx = x => padL + ((x - xmin) / (xmax - xmin)) * gw;
         let cy = y => padT + gh - ((y - ymin) / (ymax - ymin)) * gh;
 
+        let evalF = currentFVal || f_base || currentFBase;
+        if (!evalF) {
+            alert('Vui lòng đợi đồ thị khởi tạo xong!');
+            btn.innerHTML = oldText;
+            btn.disabled = false;
+            return;
+        }
+
         for (let k = 0; k < totalFrames; k++) {
             let prog = k / (totalFrames - 1);
             let curX = getCurXFromProgress(prog, mb);
-            let curY = f_base(curX);
+            let curY = evalF(curX);
 
             g.fillStyle = '#ffffff';
             g.fillRect(0, 0, w, h);
@@ -1762,7 +1776,7 @@ async function exportMotionGIF() {
 
             let k_slope = 0;
             if (tangentLine && typeof tangentLine.getSlope === 'function') {
-                k_slope = (curY - f_base(curX - 0.01)) / 0.01;
+                k_slope = (curY - evalF(curX - 0.01)) / 0.01;
             }
             g.fillStyle = '#334155';
             g.font = 'bold 13px monospace';
@@ -1814,7 +1828,7 @@ async function exportMotionGIF() {
             let started = false;
             for (let x = startTrailX; x <= curX; x += 0.05) {
                 if (mb.x0 !== null && Math.abs(x - mb.x0) < 0.12) { started = false; continue; }
-                let y = f_base(x);
+                let y = evalF(x);
                 if (isNaN(y) || Math.abs(y) > 150) { started = false; continue; }
                 let px = cx(x), py = cy(y);
                 if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
