@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tra Cứu Điểm & Đáp Án Giữa Kỳ 1 — Toán 12B3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-light: #e0f2fe;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+      --shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.08), 0 8px 10px -6px rgba(2, 132, 199, 0.04);
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html, body {
+      overflow-x: hidden;
+      width: 100%;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.5;
+      padding-bottom: 45px;
+      font-size: 15px; /* Base font increased +1.5px for mobile */
+    }
+    .header-banner {
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 50%, #075985 100%);
+      color: white;
+      padding: 26px 16px 34px;
+      text-align: center;
+      border-radius: 0 0 28px 28px;
+      box-shadow: 0 10px 22px -5px rgba(2, 132, 199, 0.28);
+    }
+    .school-tag {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(8px);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 12.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .main-title {
+      font-size: 23px; /* Mobile increased from 20px */
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      line-height: 1.3;
+    }
+    .sub-title {
+      font-size: 13.5px;
+      opacity: 0.95;
+      margin-top: 5px;
+      font-weight: 500;
+    }
+    .header-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .btn-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(8px);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 13.5px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-head:hover {
+      background: rgba(255, 255, 255, 0.32);
+    }
+    .btn-head-secondary {
+      background: white;
+      color: var(--primary-dark);
+      border-color: white;
+    }
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: -18px auto 0;
+      padding: 0 14px;
+    }
+    .search-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    .search-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .select-wrap select, input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 16px; /* iOS standard to avoid auto-zoom */
+      font-weight: 600;
+      font-family: inherit;
+      color: var(--text-main);
+      background: #f8fafc;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .select-wrap select:focus, input[type="text"]:focus {
+      border-color: var(--primary);
+      background: #ffffff;
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
+    }
+    .quick-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+      max-height: 125px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+    .quick-chip {
+      background: #f1f5f9;
+      color: var(--text-main);
+      padding: 6px 11px;
+      border-radius: 8px;
+      font-size: 13px; /* Mobile increased */
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .quick-chip:hover {
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-color: #bae6fd;
+    }
+    .quick-chip.active {
+      background: var(--primary);
+      color: white;
+    }
+    .result-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      display: none;
+      animation: fadeIn 0.3s ease-out;
+    }
+    .student-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1.5px dashed var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .st-info-left {
+      min-width: 0;
+      flex: 1;
+    }
+    .st-name {
+      font-size: 21px; /* Mobile increased from 19px */
+      font-weight: 900;
+      color: var(--text-main);
+      line-height: 1.25;
+      word-break: break-word;
+    }
+    .st-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      font-weight: 600;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+    .score-badge-large {
+      text-align: center;
+      padding: 8px 14px;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      flex-shrink: 0;
+      min-width: 82px;
+    }
+    .score-badge-large .num {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .score-badge-large .lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: 3px;
+      opacity: 0.9;
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-top: 8px;
+    }
+    .status-pill.excellent { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
+    .status-pill.good { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+    .status-pill.average, .status-pill.warn { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .status-pill.danger { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
+    
+    .matrix-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 14px 0;
+    }
+    .matrix-item {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+    .matrix-item .lbl {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+    }
+    .matrix-item .val {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      margin-top: 4px;
+    }
+    .matrix-item .max {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    
+    .audit-section {
+      margin: 14px 0;
+    }
+    .btn-audit-toggle {
+      width: 100%;
+      background: #f8fafc;
+      border: 1.5px dashed #0284c7;
+      color: #0284c7;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .audit-box {
+      margin-top: 12px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .audit-title {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0f172a;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1.5px solid #f1f5f9;
+      padding-bottom: 6px;
+    }
+    .audit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+      gap: 5px;
+      margin-bottom: 14px;
+    }
+    .audit-item {
+      border-radius: 8px;
+      padding: 6px 3px;
+      text-align: center;
+      font-size: 11.5px;
+      border: 1px solid transparent;
+    }
+    .audit-item.ok { background: #f0fdf4; border-color: #86efac; color: #15803d; }
+    .audit-item.err { background: #fef2f2; border-color: #fca5a5; color: #b91c1c; }
+    .audit-item .q-num { font-weight: 800; font-size: 10px; color: #64748b; margin-bottom: 2px; }
+    .audit-item .q-ans { font-weight: 800; font-size: 13px; }
+    .audit-item .q-corr { font-size: 10px; font-weight: 600; margin-top: 2px; }
+    
+    .audit-p2-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+    .audit-p2-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px;
+      background: #f8fafc;
+    }
+    .audit-p2-header {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+    .sub-item-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      padding: 2px 4px;
+      border-radius: 4px;
+      margin-bottom: 2px;
+    }
+    .sub-item-row.ok { background: #dcfce7; color: #15803d; font-weight: 700; }
+    .sub-item-row.err { background: #fee2e2; color: #b91c1c; font-weight: 700; }
+    
+    .box-note, .box-plan {
+      padding: 12px 14px;
+      border-radius: 0 10px 10px 0;
+      font-size: 13.5px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+    .btn-download {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: white;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 800;
+      box-shadow: 0 8px 18px -4px rgba(2, 132, 199, 0.4);
+      transition: all 0.2s;
+    }
+    .preview-box {
+      margin-top: 16px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #f1f5f9;
+    }
+    .preview-box-header {
+      padding: 10px 12px;
+      background: #e2e8f0;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #475569;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .preview-img { width: 100%; display: block; }
+    .footer-credit {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 24px;
+      line-height: 1.6;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .modal-card {
+      background: white;
+      border-radius: 18px;
+      width: 100%;
+      max-width: 820px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+    }
+    .modal-title { font-size: 15px; font-weight: 800; color: #0369a1; }
+    .modal-sub { font-size: 11.5px; color: #64748b; }
+    .modal-tabs {
+      display: flex;
+      background: #f1f5f9;
+      padding: 6px 14px 0;
+      gap: 6px;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .modal-tab {
+      padding: 8px 14px;
+      border: none;
+      background: none;
+      font-size: 13px;
+      font-weight: 700;
+      color: #64748b;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      border-radius: 6px 6px 0 0;
+    }
+    .modal-tab.active { background: white; color: #0284c7; border-bottom-color: #0284c7; }
+    .modal-body { padding: 16px; overflow-y: auto; flex: 1; }
+    .modal-footer {
+      padding: 12px 18px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .btn-modal-dl {
+      background: linear-gradient(135deg, #0284c7, #0369a1);
+      color: white;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-modal-close {
+      background: #e2e8f0;
+      color: #475569;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .table-key { width: 100%; border-collapse: collapse; margin-bottom: 14px; font-size: 12px; }
+    .table-key th, .table-key td { border: 1px solid var(--border); padding: 6px; text-align: center; }
+    .table-key th { background: #f1f5f9; color: #0f172a; font-weight: 700; }
+
+    /* =================================================== */
+    /* === DESKTOP & LAPTOP OPTIMIZATIONS (>= 1024px) ==== */
+    /* =================================================== */
+    @media (min-width: 1024px) {
+      body {
+        font-size: 16.5px;
+      }
+      .container {
+        max-width: 1060px;
+        margin: -24px auto 0;
+        padding: 0 20px;
+      }
+      .header-banner {
+        padding: 34px 30px 44px;
+      }
+      .school-tag {
+        font-size: 14px;
+        padding: 7px 20px;
+        letter-spacing: 0.8px;
+      }
+      .main-title {
+        font-size: 30px;
+        letter-spacing: -0.8px;
+      }
+      .sub-title {
+        font-size: 16px;
+        margin-top: 8px;
+      }
+      .btn-head {
+        font-size: 15px;
+        padding: 10px 22px;
+      }
+      .search-card {
+        padding: 26px 30px;
+      }
+      .search-label {
+        font-size: 15px;
+      }
+      .select-wrap select, input[type="text"] {
+        padding: 14px 18px;
+        font-size: 17px;
+      }
+      .quick-list {
+        max-height: none;
+        gap: 8px;
+      }
+      .quick-chip {
+        padding: 8px 15px;
+        font-size: 14px;
+        border-radius: 10px;
+      }
+      .result-card {
+        padding: 30px;
+      }
+      .st-name {
+        font-size: 28px;
+      }
+      .st-meta {
+        font-size: 15.5px;
+        margin-top: 6px;
+      }
+      .score-badge-large {
+        padding: 12px 24px;
+        min-width: 110px;
+      }
+      .score-badge-large .num {
+        font-size: 40px;
+      }
+      .score-badge-large .lbl {
+        font-size: 12px;
+      }
+      .matrix-grid {
+        gap: 16px;
+        margin: 24px 0;
+      }
+      .matrix-item {
+        padding: 18px 14px;
+      }
+      .matrix-item .lbl {
+        font-size: 13.5px;
+      }
+      .matrix-item .val {
+        font-size: 24px;
+      }
+      .matrix-item .max {
+        font-size: 13px;
+      }
+      .audit-grid {
+        grid-template-columns: repeat(12, 1fr) !important;
+        gap: 6px !important;
+      }
+      .audit-item {
+        padding: 9px 4px;
+        font-size: 13px;
+      }
+      .audit-item .q-ans {
+        font-size: 15px;
+      }
+      .audit-p2-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 12px !important;
+      }
+      .audit-p2-card {
+        padding: 12px;
+      }
+      .audit-p2-header {
+        font-size: 13px;
+      }
+      .sub-item-row {
+        font-size: 12.5px;
+        padding: 4px 6px;
+      }
+      .box-note, .box-plan {
+        font-size: 15.5px;
+        padding: 16px 20px;
+      }
+      .btn-download {
+        font-size: 17px;
+        padding: 18px;
+      }
+      .modal-card {
+        max-width: 980px;
+      }
+      .table-key {
+        font-size: 14px;
+      }
+      .table-key th, .table-key td {
+        padding: 10px 12px;
+      }
+    }
+</style>
+</head>
+<body>
+
+<div class="header-banner">
+  <div class="school-tag">Trường THPT A Túc • Xã Lìa - Quảng Trị</div>
+  <div class="main-title">TRA CỨU ĐIỂM & ĐÁP ÁN GIỮA KỲ 1</div>
+  <div class="sub-title">Môn Toán 12 • Lớp 12B3 • Giáo viên: Thầy Lê Bá Lâm</div>
+  <div class="header-actions">
+    <button class="btn-head" onclick="openAnswerModal()">
+      📖 Tra Cứu Đáp Án 4 Mã Đề
+    </button>
+    <a class="btn-head btn-head-secondary" href="docs/DAP_AN_HUONG_DAN_CHAM_TOAN_12_GK1.pdf" target="_blank" download="DAP_AN_HUONG_DAN_CHAM_TOAN_12_GK1.pdf">
+      📥 Tải Đáp Án & Hướng Dẫn Chấm (PDF)
+    </a>
+  </div>
+</div>
+
+<div class="container">
+  <div class="search-card">
+    <label class="search-label" for="studentSelect">Chọn hoặc nhập tên học sinh:</label>
+    <div class="select-wrap">
+      <select id="studentSelect" onchange="onStudentSelect(this.value)">
+        <option value="">-- Bấm để chọn tên của em --</option>
+      </select>
+    </div>
+
+    <div style="margin-top: 12px;">
+      <input type="text" id="searchInput" placeholder="Hoặc gõ nhanh tên em (VD: Chi, Khôi, Dác...)" oninput="onSearchInput(this.value)">
+    </div>
+
+    <div style="font-size: 11px; font-weight: 700; color: #64748b; margin-top: 14px; text-transform: uppercase;">
+      Danh sách nhanh theo Số Thứ Tự:
+    </div>
+    <div class="quick-list" id="quickList"></div>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="student-header">
+      <div>
+        <div class="st-name" id="cardName">Họ và tên</div>
+        <div class="st-meta" id="cardMeta">Lớp 12B3 • SBD: 010005XX • Đề: 1201</div>
+        <div class="status-pill" id="cardPill">HỌC LỰC</div>
+      </div>
+      <div class="score-badge-large" id="cardBadge">
+        <div class="num" id="cardScore">0.0</div>
+        <div class="lbl">Điểm GK1</div>
+      </div>
+    </div>
+
+    <div class="matrix-grid">
+      <div class="matrix-item">
+        <div class="lbl">Phần I (TN)</div>
+        <div class="val" id="cardP1">0.00đ</div>
+        <div class="max">Tối đa 3.0đ</div>
+      </div>
+      <div class="matrix-item">
+        <div class="lbl">Phần II (Đ/S)</div>
+        <div class="val" id="cardP2">0.00đ</div>
+        <div class="max">0.25đ/ý • Max 4.0đ</div>
+      </div>
+      <div class="matrix-item">
+        <div class="lbl">Phần III (TLN)</div>
+        <div class="val" id="cardP3">0.00đ</div>
+        <div class="max">Tối đa 3.0đ</div>
+      </div>
+    </div>
+
+    <!-- Audit Section -->
+    <div class="audit-section">
+      <button class="btn-audit-toggle" id="btnAuditToggle" onclick="toggleAuditBox()">
+        <span>🔍 <strong>Chi Tiết Đối Soát Từng Câu (Bài Làm vs Đáp Án)</strong></span>
+        <span id="auditToggleIcon">▼ Xem chi tiết</span>
+      </button>
+      <div class="audit-box" id="auditBox" style="display: none;"></div>
+    </div>
+
+    <div class="box-note" id="cardNote">
+      <strong>• Nhận xét bài làm:</strong>
+    </div>
+
+    <div class="box-plan" id="cardPlan">
+      <strong>• Kế hoạch ôn tập:</strong>
+    </div>
+
+    <a href="#" class="btn-download" id="downloadBtn" target="_blank">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/><path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/></svg>
+      Tải Báo Cáo Điểm Chi Tiết (PDF 2 Trang)
+    </a>
+
+    <div class="preview-box">
+      <div class="preview-box-header">
+        <span>ẢNH PHIẾU TRẢ LỜI TRẮC NGHIỆM ĐÃ CHẤM ĐỐI SOÁT</span>
+        <span style="color: var(--primary);">Bảo lưu minh chứng</span>
+      </div>
+      <img src="" alt="Phiếu chấm điểm" class="preview-img" id="previewImg">
+    </div>
+  </div>
+
+  <div class="footer-credit">
+    Hệ thống Tra cứu & Chấm thi Trắc nghiệm Tự trị OMR GDPT 2018<br>
+    Giáo viên: <strong>Lê Bá Lâm</strong> • Trường THPT A Túc — Bản quyền 2026
+  </div>
+</div>
+
+<!-- Modal Answer Key -->
+<div class="modal-overlay" id="answerModal" onclick="closeModalOnBackdrop(event)">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title">BẢNG ĐÁP ÁN CHÍNH THỨC 4 MÃ ĐỀ</div>
+        <div class="modal-sub">Môn Toán 12 • Kiểm Tra Giữa Kỳ 1 • Barem Phương án A (0.25đ/ý)</div>
+      </div>
+      <button class="btn-close-modal" onclick="closeAnswerModal()">&times;</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="1201" onclick="switchKeyTab('1201', this)">Mã đề 1201</button>
+      <button class="modal-tab" data-tab="1202" onclick="switchKeyTab('1202', this)">Mã đề 1202</button>
+      <button class="modal-tab" data-tab="1203" onclick="switchKeyTab('1203', this)">Mã đề 1203</button>
+      <button class="modal-tab" data-tab="1204" onclick="switchKeyTab('1204', this)">Mã đề 1204</button>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="modal-body" id="modalTabContent"></div>
+
+    <div class="modal-footer">
+      <a class="btn-modal-dl" href="docs/DAP_AN_HUONG_DAN_CHAM_TOAN_12_GK1.pdf" target="_blank" download="DAP_AN_HUONG_DAN_CHAM_TOAN_12_GK1.pdf">
+        📥 Tải Đầy Đủ Đáp Án & Lời Giải Chi Tiết (PDF)
+      </a>
+      <button class="btn-modal-close" onclick="closeAnswerModal()">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const students = [
+  {
+    "stt": 1,
+    "name": "Lý Lương Bằng",
+    "dob": "10/01/2009",
+    "sbd": "02000301",
+    "made": "1201",
+    "p1": 0.0,
+    "p2": 2.0,
+    "p3": 0.5,
+    "total": 2.5,
+    "final": 2.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (2.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/01_Lý_Lương_Bằng_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_01.jpg"
+  },
+  {
+    "stt": 2,
+    "name": "Hồ Thị Bức",
+    "dob": "03/12/2008",
+    "sbd": "02000302",
+    "made": "1202",
+    "p1": 0.5,
+    "p2": 2.5,
+    "p3": 1.0,
+    "total": 4.0,
+    "final": 4.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (4.0 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/02_Hồ_Thị_Bức_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_02.jpg"
+  },
+  {
+    "stt": 3,
+    "name": "Hồ Thị Di",
+    "dob": "05/04/2009",
+    "sbd": "02000303",
+    "made": "1203",
+    "p1": 0.5,
+    "p2": 3.5,
+    "p3": 3.0,
+    "total": 7.0,
+    "final": 7.0,
+    "hocLuc": "HỌC LỰC KHÁ",
+    "tag": "good",
+    "comment": "Em đạt mức Khá (7.0 điểm). Đã làm chủ phần lớn câu hỏi Phần I và Phần II. Tuy nhiên còn một số câu nhầm lẫn dấu hoặc phân tích sai giả thiết ở câu Đúng/Sai và Trả lời ngắn.",
+    "rec": "Ôn lại kỹ phương pháp xét dấu đạo hàm, tiệm cận đứng/ngang và quy tắc tính đạo hàm hàm hợp để hạn chế sai sót đáng tiếc.",
+    "pdf": "pdf/03_Hồ_Thị_Di_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_03.jpg"
+  },
+  {
+    "stt": 4,
+    "name": "Hồ Văn Dương",
+    "dob": "14/04/2008",
+    "sbd": "02000304",
+    "made": "1204",
+    "p1": 0.0,
+    "p2": 0.0,
+    "p3": 0.5,
+    "total": 0.5,
+    "final": 0.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (0.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/04_Hồ_Văn_Dương_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_04.jpg"
+  },
+  {
+    "stt": 5,
+    "name": "Hồ Văn Hảo",
+    "dob": "22/09/2009",
+    "sbd": "02000305",
+    "made": "1201",
+    "p1": 0.25,
+    "p2": 0.25,
+    "p3": 1.0,
+    "total": 1.5,
+    "final": 1.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/05_Hồ_Văn_Hảo_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_05.jpg"
+  },
+  {
+    "stt": 6,
+    "name": "Hồ Văn Hiêm",
+    "dob": "18/10/2009",
+    "sbd": "02000306",
+    "made": "1202",
+    "p1": 0.25,
+    "p2": 0.25,
+    "p3": 1.0,
+    "total": 1.5,
+    "final": 1.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/06_Hồ_Văn_Hiêm_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_06.jpg"
+  },
+  {
+    "stt": 7,
+    "name": "Hoàng Thị Hiền",
+    "dob": "24/02/2009",
+    "sbd": "02000307",
+    "made": "1203",
+    "p1": 0.5,
+    "p2": 3.25,
+    "p3": 0.0,
+    "total": 3.75,
+    "final": 3.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (3.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/07_Hoàng_Thị_Hiền_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_07.jpg"
+  },
+  {
+    "stt": 8,
+    "name": "Hồ Thị Thanh Hiếu",
+    "dob": "31/01/2009",
+    "sbd": "02000308",
+    "made": "1204",
+    "p1": 0.0,
+    "p2": 0.0,
+    "p3": 0.5,
+    "total": 0.5,
+    "final": 0.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (0.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/08_Hồ_Thị_Thanh_Hiếu_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_08.jpg"
+  },
+  {
+    "stt": 9,
+    "name": "Hồ Thị Hoan",
+    "dob": "06/09/2008",
+    "sbd": "02000309",
+    "made": "1201",
+    "p1": 0.0,
+    "p2": 2.5,
+    "p3": 0.0,
+    "total": 2.5,
+    "final": 2.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (2.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/09_Hồ_Thị_Hoan_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_09.jpg"
+  },
+  {
+    "stt": 10,
+    "name": "Hồ Thị Hoàn",
+    "dob": "10/05/2009",
+    "sbd": "02000310",
+    "made": "1202",
+    "p1": 0.5,
+    "p2": 3.5,
+    "p3": 3.0,
+    "total": 7.0,
+    "final": 7.0,
+    "hocLuc": "HỌC LỰC KHÁ",
+    "tag": "good",
+    "comment": "Em đạt mức Khá (7.0 điểm). Đã làm chủ phần lớn câu hỏi Phần I và Phần II. Tuy nhiên còn một số câu nhầm lẫn dấu hoặc phân tích sai giả thiết ở câu Đúng/Sai và Trả lời ngắn.",
+    "rec": "Ôn lại kỹ phương pháp xét dấu đạo hàm, tiệm cận đứng/ngang và quy tắc tính đạo hàm hàm hợp để hạn chế sai sót đáng tiếc.",
+    "pdf": "pdf/10_Hồ_Thị_Hoàn_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_10.jpg"
+  },
+  {
+    "stt": 11,
+    "name": "Hồ Thị Ta Hơ",
+    "dob": "10/10/2009",
+    "sbd": "02000311",
+    "made": "1203",
+    "p1": 0.25,
+    "p2": 1.5,
+    "p3": 0.5,
+    "total": 2.25,
+    "final": 2.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (2.3 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/11_Hồ_Thị_Ta_Hơ_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_11.jpg"
+  },
+  {
+    "stt": 12,
+    "name": "Hồ Thị Huấn",
+    "dob": "27/10/2009",
+    "sbd": "02000312",
+    "made": "1204",
+    "p1": 0.0,
+    "p2": 2.75,
+    "p3": 2.0,
+    "total": 4.75,
+    "final": 4.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (4.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/12_Hồ_Thị_Huấn_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_12.jpg"
+  },
+  {
+    "stt": 13,
+    "name": "Hồ Thị Huyền",
+    "dob": "12/02/2009",
+    "sbd": "02000313",
+    "made": "1201",
+    "p1": 1.0,
+    "p2": 1.75,
+    "p3": 0.5,
+    "total": 3.25,
+    "final": 3.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (3.3 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/13_Hồ_Thị_Huyền_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_13.jpg"
+  },
+  {
+    "stt": 14,
+    "name": "Hồ Thị Khếm",
+    "dob": "28/06/2009",
+    "sbd": "02000314",
+    "made": "1202",
+    "p1": 2.75,
+    "p2": 3.5,
+    "p3": 2.5,
+    "total": 8.75,
+    "final": 8.8,
+    "hocLuc": "HỌC LỰC GIỎI",
+    "tag": "good",
+    "comment": "Em đạt kết quả rất tốt (8.8 điểm, xếp loại Giỏi). Tư duy tính toán nhanh nhẹn, kỹ năng đọc bảng biến thiên và đồ thị chuẩn mực. Cần cẩn trọng hơn ở các bài toán thực tế Phần III để bứt phá lên mức Xuất sắc.",
+    "rec": "Rèn luyện thêm kỹ năng đặt ẩn và giải quyết bài toán thực tế tối ưu hóa (Phần III) để chinh phục điểm 9.0+.",
+    "pdf": "pdf/14_Hồ_Thị_Khếm_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_14.jpg"
+  },
+  {
+    "stt": 15,
+    "name": "Hồ Thị Kinh",
+    "dob": "29/04/2009",
+    "sbd": "02000315",
+    "made": "1203",
+    "p1": 2.5,
+    "p2": 2.5,
+    "p3": 0.5,
+    "total": 5.5,
+    "final": 5.5,
+    "hocLuc": "TRUNG BÌNH KHÁ",
+    "tag": "average",
+    "comment": "Em đạt mức Trung bình Khá (5.5 điểm). Kiến thức cơ bản có nắm được nhưng chưa thực sự sâu, dễ bị bẫy ở câu Đúng/Sai Phần II và chưa tự tin giải quyết Phần III.",
+    "rec": "Dành thêm 45 phút mỗi ngày làm lại toàn bộ các bài toán nhận biết - thông hiểu trong SGK và Sổ tay Toán 12; tham gia phụ đạo cùng Thầy.",
+    "pdf": "pdf/15_Hồ_Thị_Kinh_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_15.jpg"
+  },
+  {
+    "stt": 16,
+    "name": "Hồ Thị Hà Linh",
+    "dob": "10/03/2009",
+    "sbd": "02000316",
+    "made": "1204",
+    "p1": 0.75,
+    "p2": 0.75,
+    "p3": 0.5,
+    "total": 2.0,
+    "final": 2.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (2.0 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/16_Hồ_Thị_Hà_Linh_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_16.jpg"
+  },
+  {
+    "stt": 17,
+    "name": "Hồ Văn Lôi",
+    "dob": "15/03/2008",
+    "sbd": "02000317",
+    "made": "1201",
+    "p1": 1.0,
+    "p2": 0.25,
+    "p3": 0.5,
+    "total": 1.75,
+    "final": 1.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/17_Hồ_Văn_Lôi_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_17.jpg"
+  },
+  {
+    "stt": 18,
+    "name": "Hồ Văn Măn",
+    "dob": "18/05/2009",
+    "sbd": "02000318",
+    "made": "1202",
+    "p1": 0.0,
+    "p2": 1.0,
+    "p3": 0.5,
+    "total": 1.5,
+    "final": 1.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/18_Hồ_Văn_Măn_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_18.jpg"
+  },
+  {
+    "stt": 19,
+    "name": "Hồ Thị Ngủi",
+    "dob": "27/10/2009",
+    "sbd": "02000319",
+    "made": "1203",
+    "p1": 1.5,
+    "p2": 3.5,
+    "p3": 1.5,
+    "total": 6.5,
+    "final": 6.5,
+    "hocLuc": "HỌC LỰC KHÁ",
+    "tag": "good",
+    "comment": "Em đạt mức Khá (6.5 điểm). Đã làm chủ phần lớn câu hỏi Phần I và Phần II. Tuy nhiên còn một số câu nhầm lẫn dấu hoặc phân tích sai giả thiết ở câu Đúng/Sai và Trả lời ngắn.",
+    "rec": "Ôn lại kỹ phương pháp xét dấu đạo hàm, tiệm cận đứng/ngang và quy tắc tính đạo hàm hàm hợp để hạn chế sai sót đáng tiếc.",
+    "pdf": "pdf/19_Hồ_Thị_Ngủi_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_19.jpg"
+  },
+  {
+    "stt": 20,
+    "name": "Hồ Văn Nhân",
+    "dob": "04/07/2009",
+    "sbd": "02000320",
+    "made": "1204",
+    "p1": 0.25,
+    "p2": 4.0,
+    "p3": 2.0,
+    "total": 6.25,
+    "final": 6.3,
+    "hocLuc": "TRUNG BÌNH KHÁ",
+    "tag": "average",
+    "comment": "Em đạt mức Trung bình Khá (6.3 điểm). Kiến thức cơ bản có nắm được nhưng chưa thực sự sâu, dễ bị bẫy ở câu Đúng/Sai Phần II và chưa tự tin giải quyết Phần III.",
+    "rec": "Dành thêm 45 phút mỗi ngày làm lại toàn bộ các bài toán nhận biết - thông hiểu trong SGK và Sổ tay Toán 12; tham gia phụ đạo cùng Thầy.",
+    "pdf": "pdf/20_Hồ_Văn_Nhân_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_20.jpg"
+  },
+  {
+    "stt": 21,
+    "name": "Hoàng Thị Yến Nhi",
+    "dob": "21/03/2009",
+    "sbd": "02000321",
+    "made": "1201",
+    "p1": 3.0,
+    "p2": 1.0,
+    "p3": 1.0,
+    "total": 5.0,
+    "final": 5.0,
+    "hocLuc": "TRUNG BÌNH KHÁ",
+    "tag": "average",
+    "comment": "Em đạt mức Trung bình Khá (5.0 điểm). Kiến thức cơ bản có nắm được nhưng chưa thực sự sâu, dễ bị bẫy ở câu Đúng/Sai Phần II và chưa tự tin giải quyết Phần III.",
+    "rec": "Dành thêm 45 phút mỗi ngày làm lại toàn bộ các bài toán nhận biết - thông hiểu trong SGK và Sổ tay Toán 12; tham gia phụ đạo cùng Thầy.",
+    "pdf": "pdf/21_Hoàng_Thị_Yến_Nhi_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_21.jpg"
+  },
+  {
+    "stt": 22,
+    "name": "Trần Yến Nhi",
+    "dob": "11/08/2009",
+    "sbd": "02000322",
+    "made": "1202",
+    "p1": 1.5,
+    "p2": 2.25,
+    "p3": 0.0,
+    "total": 3.75,
+    "final": 3.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (3.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/22_Trần_Yến_Nhi_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_22.jpg"
+  },
+  {
+    "stt": 23,
+    "name": "Hồ Văn Nhờ",
+    "dob": "05/04/2009",
+    "sbd": "02000323",
+    "made": "1203",
+    "p1": 0.0,
+    "p2": 1.0,
+    "p3": 0.5,
+    "total": 1.5,
+    "final": 1.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/23_Hồ_Văn_Nhờ_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_23.jpg"
+  },
+  {
+    "stt": 24,
+    "name": "Hoàng Thị Hải Như",
+    "dob": "29/03/2009",
+    "sbd": "02000324",
+    "made": "1204",
+    "p1": 0.0,
+    "p2": 0.5,
+    "p3": 0.0,
+    "total": 0.5,
+    "final": 0.5,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (0.5 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/24_Hoàng_Thị_Hải_Như_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_24.jpg"
+  },
+  {
+    "stt": 25,
+    "name": "Hồ Thị Phở",
+    "dob": "18/08/2009",
+    "sbd": "02000325",
+    "made": "1201",
+    "p1": 0.0,
+    "p2": 0.25,
+    "p3": 0.5,
+    "total": 0.75,
+    "final": 0.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (0.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/25_Hồ_Thị_Phở_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_25.jpg"
+  },
+  {
+    "stt": 26,
+    "name": "Hồ Thị Phương",
+    "dob": "15/04/2009",
+    "sbd": "02000326",
+    "made": "1202",
+    "p1": 0.0,
+    "p2": 0.5,
+    "p3": 0.5,
+    "total": 1.0,
+    "final": 1.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.0 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/26_Hồ_Thị_Phương_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_26.jpg"
+  },
+  {
+    "stt": 27,
+    "name": "Hồ Văn Sắc",
+    "dob": "15/11/2006",
+    "sbd": "02000327",
+    "made": "1203",
+    "p1": 0.0,
+    "p2": 0.75,
+    "p3": 0.5,
+    "total": 1.25,
+    "final": 1.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.3 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/27_Hồ_Văn_Sắc_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_27.jpg"
+  },
+  {
+    "stt": 28,
+    "name": "Hồ Tinh Thách",
+    "dob": "22/11/2008",
+    "sbd": "02000328",
+    "made": "1204",
+    "p1": 0.0,
+    "p2": 0.75,
+    "p3": 0.5,
+    "total": 1.25,
+    "final": 1.3,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.3 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/28_Hồ_Tinh_Thách_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_28.jpg"
+  },
+  {
+    "stt": 29,
+    "name": "Hồ Thị Thân",
+    "dob": "27/09/2009",
+    "sbd": "02000329",
+    "made": "1201",
+    "p1": 0.0,
+    "p2": 0.75,
+    "p3": 0.0,
+    "total": 0.75,
+    "final": 0.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (0.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/29_Hồ_Thị_Thân_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_29.jpg"
+  },
+  {
+    "stt": 30,
+    "name": "Hồ Hải Thiên",
+    "dob": "15/01/2009",
+    "sbd": "02000330",
+    "made": "1202",
+    "p1": 0.0,
+    "p2": 0.75,
+    "p3": 1.0,
+    "total": 1.75,
+    "final": 1.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/30_Hồ_Hải_Thiên_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_30.jpg"
+  },
+  {
+    "stt": 31,
+    "name": "Nguyễn Hoàng Thịnh",
+    "dob": "16/08/2009",
+    "sbd": "02000331",
+    "made": "1203",
+    "p1": 0.0,
+    "p2": 0.0,
+    "p3": 0.0,
+    "total": 0.0,
+    "final": 0.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (0.0 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/31_Nguyễn_Hoàng_Thịnh_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_31.jpg"
+  },
+  {
+    "stt": 32,
+    "name": "Hồ Văn Tíng",
+    "dob": "13/03/2009",
+    "sbd": "02000332",
+    "made": "1204",
+    "p1": 0.0,
+    "p2": 0.75,
+    "p3": 1.0,
+    "total": 1.75,
+    "final": 1.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (1.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/32_Hồ_Văn_Tíng_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_32.jpg"
+  },
+  {
+    "stt": 33,
+    "name": "Hồ Văn Trái",
+    "dob": "11/02/2009",
+    "sbd": "02000333",
+    "made": "1201",
+    "p1": 0.0,
+    "p2": 0.25,
+    "p3": 0.5,
+    "total": 0.75,
+    "final": 0.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (0.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/33_Hồ_Văn_Trái_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_33.jpg"
+  },
+  {
+    "stt": 34,
+    "name": "Nguyễn Thị Thùy Trang",
+    "dob": "15/12/2008",
+    "sbd": "02000334",
+    "made": "1202",
+    "p1": 1.0,
+    "p2": 3.0,
+    "p3": 2.5,
+    "total": 6.5,
+    "final": 6.5,
+    "hocLuc": "HỌC LỰC KHÁ",
+    "tag": "good",
+    "comment": "Em đạt mức Khá (6.5 điểm). Đã làm chủ phần lớn câu hỏi Phần I và Phần II. Tuy nhiên còn một số câu nhầm lẫn dấu hoặc phân tích sai giả thiết ở câu Đúng/Sai và Trả lời ngắn.",
+    "rec": "Ôn lại kỹ phương pháp xét dấu đạo hàm, tiệm cận đứng/ngang và quy tắc tính đạo hàm hàm hợp để hạn chế sai sót đáng tiếc.",
+    "pdf": "pdf/34_Nguyễn_Thị_Thùy_Trang_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_34.jpg"
+  },
+  {
+    "stt": 35,
+    "name": "Hồ Văn Trân",
+    "dob": "19/05/2008",
+    "sbd": "02000335",
+    "made": "1203",
+    "p1": 0.25,
+    "p2": 0.0,
+    "p3": 0.5,
+    "total": 0.75,
+    "final": 0.8,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (0.8 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/35_Hồ_Văn_Trân_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_35.jpg"
+  },
+  {
+    "stt": 36,
+    "name": "Hồ Văn Tuấn",
+    "dob": "20/04/2009",
+    "sbd": "02000336",
+    "made": "1204",
+    "p1": 0.0,
+    "p2": 1.5,
+    "p3": 1.5,
+    "total": 3.0,
+    "final": 3.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (3.0 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/36_Hồ_Văn_Tuấn_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_36.jpg"
+  },
+  {
+    "stt": 37,
+    "name": "Hồ Thị Ái Tuyết",
+    "dob": "14/09/2009",
+    "sbd": "02000337",
+    "made": "1201",
+    "p1": 0.0,
+    "p2": 1.5,
+    "p3": 1.5,
+    "total": 3.0,
+    "final": 3.0,
+    "hocLuc": "CẦN CỐ GẮNG NHIỀU",
+    "tag": "danger",
+    "comment": "Kết quả hiện tại (3.0 điểm) chưa phản ánh đúng năng lực của em. Em còn hổng nhiều kiến thức nền tảng về tính đơn điệu, cực trị, tiệm cận và kỹ năng bấm máy tính cầm tay.",
+    "rec": "Bắt buộc tham gia nhóm bồi dưỡng phụ đạo của Thầy Lâm vào các buổi chiều; học thuộc sơ đồ bảng biến thiên và 5 dạng đồ thị chuẩn.",
+    "pdf": "pdf/37_Hồ_Thị_Ái_Tuyết_GK1_Toan12B3.pdf",
+    "preview": "previews/annotated_37.jpg"
+  }
+];
+  const OFFICIAL_KEYS = {
+  "1201": {
+    "p1": {
+      "1": "D",
+      "2": "D",
+      "3": "B",
+      "4": "B",
+      "5": "D",
+      "6": "C",
+      "7": "A",
+      "8": "C",
+      "9": "B",
+      "10": "A",
+      "11": "A",
+      "12": "C"
+    },
+    "p2": {
+      "1": {
+        "a": "D",
+        "b": "D",
+        "c": "S",
+        "d": "D"
+      },
+      "2": {
+        "a": "D",
+        "b": "D",
+        "c": "S",
+        "d": "S"
+      },
+      "3": {
+        "a": "D",
+        "b": "S",
+        "c": "S",
+        "d": "D"
+      },
+      "4": {
+        "a": "D",
+        "b": "S",
+        "c": "D",
+        "d": "D"
+      }
+    },
+    "p3": {
+      "1": 5.0,
+      "2": 9.0,
+      "3": 3.0,
+      "4": 4.5,
+      "5": 10.0,
+      "6": 22.0
+    }
+  },
+  "1202": {
+    "p1": {
+      "1": "C",
+      "2": "D",
+      "3": "C",
+      "4": "A",
+      "5": "B",
+      "6": "C",
+      "7": "B",
+      "8": "C",
+      "9": "D",
+      "10": "A",
+      "11": "C",
+      "12": "C"
+    },
+    "p2": {
+      "1": {
+        "a": "D",
+        "b": "D",
+        "c": "S",
+        "d": "D"
+      },
+      "2": {
+        "a": "D",
+        "b": "D",
+        "c": "S",
+        "d": "S"
+      },
+      "3": {
+        "a": "D",
+        "b": "S",
+        "c": "S",
+        "d": "D"
+      },
+      "4": {
+        "a": "D",
+        "b": "S",
+        "c": "D",
+        "d": "D"
+      }
+    },
+    "p3": {
+      "1": 5.0,
+      "2": 9.0,
+      "3": 3.0,
+      "4": 4.5,
+      "5": 10.0,
+      "6": 22.0
+    }
+  },
+  "1203": {
+    "p1": {
+      "1": "D",
+      "2": "A",
+      "3": "B",
+      "4": "A",
+      "5": "A",
+      "6": "C",
+      "7": "A",
+      "8": "A",
+      "9": "C",
+      "10": "C",
+      "11": "A",
+      "12": "B"
+    },
+    "p2": {
+      "1": {
+        "a": "D",
+        "b": "D",
+        "c": "S",
+        "d": "D"
+      },
+      "2": {
+        "a": "D",
+        "b": "D",
+        "c": "S",
+        "d": "S"
+      },
+      "3": {
+        "a": "D",
+        "b": "S",
+        "c": "S",
+        "d": "D"
+      },
+      "4": {
+        "a": "D",
+        "b": "S",
+        "c": "D",
+        "d": "D"
+      }
+    },
+    "p3": {
+      "1": 5.0,
+      "2": 9.0,
+      "3": 3.0,
+      "4": 4.5,
+      "5": 10.0,
+      "6": 22.0
+    }
+  },
+  "1204": {
+    "p1": {
+      "1": "B",
+      "2": "C",
+      "3": "C",
+      "4": "D",
+      "5": "C",
+      "6": "A",
+      "7": "D",
+      "8": "C",
+      "9": "D",
+      "10": "B",
+      "11": "A",
+      "12": "B"
+    },
+    "p2": {
+      "1": {
+        "a": "D",
+        "b": "D",
+        "c": "S",
+        "d": "D"
+      },
+      "2": {
+        "a": "D",
+        "b": "D",
+        "c": "S",
+        "d": "S"
+      },
+      "3": {
+        "a": "D",
+        "b": "S",
+        "c": "S",
+        "d": "D"
+      },
+      "4": {
+        "a": "D",
+        "b": "S",
+        "c": "D",
+        "d": "D"
+      }
+    },
+    "p3": {
+      "1": 5.0,
+      "2": 9.0,
+      "3": 3.0,
+      "4": 4.5,
+      "5": 10.0,
+      "6": 22.0
+    }
+  }
+};
+
+  const selectEl = document.getElementById('studentSelect');
+  const quickListEl = document.getElementById('quickList');
+  const resultCard = document.getElementById('resultCard');
+  const searchInput = document.getElementById('searchInput');
+
+  // Populate Dropdown and Quick list
+  students.forEach(st => {
+    const opt = document.createElement('option');
+    opt.value = st.stt;
+    opt.textContent = `${st.stt < 10 ? '0' + st.stt : st.stt}. ${st.name} (${st.dob})`;
+    selectEl.appendChild(opt);
+
+    const chip = document.createElement('div');
+    chip.className = 'quick-chip';
+    chip.textContent = `${st.stt < 10 ? '0' + st.stt : st.stt} - ${st.name.split(' ').slice(-1)}`;
+    chip.onclick = () => renderStudent(st.stt);
+    quickListEl.appendChild(chip);
+  });
+
+  function onStudentSelect(stt) {
+    if (!stt) {
+      resultCard.style.display = 'none';
+      return;
+    }
+    renderStudent(parseInt(stt));
+  }
+
+  function onSearchInput(val) {
+    const text = val.trim().toLowerCase();
+    if (!text) return;
+    const found = students.find(s => s.name.toLowerCase().includes(text) || s.stt.toString() === text);
+    if (found) {
+      renderStudent(found.stt);
+    }
+  }
+
+  function renderStudent(stt) {
+    const st = students.find(s => s.stt === stt);
+    if (!st) return;
+
+    selectEl.value = stt;
+
+    // Highlight chips
+    document.querySelectorAll('.quick-chip').forEach((c, idx) => {
+      if (idx === stt - 1) c.classList.add('active');
+      else c.classList.remove('active');
+    });
+
+    document.getElementById('cardName').textContent = st.name;
+    document.getElementById('cardMeta').textContent = `Lớp 12B3 • Ngày sinh: ${st.dob} • SBD: ${st.sbd} • Đề: ${st.made}`;
+    
+    const pill = document.getElementById('cardPill');
+    pill.textContent = st.hocLuc;
+    pill.className = `status-pill ${st.tag}`;
+
+    const badge = document.getElementById('cardBadge');
+    badge.className = `score-badge-large ${st.tag}`;
+    document.getElementById('cardScore').textContent = st.final.toFixed(1);
+
+    document.getElementById('cardP1').textContent = st.p1.toFixed(2) + 'đ';
+    document.getElementById('cardP2').textContent = st.p2.toFixed(2) + 'đ';
+    document.getElementById('cardP3').textContent = st.p3.toFixed(2) + 'đ';
+
+    document.getElementById('cardNote').innerHTML = `<strong>• Nhận xét bài làm:</strong> ${st.comment}`;
+    document.getElementById('cardPlan').innerHTML = `<strong>• Kế hoạch ôn tập 2 tuần tới:</strong> ${st.rec}`;
+
+    const dlBtn = document.getElementById('downloadBtn');
+    dlBtn.href = st.pdf;
+    dlBtn.download = `${st.stt < 10 ? '0' + st.stt : st.stt}_${st.name.replace(/\s+/g, '_')}_GK1_Toan12B3.pdf`;
+
+    document.getElementById('previewImg').src = st.preview;
+
+    // Render Student Audit Details
+    renderStudentAudit(st);
+
+    resultCard.style.display = 'block';
+    resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Answer Modal functions
+  let currentKeyTab = '1201';
+
+  function openAnswerModal(defaultTab) {
+    if (defaultTab && OFFICIAL_KEYS[defaultTab]) {
+      currentKeyTab = defaultTab;
+    }
+    const modal = document.getElementById('answerModal');
+    modal.style.display = 'flex';
+    document.querySelectorAll('.modal-tab').forEach(t => {
+      if (t.getAttribute('data-tab') === currentKeyTab) t.classList.add('active');
+      else t.classList.remove('active');
+    });
+    renderKeyModalContent(currentKeyTab);
+  }
+
+  function closeAnswerModal() {
+    document.getElementById('answerModal').style.display = 'none';
+  }
+
+  function closeModalOnBackdrop(e) {
+    if (e.target.id === 'answerModal') {
+      closeAnswerModal();
+    }
+  }
+
+  function switchKeyTab(made, tabEl) {
+    currentKeyTab = made;
+    document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+    tabEl.classList.add('active');
+    renderKeyModalContent(made);
+  }
+
+  function renderKeyModalContent(made) {
+    const k = OFFICIAL_KEYS[made];
+    if (!k) return;
+    const container = document.getElementById('modalTabContent');
+
+    let html = `
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 13px; font-weight: 800; color: #0284c7; text-transform: uppercase; margin-bottom: 8px;">
+          I. PHẦN I — TRẮC NGHIỆM NHIỀU LỰA CHỌN (12 CÂU / 3.0 ĐIỂM)
+        </div>
+        <table class="table-key">
+          <tr>
+            <th>Câu</th>
+            ${[1,2,3,4,5,6,7,8,9,10,11,12].map(q => `<th>${q}</th>`).join('')}
+          </tr>
+          <tr>
+            <td style="font-weight: 700; background: #f8fafc;">Đáp án</td>
+            ${[1,2,3,4,5,6,7,8,9,10,11,12].map(q => `<td style="font-weight: 800; color: #0284c7; background: #f0fdf4;">${k.p1[q]}</td>`).join('')}
+          </tr>
+        </table>
+      </div>
+
+      <div style="margin-bottom: 16px;">
+        <div style="font-size: 13px; font-weight: 800; color: #0284c7; text-transform: uppercase; margin-bottom: 8px; display: flex; justify-content: space-between;">
+          <span>II. PHẦN II — ĐÚNG / SAI (4 CÂU / 4.0 ĐIỂM)</span>
+          <span style="font-size: 11px; color: #64748b; font-weight: 600;">(Barem 0.25đ/ý)</span>
+        </div>
+        <table class="table-key">
+          <tr>
+            <th style="width: 20%;">Câu hỏi</th>
+            <th style="width: 20%;">Ý a</th>
+            <th style="width: 20%;">Ý b</th>
+            <th style="width: 20%;">Ý c</th>
+            <th style="width: 20%;">Ý d</th>
+          </tr>
+          ${[1,2,3,4].map(q => `
+            <tr>
+              <td style="font-weight: 700; background: #f8fafc;">Câu ${q}</td>
+              <td style="font-weight: 800; color: ${k.p2[q].a === 'D' ? '#15803d' : '#dc2626'}">${k.p2[q].a === 'D' ? 'ĐÚNG (Đ)' : 'SAI (S)'}</td>
+              <td style="font-weight: 800; color: ${k.p2[q].b === 'D' ? '#15803d' : '#dc2626'}">${k.p2[q].b === 'D' ? 'ĐÚNG (Đ)' : 'SAI (S)'}</td>
+              <td style="font-weight: 800; color: ${k.p2[q].c === 'D' ? '#15803d' : '#dc2626'}">${k.p2[q].c === 'D' ? 'ĐÚNG (Đ)' : 'SAI (S)'}</td>
+              <td style="font-weight: 800; color: ${k.p2[q].d === 'D' ? '#15803d' : '#dc2626'}">${k.p2[q].d === 'D' ? 'ĐÚNG (Đ)' : 'SAI (S)'}</td>
+            </tr>
+          `).join('')}
+        </table>
+      </div>
+
+      <div>
+        <div style="font-size: 13px; font-weight: 800; color: #0284c7; text-transform: uppercase; margin-bottom: 8px;">
+          III. PHẦN III — TRẢ LỜI NGẮN (6 CÂU / 3.0 ĐIỂM)
+        </div>
+        <table class="table-key">
+          <tr>
+            <th>Câu 1</th><th>Câu 2</th><th>Câu 3</th><th>Câu 4</th><th>Câu 5</th><th>Câu 6</th>
+          </tr>
+          <tr>
+            ${[1,2,3,4,5,6].map(q => `<td style="font-size: 15px; font-weight: 800; color: #0284c7; background: #f0fdf4;">${k.p3[q]}</td>`).join('')}
+          </tr>
+        </table>
+      </div>
+    `;
+
+    container.innerHTML = html;
+  }
+
+  // Toggle student audit box
+  function toggleAuditBox() {
+    const box = document.getElementById('auditBox');
+    const icon = document.getElementById('auditToggleIcon');
+    if (box.style.display === 'none') {
+      box.style.display = 'block';
+      icon.innerHTML = '▲ Thu gọn';
+    } else {
+      box.style.display = 'none';
+      icon.innerHTML = '▼ Xem chi tiết';
+    }
+  }
+
+  function renderStudentAudit(st) {
+    const box = document.getElementById('auditBox');
+    const k = OFFICIAL_KEYS[st.made] || OFFICIAL_KEYS['1201'];
+
+    let p1_ok_count = 0;
+    for (let q = 1; q <= 12; q++) {
+      if (st.p1_det && st.p1_det[q]) p1_ok_count++;
+    }
+
+    let p2_ok_count = 0;
+    for (let q = 1; q <= 4; q++) {
+      ['a','b','c','d'].forEach(sub => {
+        if (st.p2_det && st.p2_det[q] && st.p2_det[q][sub]) p2_ok_count++;
+      });
+    }
+
+    let p3_ok_count = 0;
+    for (let q = 1; q <= 6; q++) {
+      if (st.p3_det && st.p3_det[q]) p3_ok_count++;
+    }
+
+    let html = `
+      <div style="margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; background: #f0f9ff; padding: 8px 12px; border-radius: 8px; flex-wrap: wrap; gap: 6px;">
+        <span style="font-size: 12px; font-weight: 700; color: #0369a1;">Đối soát theo Mã đề: <strong>${st.made}</strong></span>
+        <button onclick="openAnswerModal('${st.made}')" style="background: white; border: 1px solid #0284c7; color: #0284c7; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 6px; cursor: pointer;">
+          Xem Toàn Bộ Đáp Án Đề ${st.made}
+        </button>
+      </div>
+
+      <!-- Part 1 Audit -->
+      <div class="audit-title">
+        <span>Phần I: Trắc nghiệm (${p1_ok_count}/12 câu đúng)</span>
+        <span style="color: #0284c7;">+${st.p1.toFixed(2)}đ</span>
+      </div>
+      <div class="audit-grid">
+        ${[1,2,3,4,5,6,7,8,9,10,11,12].map(q => {
+          const isOk = st.p1_det ? st.p1_det[q] : (st.p1_ans && st.p1_ans[q] === k.p1[q]);
+          const myAns = (st.p1_ans && st.p1_ans[q]) ? st.p1_ans[q] : '-';
+          const corrAns = k.p1[q];
+          return `
+            <div class="audit-item ${isOk ? 'ok' : 'err'}">
+              <div class="q-num">C${q}</div>
+              <div class="q-ans">${myAns} ${isOk ? '✓' : '✗'}</div>
+              <div class="q-corr">${isOk ? '+0.25đ' : `ĐA: ${corrAns}`}</div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      <!-- Part 2 Audit -->
+      <div class="audit-title">
+        <span>Phần II: Đúng / Sai (${p2_ok_count}/16 ý đúng)</span>
+        <span style="color: #0284c7;">+${st.p2.toFixed(2)}đ</span>
+      </div>
+      <div class="audit-p2-grid">
+        ${[1,2,3,4].map(q => {
+          let q_ok = 0;
+          ['a','b','c','d'].forEach(sub => {
+            if (st.p2_det && st.p2_det[q] && st.p2_det[q][sub]) q_ok++;
+          });
+          return `
+            <div class="audit-p2-card">
+              <div class="audit-p2-header">
+                <span>Câu ${q}</span>
+                <span style="color: #0284c7;">+${(q_ok * 0.25).toFixed(2)}đ</span>
+              </div>
+              ${['a','b','c','d'].map(sub => {
+                const isOk = st.p2_det && st.p2_det[q] ? st.p2_det[q][sub] : false;
+                const myAns = (st.p2_ans && st.p2_ans[q] && st.p2_ans[q][sub]) ? (st.p2_ans[q][sub] === 'D' ? 'Đ' : 'S') : '-';
+                const corrAns = k.p2[q][sub] === 'D' ? 'Đ' : 'S';
+                return `
+                  <div class="sub-item-row ${isOk ? 'ok' : 'err'}">
+                    <span>Ý ${sub}: <strong>${myAns}</strong></span>
+                    <span>${isOk ? '✓ (+0.25)' : `✗ (${corrAns})`}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      <!-- Part 3 Audit -->
+      <div class="audit-title">
+        <span>Phần III: Trả lời ngắn (${p3_ok_count}/6 câu đúng)</span>
+        <span style="color: #0284c7;">+${st.p3.toFixed(2)}đ</span>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px;">
+        ${[1,2,3,4,5,6].map(q => {
+          const isOk = st.p3_det ? st.p3_det[q] : false;
+          const myVal = (st.p3_ans && st.p3_ans[q] !== undefined) ? st.p3_ans[q] : '-';
+          const corrVal = k.p3[q];
+          return `
+            <div class="audit-item ${isOk ? 'ok' : 'err'}" style="text-align: left; padding: 8px 10px;">
+              <div style="display: flex; justify-content: space-between; font-size: 11px; font-weight: 800;">
+                <span>Câu ${q}</span>
+                <span>${isOk ? '+0.50đ' : '0.00đ'}</span>
+              </div>
+              <div style="font-size: 12px; margin-top: 4px;">Tô: <strong>${myVal}</strong> ${isOk ? '✓' : '✗'}</div>
+              ${!isOk ? `<div style="font-size: 11px; color: #64748b; margin-top: 2px;">Đáp án: <strong>${corrVal}</strong></div>` : ''}
+            </div>
+          `;
+        }).join('')}
+      </div>
+    `;
+
+    box.innerHTML = html;
+  }
+
+  // Auto-load if STT in URL query (?stt=13)
+  window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sttParam = urlParams.get('stt');
+    if (sttParam) {
+      const sttInt = parseInt(sttParam);
+      if (sttInt >= 1 && sttInt <= students.length) {
+        renderStudent(sttInt);
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
