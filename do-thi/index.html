@@ -1060,7 +1060,17 @@
         return roots.filter((r, i, arr) => i === 0 || Math.abs(r - arr[i - 1]) > 1e-4);
     }
 
-    function updateAll() {
+    
+        // Hàm làm sạch chuỗi LaTeX tránh lỗi MathJax khi có ký tự lạ (như & hay c thừa từ Word/MathType)
+        function sanitizeLaTeX(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, '\\&') // Escape & if any
+                .replace(/\s+c\s*$/, '') // Xóa ký tự c thừa ở cuối nếu có
+                .trim();
+        }
+
+function updateAll() {
         let type = document.getElementById('func-type').value;
         let absType = document.getElementById('abs-type').value;
         
@@ -1210,7 +1220,7 @@
         board.on('update', updateTangentText);
         updateTangentText();
 
-        document.getElementById('math-formula').innerHTML = `\\[${finalFormula}\\]`;
+        document.getElementById('math-formula').innerHTML = `\\[${sanitizeLaTeX(finalFormula)}\\]`;
         document.getElementById('bbt-output').innerHTML = renderBBT(type, a, b, c, d, e, f_base);
         toggleVisibility();
         
