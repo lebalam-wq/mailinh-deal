@@ -125,25 +125,6 @@
         }
         #jxgbox { width: 100%; aspect-ratio: 1 / 1; border-radius: 8px;
             background-color: #ffffff !important; }
-    
-        
-        #jxgbox path[stroke="#00f2fe"] {
-            filter: drop-shadow(0 0 5px #00f2fe) drop-shadow(0 0 12px #00e5ff) !important;
-        }
-        #jxgbox circle[fill="#00f2fe"] {
-            filter: drop-shadow(0 0 6px #00f2fe) drop-shadow(0 0 14px #00e5ff) !important;
-        }
-
-        .card:fullscreen {
-            background: var(--bg) !important;
-            padding: 24px !important;
-            overflow: auto !important;
-        }
-        .card:fullscreen #jxgbox {
-            height: 65vh !important;
-            max-height: 65vh !important;
-        }
-
     </style>
 </head>
 <body>
@@ -223,7 +204,7 @@
         <div class="btn-main-group">
             <button style="grid-column: span 2;" onclick="updateAll()">🔄 Cập nhật Đồ thị</button>
             <button class="btn-action" onclick="exportPNG()">📸 Tải ảnh PNG</button>
-            <button class="btn-secondary" onclick="autoCenterGraph()" style="font-weight:700; color:#0070C0; background:#eff6ff; border:1px solid #93c5fd;">🎯 Căn Giữa Đồ Thị</button>
+            <button class="btn-secondary" onclick="resetView()">🎯 Reset Góc Nhìn</button>
         </div>
 
         <div class="formula-display" id="math-formula"></div>
@@ -262,17 +243,9 @@
     <div class="card">
         <div class="controls-header">
             <h2 style="border:none; margin:0; padding:0;">Đồ Thị Hàm Số</h2>
-            <div style="display:flex; gap:5px; flex-wrap:wrap; align-items:center;">
-                <button class="btn-secondary" onclick="autoCenterGraph()" title="Tự động tính tâm uốn/cực trị và căn đồ thị vào chính giữa" style="background:#eff6ff; color:#0070C0; font-weight:700; border:1px solid #93c5fd; padding:5px 10px; border-radius:6px; cursor:pointer;">🎯 Căn Giữa Đồ Thị</button>
-                <button class="btn-secondary" onclick="centerOrigin()" title="Đưa gốc tọa độ O(0,0) về chính giữa" style="padding:5px 9px; border-radius:6px; cursor:pointer; font-weight:600;">⚖️ Tâm O</button>
-                <button class="btn-secondary" onclick="zoomIn()" title="Phóng to" style="padding:5px 8px; border-radius:6px; cursor:pointer; font-weight:700;">➕</button>
-                <button class="btn-secondary" onclick="zoomOut()" title="Thu nhỏ" style="padding:5px 8px; border-radius:6px; cursor:pointer; font-weight:700;">➖</button>
-                <div style="display:inline-flex; border:1px solid var(--border); border-radius:6px; overflow:hidden;">
-                    <button type="button" onclick="panBoard(-1, 0)" title="Sang trái" style="background:var(--panel); border:none; border-right:1px solid var(--border); padding:4px 7px; cursor:pointer; color:var(--text);">←</button>
-                    <button type="button" onclick="panBoard(0, 1)" title="Lên trên" style="background:var(--panel); border:none; border-right:1px solid var(--border); padding:4px 7px; cursor:pointer; color:var(--text);">↑</button>
-                    <button type="button" onclick="panBoard(0, -1)" title="Xuống dưới" style="background:var(--panel); border:none; border-right:1px solid var(--border); padding:4px 7px; cursor:pointer; color:var(--text);">↓</button>
-                    <button type="button" onclick="panBoard(1, 0)" title="Sang phải" style="background:var(--panel); border:none; padding:4px 7px; cursor:pointer; color:var(--text);">→</button>
-                </div>
+            <div style="display:flex; gap:6px;">
+                <button class="btn-secondary" onclick="zoomIn()">➕ Phóng to</button>
+                <button class="btn-secondary" onclick="zoomOut()">➖ Thu nhỏ</button>
             </div>
         </div>
         
@@ -286,97 +259,7 @@
 <label><input type="checkbox" id="chk-grid" onchange="toggleVisibility()"><span style="color:#94a3b8;">▦</span> Lưới</label>        
 </div>
 
-        
-        <!-- Math Motion & Radar Toolbar -->
-        <div class="motion-toolbar" style="margin-top: 10px; margin-bottom: 10px; padding: 12px 14px; border-radius: 8px; background: linear-gradient(135deg, rgba(2, 132, 199, 0.08), rgba(99, 102, 241, 0.08)); border: 1px solid #38bdf8; display: flex; flex-direction: column; gap: 10px;">
-            <!-- HÀNG 1: NÚT THAO TÁC CHÍNH & XUẤT MEDIA -->
-            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;">
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    <span style="font-size: 0.88rem; font-weight: 800; color: #0284c7; display: flex; align-items: center; gap: 5px; white-space: nowrap;">
-                        ✨ VỆT SÁNG MATH MOTION:
-                    </span>
-                    <button id="btn-motion-play" onclick="toggleMotionAnimation()" style="background: linear-gradient(135deg, #0284c7, #0070C0); color: #fff; font-weight: 700; padding: 6px 14px; border-radius: 6px; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 6px rgba(0, 112, 192, 0.3); font-size: 0.88rem; white-space: nowrap;">
-                        ▶ Chạy Vệt Sáng
-                    </button>
-                    <button id="btn-motion-reset" onclick="resetMotionAnimation()" class="btn-secondary" style="padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.88rem; white-space: nowrap;">
-                        ↺ Vẽ Lại
-                    </button>
-                    <button onclick="clearTrail()" class="btn-secondary" title="Xóa bỏ lớp vệt sáng trên đồ thị" style="padding: 6px 10px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.88rem; background: #fff1f2; color: #be123c; border: 1px solid #fecdd3; white-space: nowrap;">
-                        🧹 Xóa Vệt Sáng
-                    </button>
-                </div>
-
-                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                    <button onclick="toggleFullscreenGraph()" title="Phóng to toàn màn hình máy chiếu lớp học" style="padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; background: #f0fdf4; color: #166534; border: 1px solid #86efac; font-size: 0.85rem; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
-                        ⛶ Trình Chiếu Fullscreen
-                    </button>
-                    <button id="btn-export-gif" onclick="exportMotionGIF()" title="Xuất file GIF hoạt ảnh động chèn PowerPoint/Canva" style="padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; background: #fefce8; color: #854d0e; border: 1px solid #fde047; font-size: 0.85rem; display: flex; align-items: center; gap: 4px; white-space: nowrap;">
-                        🎬 Tải GIF Bài Giảng
-                    </button>
-                </div>
-            </div>
-
-            <!-- HÀNG 2: THIẾT LẬP THỜI GIAN, TỐC ĐỘ & TUA TIẾN TRÌNH (CÙNG 1 HÀNG SẮC NÉT) -->
-            <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px dashed rgba(56, 189, 248, 0.4); padding-top: 8px;">
-                <!-- Cụm chọn Thời Gian Dừng + Badge Đếm + Tốc Độ (Nằm cùng 1 hàng ngang, không bao giờ vỡ hàng) -->
-                <div style="display: inline-flex; align-items: center; gap: 8px; flex-wrap: nowrap; white-space: nowrap;">
-                    <!-- Chọn thời gian dừng -->
-                    <div style="display: inline-flex; align-items: center; gap: 4px; background: var(--panel); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">
-                        <label for="motion-duration" style="font-size: 0.82rem; font-weight: 700; color: var(--text); cursor: pointer; white-space: nowrap;">⏱ Dừng sau:</label>
-                        <select id="motion-duration" onchange="onDurationChange()" style="border: none; background: transparent; color: #0070C0; font-size: 0.85rem; font-weight: 800; cursor: pointer; outline: none;">
-                            <option value="5">5 giây</option>
-                            <option value="10" selected>10 giây (Chuẩn)</option>
-                            <option value="15">15 giây</option>
-                            <option value="20">20 giây</option>
-                            <option value="30">30 giây (Thong thả)</option>
-                            <option value="60">60 giây</option>
-                            <option value="loop">Lặp vô hạn (Loop)</option>
-                        </select>
-                    </div>
-
-                    <!-- Badge Đồng Hồ Đếm -->
-                    <span id="motion-timer-badge" style="font-family: monospace; font-size: 0.85rem; font-weight: 800; background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; border: 1px solid #bae6fd; white-space: nowrap;">
-                        00.0s / 10s
-                    </span>
-
-                    <!-- Chọn tốc độ -->
-                    <div style="display: inline-flex; align-items: center; gap: 4px; background: var(--panel); padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;">
-                        <label for="motion-speed" style="font-size: 0.82rem; font-weight: 700; color: var(--text); cursor: pointer; white-space: nowrap;">⚡ Tốc độ:</label>
-                        <select id="motion-speed" onchange="changeMotionSpeed()" style="border: none; background: transparent; color: #0070C0; font-size: 0.85rem; font-weight: 800; cursor: pointer; outline: none;">
-                            <option value="0.5">0.5x (Chậm)</option>
-                            <option value="1" selected>1.0x (Mặc định)</option>
-                            <option value="1.5">1.5x (Nhanh)</option>
-                            <option value="2">2.0x (Tốc độ)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Cụm Tua Tiến Trình (Timeline Slider) -->
-                <div style="display: flex; align-items: center; gap: 8px; flex: 1; min-width: 220px;">
-                    <span style="font-size: 0.78rem; color: var(--muted); font-weight: 700; text-transform: uppercase; white-space: nowrap;">Tua tiến trình:</span>
-                    <input type="range" id="motion-timeline" min="0" max="1000" value="0" oninput="onTimelineScrub(this.value)" style="flex: 1; accent-color: #0284c7; cursor: pointer;">
-                    <span id="motion-pct-label" style="font-family: monospace; font-size: 0.82rem; font-weight: 700; color: #0284c7; min-width: 38px; text-align: right; white-space: nowrap;">0%</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- Radar Đạo Hàm & Tọa Độ Động M -->
-        <div id="radar-panel" style="margin-bottom: 12px; padding: 10px 14px; border-radius: 8px; background: var(--formula-bg); border: 1px solid var(--border); display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; align-items: center;">
-            <div>
-                <div style="font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase;">📍 Điểm Động M</div>
-                <div id="radar-coords" style="font-weight: 800; color: #0070C0; font-family: monospace; font-size: 1.05rem; margin-top: 2px;">M(1.00; 0.33)</div>
-            </div>
-            <div>
-                <div style="font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase;">📐 Hệ Số Góc Tiếp Tuyến</div>
-                <div id="radar-slope" style="font-weight: 800; color: #7c3aed; font-family: monospace; font-size: 1.05rem; margin-top: 2px;">k = y'(x) = 0.00</div>
-            </div>
-            <div>
-                <div style="font-size: 0.72rem; color: var(--muted); font-weight: 700; text-transform: uppercase;">⚡ Trạng Thái Biến Thiên</div>
-                <div id="radar-status" style="font-weight: 800; color: #10b981; font-size: 0.95rem; margin-top: 2px;">🟢 ĐỒNG BIẾN (y' &gt; 0)</div>
-            </div>
-        </div>
-
-<div class="board-wrapper" id="capture-area">
+        <div class="board-wrapper" id="capture-area">
             <div id="jxgbox" class="jxgbox"></div>
         </div>
 
@@ -416,8 +299,6 @@
     // --- NÂNG CẤP BỞI THẦY LÊ BÁ LÂM & MAI LINH ---
     let isExamMode = false;
     let currentFVal = null;
-    let currentFBase = null;
-    let f_base = null;
     let mLine = null;
     let mPoints = [];
     let mText = null;
@@ -427,7 +308,6 @@
             { name: "2 Cực trị (a > 0)", vals: { a: "1/3", b: "0", c: "-1", d: "1" } },
             { name: "2 Cực trị (a < 0)", vals: { a: "-1", b: "3", c: "0", d: "-1" } },
             { name: "Đơn điệu tăng", vals: { a: "1/3", b: "0", c: "1", d: "0" } },
-            { name: "Đơn điệu giảm", vals: { a: "-1/3", b: "0", c: "-1", d: "0" } },
             { name: "Có uốn trên Ox", vals: { a: "1", b: "-3", c: "0", d: "2" } }
         ],
         quartic: [
@@ -443,10 +323,9 @@
             { name: "Tâm I(-1; 2)", vals: { a: "2", b: "3", c: "1", d: "1" } }
         ],
         frac21: [
-            { name: "2 Cực trị (a > 0)", vals: { a: "1", b: "-1", c: "1", d: "1", e: "-1" } },
-            { name: "2 Cực trị (a < 0)", vals: { a: "-1", b: "2", c: "-4", d: "1", e: "-2" } },
-            { name: "Không cực trị (Đồng biến)", vals: { a: "1", b: "-2", c: "0", d: "1", e: "-1" } },
-            { name: "Không cực trị (Nghịch biến)", vals: { a: "-1", b: "1", c: "1", d: "1", e: "-1" } }
+            { name: "2 Cực trị (a>0)", vals: { a: "1", b: "-1", c: "1", d: "1", e: "-1" } },
+            { name: "2 Cực trị (a<0)", vals: { a: "-1", b: "2", c: "-4", d: "1", e: "-2" } },
+            { name: "Không cực trị", vals: { a: "1", b: "1", c: "1", d: "1", e: "0" } }
         ]
     };
 
@@ -459,19 +338,9 @@
             let btn = document.createElement('button');
             btn.type = 'button';
             btn.className = 'btn-secondary';
-            btn.style.cssText = "padding: 4px 9px; font-size: 0.8rem; border-radius: 5px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--panel); color: var(--text); transition: all 0.2s;";
+            btn.style.cssText = "padding: 4px 8px; font-size: 0.8rem; border-radius: 4px; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--panel); color: var(--text);";
             btn.innerText = item.name;
-            btn.onclick = () => {
-                container.querySelectorAll('button').forEach(b => {
-                    b.style.borderColor = 'var(--border)';
-                    b.style.background = 'var(--panel)';
-                    b.style.color = 'var(--text)';
-                });
-                btn.style.borderColor = '#0070C0';
-                btn.style.background = '#eff6ff';
-                btn.style.color = '#0070C0';
-                applyPreset(item.vals);
-            };
+            btn.onclick = () => applyPreset(item.vals);
             container.appendChild(btn);
         });
     }
@@ -484,7 +353,6 @@
             }
         });
         updateAll();
-        autoCenterGraph();
     }
 
     function toggleExamMode() {
@@ -502,7 +370,6 @@
             btn.innerHTML = "📄 Chuẩn Đề Thi Word";
         }
         updateAll();
-        autoCenterGraph();
     }
 
     function toggleTuongGiao() {
@@ -690,12 +557,10 @@
         });
     }
 
-    let trailCurveOuter = null, trailCurveInner = null, trailHeadHalo = null, trailHeadCore = null;
     let board = JXG.JSXGraph.initBoard('jxgbox', {
         boundingbox: DEFAULT_BOUNDING_BOX,
         axis: false, showCopyright: false, keepaspectratio: true, showInfobox: true,
-        zoom: { wheel: true, enabled: true },
-        pan: { enabled: true, needShift: false, needTwoFingers: false }
+        zoom: { wheel: false, enabled: true }, pan: { enabled: false }
     });
    let xAxis = board.create('axis', [[0, 0], [1, 0]], { 
         name: 'x', 
@@ -722,7 +587,7 @@
         cubic:   { a: '1/3', b: '0', c: '-1', d: '1' },
         quartic: { a: '0.25', b: '-1.5', c: '1', d: '0' },
         frac11:  { a: '2', b: '1', c: '1', d: '-1' },
-        frac21:  { a: '1', b: '-1', c: '1', d: '1', e: '-1' }
+        frac21:  { a: '1', b: '-1', c: '-2', d: '1', e: '-1' }
     };
 
     function onTypeChange() {
@@ -741,7 +606,6 @@
             }
         });
         updateAll();
-        autoCenterGraph();
     }
 
     function parseInput(inputStr) {
@@ -767,7 +631,6 @@
         let val = parseFloat(document.getElementById(`slider-${param}`).value);
         document.getElementById(`coef-${param}`).value = val;
         updateAll();
-        autoCenterGraph();
     }
 
     function syncSliderFromText(param) {
@@ -913,114 +776,18 @@
 
     function zoomIn() { board.zoomIn(); }
     function zoomOut() { board.zoomOut(); }
-    function getOptimalBoundingBox() {
-        let type = document.getElementById('func-type').value;
-        let pA = parseInput(document.getElementById('coef-a').value);
-        let pB = parseInput(document.getElementById('coef-b').value);
-        let pC = parseInput(document.getElementById('coef-c').value);
-        let pD = parseInput(document.getElementById('coef-d').value);
-        let pE = parseInput(document.getElementById('coef-e').value);
-
-        let a = pA.val, b = pB.val, c = pC.val, d = pD.val, e = pE.val;
-        let xCenter = 0, yCenter = 0, radius = 6.5;
-
-        if (type === 'cubic' && Math.abs(a) > 1e-6) {
-            let x_u = -b / (3 * a);
-            let y_u = a * Math.pow(x_u, 3) + b * Math.pow(x_u, 2) + c * x_u + d;
-            let delta_p = b * b - 3 * a * c;
-            if (delta_p > 0) {
-                let dx = Math.sqrt(delta_p) / (3 * Math.abs(a));
-                let x1 = x_u - dx, x2 = x_u + dx;
-                let y1 = a * Math.pow(x1, 3) + b * Math.pow(x1, 2) + c * x1 + d;
-                let y2 = a * Math.pow(x2, 3) + b * Math.pow(x2, 2) + c * x2 + d;
-
-                let allX = [x1, x2, x_u, 0];
-                let allY = [y1, y2, y_u, 0];
-                let minX = Math.min(...allX), maxX = Math.max(...allX);
-                let minY = Math.min(...allY), maxY = Math.max(...allY);
-
-                xCenter = (minX + maxX) / 2;
-                yCenter = (minY + maxY) / 2;
-                let spanX = maxX - minX;
-                let spanY = maxY - minY;
-                radius = Math.max(spanX, spanY) * 0.72 + 1.8;
-            } else {
-                xCenter = x_u * 0.5;
-                yCenter = y_u * 0.5;
-                radius = Math.max(Math.abs(x_u), Math.abs(y_u), 4) + 2.5;
-            }
-        } else if (type === 'quartic' && Math.abs(a) > 1e-6) {
-            xCenter = 0;
-            let y0 = c;
-            if (a * b < 0) {
-                let x_ct = Math.sqrt(-b / (2 * a));
-                let y_ct = a * Math.pow(x_ct, 4) + b * Math.pow(x_ct, 2) + c;
-                yCenter = (y0 + y_ct) / 2;
-                let spanY = Math.abs(y0 - y_ct);
-                radius = Math.max(x_ct * 2, spanY, 4) * 0.8 + 1.8;
-            } else {
-                yCenter = y0;
-                radius = Math.max(Math.abs(y0), 4) + 2.5;
-            }
-        } else if (type === 'frac11' && Math.abs(c) > 1e-6) {
-            let x_i = -d / c;
-            let y_i = a / c;
-            xCenter = x_i;
-            yCenter = y_i;
-            radius = Math.max(Math.abs(x_i) + 4, Math.abs(y_i) + 4, 6);
-        } else if (type === 'frac21' && Math.abs(d) > 1e-6) {
-            let x_i = -e / d;
-            let y_i = (a / d) * x_i + (b * d - a * e) / (d * d);
-            xCenter = x_i;
-            yCenter = y_i;
-            radius = Math.max(Math.abs(x_i) + 4, Math.abs(y_i) + 4, 6.5);
-        }
-
-        radius = Math.min(Math.max(radius, 4.5), 14);
-        return [xCenter - radius, yCenter + radius, xCenter + radius, yCenter - radius];
-    }
-
-    function autoCenterGraph() {
-        if (typeof clearTrail === 'function') clearTrail(); // Xóa vệt sáng khi bấm Căn Giữa / Reset Góc Nhìn
-        let bbox = getOptimalBoundingBox();
-        board.setBoundingBox(bbox, true);
-    }
-
-    function centerOrigin() {
-        if (typeof clearTrail === 'function') clearTrail(); // Xóa vệt sáng khi đưa về Tâm O
-        board.setBoundingBox([-8, 8, 8, -8], true);
-    }
-
-    function resetView() {
-        autoCenterGraph();
-    }
-
-    function panBoard(dx, dy) {
-        let bbox = board.getBoundingBox();
-        let w = bbox[2] - bbox[0];
-        let h = bbox[1] - bbox[3];
-        let stepX = (w * 0.15) * dx;
-        let stepY = (h * 0.15) * dy;
-        board.setBoundingBox([bbox[0] + stepX, bbox[1] + stepY, bbox[2] + stepX, bbox[3] + stepY], true);
-    }
+    function resetView() { board.setBoundingBox(DEFAULT_BOUNDING_BOX, false); }
 
     function updateTangentText() {
         let info = document.getElementById('tangent-info');
-        if (tangentGlider && tangentLine) {
-            let curX = tangentGlider.X();
-            let curY = currentFVal ? currentFVal(curX) : (typeof f_base === 'function' ? f_base(curX) : 0);
+        if (tangentLine && document.getElementById('chk-tangent').checked) {
             let m = tangentLine.getSlope();
-            if (typeof updateRadar === 'function') updateRadar(curX, curY, m);
-            if (document.getElementById('chk-tangent').checked) {
-                let isDark = document.body.classList.contains('dark-mode');
-                let color = m > 0 ? (isDark ? "#60a5fa" : "blue") : (m < 0 ? (isDark ? "#f87171" : "red") : (isDark ? "#f8fafc" : "black"));
-                info.innerHTML = `Hệ số góc tiếp tuyến tại x = ${curX.toFixed(2)}: <span style="color:${color}; font-weight:700;">k = ${m.toFixed(4)}</span>`;
-                tangentLine.setAttribute({strokeColor: m > 0 ? "blue" : (m < 0 ? "red" : "black")});
-            } else {
-                info.innerHTML = "";
-            }
+            let isDark = document.body.classList.contains('dark-mode');
+            let color = m > 0 ? (isDark ? "#60a5fa" : "blue") : (m < 0 ? (isDark ? "#f87171" : "red") : (isDark ? "#f8fafc" : "black"));
+            info.innerHTML = `Hệ số góc tiếp tuyến tại x = ${tangentGlider.X().toFixed(2)}: <span style="color:${color};">k = ${m.toFixed(4)}</span>`;
+            tangentLine.setAttribute({strokeColor: m > 0 ? "blue" : (m < 0 ? "red" : "black")});
         } else {
-            if (info) info.innerHTML = "";
+            info.innerHTML = "";
         }
     }
 
@@ -1060,17 +827,7 @@
         return roots.filter((r, i, arr) => i === 0 || Math.abs(r - arr[i - 1]) > 1e-4);
     }
 
-    
-        // Hàm làm sạch chuỗi LaTeX tránh lỗi MathJax khi có ký tự lạ (như & hay c thừa từ Word/MathType)
-        function sanitizeLaTeX(str) {
-            if (!str) return '';
-            return str
-                .replace(/&/g, '\\&') // Escape & if any
-                .replace(/\s+c\s*$/, '') // Xóa ký tự c thừa ở cuối nếu có
-                .trim();
-        }
-
-function updateAll() {
+    function updateAll() {
         let type = document.getElementById('func-type').value;
         let absType = document.getElementById('abs-type').value;
         
@@ -1081,7 +838,7 @@ function updateAll() {
         let pE = parseInput(document.getElementById('coef-e').value);
 
         let a = pA.val, b = pB.val, c = pC.val, d = pD.val, e = pE.val;
-        let finalFormula = "";
+        let f_base, finalFormula = "";
         
         extremaElements = clearElements(extremaElements);
         inflectionElements = clearElements(inflectionElements);
@@ -1184,23 +941,11 @@ function updateAll() {
         if (tangentLine) board.removeObject(tangentLine);
 
         currentFVal = f_val;
-        currentFBase = f_base;
         graphCurve = board.create('functiongraph', [f_val], { strokeWidth: 2, strokeColor: '#2563eb' });
         
         let showTangent = document.getElementById('chk-tangent').checked;
         tangentGlider = board.create('glider', [1, f_val(1), graphCurve], { name: '', size: 3, color: '#d946ef', visible: showTangent });
         tangentLine = board.create('tangent', [tangentGlider], { dash: 1, visible: showTangent });
-
-        // Tạo các lớp Vệt Sáng Neon Luminous Trail & Glowing Head
-        if (trailCurveOuter) board.removeObject(trailCurveOuter);
-        if (trailCurveInner) board.removeObject(trailCurveInner);
-        if (trailHeadHalo) board.removeObject(trailHeadHalo);
-        if (trailHeadCore) board.removeObject(trailHeadCore);
-
-        trailCurveOuter = board.create('curve', [[], []], { strokeWidth: 9, strokeColor: '#00f2fe', strokeOpacity: 0.75, fixed: true, highlight: false, layer: 9 });
-        trailCurveInner = board.create('curve', [[], []], { strokeWidth: 3.5, strokeColor: '#ffffff', strokeOpacity: 0.95, fixed: true, highlight: false, layer: 10 });
-        trailHeadHalo = board.create('point', [0, 0], { size: 9, fillColor: '#00f2fe', fillOpacity: 0.65, strokeColor: '#ffffff', strokeWidth: 2, name: '', fixed: true, visible: false, highlight: false, layer: 11 });
-        trailHeadCore = board.create('point', [0, 0], { size: 4.5, fillColor: '#ffffff', strokeColor: '#0284c7', strokeWidth: 2, name: '', fixed: true, visible: false, highlight: false, layer: 12 });
         
         // Thêm tính năng điểm hút (magnetic snap) khi kéo điểm M đi qua các điểm cực trị
         tangentGlider.on('drag', function() {
@@ -1220,7 +965,7 @@ function updateAll() {
         board.on('update', updateTangentText);
         updateTangentText();
 
-        document.getElementById('math-formula').innerHTML = `\\[${sanitizeLaTeX(finalFormula)}\\]`;
+        document.getElementById('math-formula').innerHTML = `\\[${finalFormula}\\]`;
         document.getElementById('bbt-output').innerHTML = renderBBT(type, a, b, c, d, e, f_base);
         toggleVisibility();
         
@@ -1424,664 +1169,6 @@ function updateAll() {
             link.click();
         });
     }
-
-    
-// --- ADVANCED MATH MOTION ENGINE WITH NEON GLOW TRAIL & TIMED AUTO-STOP ---
-let motionAnimId = null;
-let motionIsPlaying = false;
-let motionSpeedMultiplier = 1.0;
-let motionDurationMs = 10000;
-let motionDurationMode = '10';
-let motionElapsedMs = 0;
-let motionLastTimestamp = 0;
-
-function onDurationChange() {
-    let sel = document.getElementById('motion-duration');
-    if (!sel) return;
-    motionDurationMode = sel.value;
-    if (motionDurationMode === 'loop') {
-        motionDurationMs = 10000;
-    } else {
-        motionDurationMs = (parseFloat(motionDurationMode) || 10) * 1000;
-    }
-    updateTimerDisplay();
-}
-
-function changeMotionSpeed() {
-    let el = document.getElementById('motion-speed');
-    if (el) motionSpeedMultiplier = parseFloat(el.value) || 1.0;
-}
-
-function updateTimerDisplay() {
-    let badge = document.getElementById('motion-timer-badge');
-    let timeline = document.getElementById('motion-timeline');
-    let pctLabel = document.getElementById('motion-pct-label');
-    let curSec = (motionElapsedMs / 1000).toFixed(1);
-
-    if (motionDurationMode === 'loop') {
-        if (badge) badge.innerText = `⏱ ${curSec}s (Lặp vô hạn)`;
-    } else {
-        let totSec = (motionDurationMs / 1000).toFixed(0);
-        if (badge) badge.innerText = `⏱ ${curSec}s / ${totSec}s`;
-    }
-
-    let progress = Math.min(1.0, motionElapsedMs / motionDurationMs);
-    if (timeline) timeline.value = Math.round(progress * 1000);
-    if (pctLabel) pctLabel.innerText = `${Math.round(progress * 100)}%`;
-}
-
-function updateRadar(x, y, slope) {
-    let coordsEl = document.getElementById('radar-coords');
-    let slopeEl = document.getElementById('radar-slope');
-    let statusEl = document.getElementById('radar-status');
-    if (!coordsEl || !slopeEl || !statusEl) return;
-
-    if (isNaN(x) || isNaN(y) || Math.abs(y) === Infinity) {
-        coordsEl.innerText = 'M(không xác định)';
-        slopeEl.innerText = 'k = —';
-        statusEl.innerHTML = '<span style="color:var(--muted)">Đang tiệm cận...</span>';
-        return;
-    }
-
-    coordsEl.innerText = `M(${x.toFixed(2)}; ${y.toFixed(2)})`;
-    slopeEl.innerText = `k = y'(x) = ${slope.toFixed(2)}`;
-
-    if (Math.abs(slope) <= 0.05) {
-        statusEl.innerHTML = '<span style="color:#eab308; font-weight:800;">⭐ ĐIỂM CỰC TRỊ (y\' ≈ 0)</span>';
-    } else if (slope > 0) {
-        statusEl.innerHTML = '<span style="color:#10b981; font-weight:800;">🟢 ĐỒNG BIẾN ↗ (y\' > 0)</span>';
-    } else {
-        statusEl.innerHTML = '<span style="color:#f97316; font-weight:800;">🟠 NGHỊCH BIẾN ↘ (y\' < 0)</span>';
-    }
-}
-
-function getMotionBounds() {
-    let bbox = board.getBoundingBox();
-    let xmin = bbox[0], xmax = bbox[2];
-    let type = document.getElementById('func-type').value;
-    let x0 = null;
-    if (type === 'frac11') {
-        let pC = parseInput(document.getElementById('coef-c').value);
-        let pD = parseInput(document.getElementById('coef-d').value);
-        if (pC.val !== 0) x0 = -pD.val / pC.val;
-    } else if (type === 'frac21') {
-        let pD = parseInput(document.getElementById('coef-d').value);
-        let pE = parseInput(document.getElementById('coef-e').value);
-        if (pD.val !== 0) x0 = -pE.val / pD.val;
-    }
-    return { xmin: xmin + 0.4, xmax: xmax - 0.4, x0 };
-}
-
-function getCurXFromProgress(prog, mb) {
-    if (mb.x0 === null || mb.x0 < mb.xmin || mb.x0 > mb.xmax) {
-        return mb.xmin + (mb.xmax - mb.xmin) * prog;
-    }
-    let margin = 0.22;
-    if (prog < 0.5) {
-        let subP = prog / 0.5;
-        return mb.xmin + ((mb.x0 - margin) - mb.xmin) * subP;
-    } else {
-        let subP = (prog - 0.5) / 0.5;
-        return (mb.x0 + margin) + (mb.xmax - (mb.x0 + margin)) * subP;
-    }
-}
-
-function updateTrail(curX) {
-    if (!trailCurveOuter || !trailCurveInner) return;
-    trailCurveOuter.setAttribute({ visible: true });
-    trailCurveInner.setAttribute({ visible: true });
-    let mb = getMotionBounds();
-    let evalF = currentFVal || f_base || currentFBase;
-    if (!evalF) return;
-
-    let ptsX = [], ptsY = [];
-    let step = 0.04;
-
-    if (mb.x0 === null || mb.x0 < mb.xmin || mb.x0 > mb.xmax) {
-        // Hàm liên tục: Giữ sáng toàn bộ đồ thị từ điểm đầu đến curX
-        for (let x = mb.xmin; x <= curX; x += step) {
-            let y = evalF(x);
-            if (!isNaN(y) && Math.abs(y) < 120) {
-                ptsX.push(x);
-                ptsY.push(y);
-            }
-        }
-        let yEnd = evalF(curX);
-        if (!isNaN(yEnd) && Math.abs(yEnd) < 120) {
-            ptsX.push(curX);
-            ptsY.push(yEnd);
-        }
-    } else {
-        // Hàm phân thức có tiệm cận đứng tại mb.x0
-        let margin = 0.16;
-        let leftMax = mb.x0 - margin;
-        let rightMin = mb.x0 + margin;
-
-        if (curX <= leftMax) {
-            // Đang quét nhánh trái -> giữ sáng nhánh trái từ mb.xmin đến curX
-            for (let x = mb.xmin; x <= curX; x += step) {
-                let y = evalF(x);
-                if (!isNaN(y) && Math.abs(y) < 120) {
-                    ptsX.push(x);
-                    ptsY.push(y);
-                }
-            }
-            let yEnd = evalF(curX);
-            if (!isNaN(yEnd) && Math.abs(yEnd) < 120) {
-                ptsX.push(curX);
-                ptsY.push(yEnd);
-            }
-        } else {
-            // Đã qua nhánh phải -> giữ sáng TOÀN BỘ nhánh trái và phần nhánh phải đã quét tới
-            for (let x = mb.xmin; x <= leftMax; x += step) {
-                let y = evalF(x);
-                if (!isNaN(y) && Math.abs(y) < 120) {
-                    ptsX.push(x);
-                    ptsY.push(y);
-                }
-            }
-            // Ngắt nét để không nối thẳng qua tiệm cận đứng
-            ptsX.push(NaN);
-            ptsY.push(NaN);
-            for (let x = rightMin; x <= curX; x += step) {
-                let y = evalF(x);
-                if (!isNaN(y) && Math.abs(y) < 120) {
-                    ptsX.push(x);
-                    ptsY.push(y);
-                }
-            }
-            let yEnd = evalF(curX);
-            if (!isNaN(yEnd) && Math.abs(yEnd) < 120) {
-                ptsX.push(curX);
-                ptsY.push(yEnd);
-            }
-        }
-    }
-
-    trailCurveOuter.dataX = ptsX;
-    trailCurveOuter.dataY = ptsY;
-    trailCurveInner.dataX = ptsX;
-    trailCurveInner.dataY = ptsY;
-
-    let curY = evalF(curX);
-    if (!isNaN(curY) && Math.abs(curY) < 120) {
-        if (trailHeadHalo) {
-            trailHeadHalo.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
-            trailHeadHalo.setAttribute({ visible: true });
-        }
-        if (trailHeadCore) {
-            trailHeadCore.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
-            trailHeadCore.setAttribute({ visible: true });
-        }
-    }
-}
-
-function clearTrail() {
-    if (trailCurveOuter) {
-        trailCurveOuter.dataX = [];
-        trailCurveOuter.dataY = [];
-        trailCurveOuter.setAttribute({ visible: false });
-    }
-    if (trailCurveInner) {
-        trailCurveInner.dataX = [];
-        trailCurveInner.dataY = [];
-        trailCurveInner.setAttribute({ visible: false });
-    }
-    if (trailHeadHalo) trailHeadHalo.setAttribute({ visible: false });
-    if (trailHeadCore) trailHeadCore.setAttribute({ visible: false });
-    if (board) board.update();
-}
-
-function applyMotionProgress(prog) {
-    if (!tangentGlider) return;
-    let mb = getMotionBounds();
-    let curX = getCurXFromProgress(prog, mb);
-    let evalF = currentFVal || f_base || currentFBase;
-    let curY = evalF ? evalF(curX) : 0;
-
-    if (!isNaN(curY) && Math.abs(curY) !== Infinity) {
-        tangentGlider.setPosition(JXG.COORDS_BY_USER, [curX, curY]);
-        updateTrail(curX);
-        board.update();
-        if (typeof updateTangentText === 'function') updateTangentText();
-        let slope = (tangentLine && typeof tangentLine.getSlope === 'function') ? tangentLine.getSlope() : 0;
-        updateRadar(curX, curY, slope);
-    }
-}
-
-function motionStep(timestamp) {
-    if (!motionIsPlaying) return;
-
-    if (!motionLastTimestamp) motionLastTimestamp = timestamp;
-    let delta = timestamp - motionLastTimestamp;
-    motionLastTimestamp = timestamp;
-
-    motionElapsedMs += delta * motionSpeedMultiplier;
-
-    if (motionElapsedMs >= motionDurationMs) {
-        if (motionDurationMode === 'loop') {
-            motionElapsedMs = 0;
-        } else {
-            motionElapsedMs = motionDurationMs;
-            updateTimerDisplay();
-            applyMotionProgress(1.0);
-            // Giữ sáng toàn bộ phần đồ thị đã chạy qua theo ý tưởng của Thầy Lâm!
-            motionIsPlaying = false;
-            let btn = document.getElementById('btn-motion-play');
-            if (btn) btn.innerHTML = '▶ Chạy Lại';
-            return;
-        }
-    }
-
-    let progress = motionElapsedMs / motionDurationMs;
-    updateTimerDisplay();
-    applyMotionProgress(progress);
-
-    motionAnimId = requestAnimationFrame(motionStep);
-}
-
-function toggleMotionAnimation() {
-    let btn = document.getElementById('btn-motion-play');
-    if (motionIsPlaying) {
-        motionIsPlaying = false;
-        if (motionAnimId) cancelAnimationFrame(motionAnimId);
-        // Giữ sáng phần đồ thị đã vẽ được khi tạm dừng để Thầy Lâm giảng bài!
-        if (btn) btn.innerHTML = '▶ Tiếp Tục';
-    } else {
-        if (motionElapsedMs >= motionDurationMs) {
-            motionElapsedMs = 0;
-        }
-        motionIsPlaying = true;
-        motionLastTimestamp = 0;
-        if (btn) btn.innerHTML = '⏸ Tạm Dừng';
-        if (tangentGlider) {
-            tangentGlider.setAttribute({ visible: true, size: 4 });
-            if (tangentLine) tangentLine.setAttribute({ visible: true });
-            let chk = document.getElementById('chk-tangent');
-            if (chk) chk.checked = true;
-        }
-        motionAnimId = requestAnimationFrame(motionStep);
-    }
-}
-
-function resetMotionAnimation() {
-    if (motionAnimId) cancelAnimationFrame(motionAnimId);
-    motionElapsedMs = 0;
-    motionIsPlaying = true;
-    motionLastTimestamp = 0;
-    let btn = document.getElementById('btn-motion-play');
-    if (btn) btn.innerHTML = '⏸ Tạm Dừng';
-    updateTimerDisplay();
-    applyMotionProgress(0.0);
-    motionAnimId = requestAnimationFrame(motionStep);
-}
-
-function onTimelineScrub(val) {
-    let prog = parseFloat(val) / 1000;
-    motionElapsedMs = prog * motionDurationMs;
-    updateTimerDisplay();
-    applyMotionProgress(prog);
-}
-
-function toggleFullscreenGraph() {
-    let card = document.getElementById('jxgbox').closest('.card');
-    if (!document.fullscreenElement) {
-        if (card.requestFullscreen) card.requestFullscreen();
-        else if (card.webkitRequestFullscreen) card.webkitRequestFullscreen();
-    } else {
-        if (document.exitFullscreen) document.exitFullscreen();
-    }
-}
-
-// LZW GIF Encoder Engine
-function palette() {
-    const out = [];
-    for (let i = 0; i < 256; i++) {
-        out.push(Math.round((i >> 6) * 255 / 3), Math.round(((i >> 4) & 3) * 255 / 3), Math.round((i & 15) * 255 / 15));
-    }
-    return out;
-}
-function encodeLZW(pixels) {
-    let chunks = [], currByte = 0, bitCount = 0, bitLen = 9, dict = new Map(), nextCode = 258;
-    const push = (v, nbits) => {
-        currByte |= v << bitCount;
-        bitCount += nbits;
-        while (bitCount >= 8) {
-            chunks.push(currByte & 255);
-            currByte >>>= 8;
-            bitCount -= 8;
-        }
-    };
-    push(256, bitLen);
-    let prefix = pixels[0];
-    for (let i = 1; i < pixels.length; i++) {
-        let sym = pixels[i], key = (prefix << 8) | sym, found = dict.get(key);
-        if (found !== undefined) {
-            prefix = found;
-            continue;
-        }
-        push(prefix, bitLen);
-        if (nextCode < 4096) {
-            dict.set(key, nextCode++);
-            if (nextCode > (1 << bitLen) && bitLen < 12) bitLen++;
-        } else {
-            push(256, bitLen);
-            dict.clear();
-            nextCode = 258;
-            bitLen = 9;
-        }
-        prefix = sym;
-    }
-    push(prefix, bitLen);
-    push(257, bitLen);
-    if (bitCount) chunks.push(currByte & 255);
-    return chunks;
-}
-function writeFrame(out, ind, w, h, delay) {
-    out.push(33, 249, 4, 8, delay & 255, (delay >> 8) & 255, 0, 0);
-    out.push(44, 0, 0, 0, 0, w & 255, (w >> 8) & 255, h & 255, (h >> 8) & 255, 0);
-    out.push(8);
-    let lzw = encodeLZW(ind);
-    for (let i = 0; i < lzw.length; i += 255) {
-        const length = Math.min(255, lzw.length - i);
-        out.push(length);
-        for (let j = 0; j < length; j++) out.push(lzw[i + j]);
-    }
-    out.push(0);
-}
-function gifStart(out, w, h) {
-    for (const c of 'GIF89a') out.push(c.charCodeAt(0));
-    out.push(w & 255, w >> 8, h & 255, h >> 8, 0xF7, 0, 0, ...palette());
-    out.push(33, 255, 11);
-    for (const c of 'NETSCAPE2.0') out.push(c.charCodeAt(0));
-    out.push(3, 1, 0, 0, 0);
-}
-function toPal(rgba) {
-    let idx = new Uint8Array(rgba.length / 4);
-    for (let i = 0, j = 0; i < rgba.length; i += 4, j++) {
-        idx[j] = (rgba[i] & 192) | ((rgba[i + 1] & 192) >> 2) | (rgba[i + 2] >> 4);
-    }
-    return idx;
-}
-
-function drawTraversedCurve(g, curX, mb, evalF, cx, cy) {
-    let step = 0.04;
-    g.beginPath();
-    let started = false;
-
-    if (mb.x0 === null || mb.x0 < mb.xmin || mb.x0 > mb.xmax) {
-        // Hàm liên tục: Vẽ từ mb.xmin đến curX
-        for (let x = mb.xmin; x <= curX; x += step) {
-            let y = evalF(x);
-            if (isNaN(y) || Math.abs(y) > 120) { started = false; continue; }
-            let px = cx(x), py = cy(y);
-            if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
-        }
-        let yEnd = evalF(curX);
-        if (!isNaN(yEnd) && Math.abs(yEnd) <= 120) {
-            let px = cx(curX), py = cy(yEnd);
-            if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
-        }
-    } else {
-        // Hàm phân thức có tiệm cận đứng tại mb.x0
-        let margin = 0.16;
-        let leftMax = mb.x0 - margin;
-        let rightMin = mb.x0 + margin;
-
-        if (curX <= leftMax) {
-            // Nhánh trái
-            for (let x = mb.xmin; x <= curX; x += step) {
-                let y = evalF(x);
-                if (isNaN(y) || Math.abs(y) > 120) { started = false; continue; }
-                let px = cx(x), py = cy(y);
-                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
-            }
-            let yEnd = evalF(curX);
-            if (!isNaN(yEnd) && Math.abs(yEnd) <= 120) {
-                let px = cx(curX), py = cy(yEnd);
-                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
-            }
-        } else {
-            // Toàn bộ nhánh trái
-            for (let x = mb.xmin; x <= leftMax; x += step) {
-                let y = evalF(x);
-                if (isNaN(y) || Math.abs(y) > 120) { started = false; continue; }
-                let px = cx(x), py = cy(y);
-                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
-            }
-            // Nhảy sang nhánh phải (ngắt nét để không nối thẳng qua tiệm cận đứng)
-            started = false;
-            for (let x = rightMin; x <= curX; x += step) {
-                let y = evalF(x);
-                if (isNaN(y) || Math.abs(y) > 120) { started = false; continue; }
-                let px = cx(x), py = cy(y);
-                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
-            }
-            let yEnd = evalF(curX);
-            if (!isNaN(yEnd) && Math.abs(yEnd) <= 120) {
-                let px = cx(curX), py = cy(yEnd);
-                if (!started) { g.moveTo(px, py); started = true; } else { g.lineTo(px, py); }
-            }
-        }
-    }
-}
-
-async function exportMotionGIF() {
-    let btn = document.getElementById('btn-export-gif');
-    if (!btn || btn.disabled) return;
-    btn.disabled = true;
-    let oldText = btn.innerHTML;
-    btn.innerHTML = '⏳ Đang khởi tạo...';
-
-    try {
-        const w = 640, h = 460;
-        const fps = 8;
-        const totalFrames = 36;
-        let tempCanvas = document.createElement('canvas');
-        tempCanvas.width = w;
-        tempCanvas.height = h;
-        let g = tempCanvas.getContext('2d', { willReadFrequently: true });
-        let bytes = [];
-        gifStart(bytes, w, h);
-
-        let bbox = board.getBoundingBox();
-        let xmin = bbox[0], ymax = bbox[1], xmax = bbox[2], ymin = bbox[3];
-        let mb = getMotionBounds();
-        let type = document.getElementById('func-type').value;
-
-        let padL = 40, padR = 20, padT = 55, padB = 40;
-        let gw = w - padL - padR, gh = h - padT - padB;
-        let cx = x => padL + ((x - xmin) / (xmax - xmin)) * gw;
-        let cy = y => padT + gh - ((y - ymin) / (ymax - ymin)) * gh;
-
-        let evalF = currentFVal || f_base || currentFBase;
-        if (!evalF) {
-            alert('Vui lòng đợi đồ thị khởi tạo xong!');
-            btn.innerHTML = oldText;
-            btn.disabled = false;
-            return;
-        }
-
-        // Lấy thông số tiệm cận ngang và tiệm cận xiên nếu có
-        let asyH = null; // Tiệm cận ngang
-        let asySlope = null, asyIce = null; // Tiệm cận xiên
-        if (type === 'frac11') {
-            let pA = parseFrac(document.getElementById('frac11-a')?.value || '1');
-            let pC = parseFrac(document.getElementById('frac11-c')?.value || '1');
-            if (pC.val !== 0) asyH = pA.val / pC.val;
-        } else if (type === 'frac21') {
-            let pA = parseFrac(document.getElementById('frac21-a')?.value || '1');
-            let pB = parseFrac(document.getElementById('frac21-b')?.value || '0');
-            let pD = parseFrac(document.getElementById('frac21-d')?.value || '1');
-            let pE = parseFrac(document.getElementById('frac21-e')?.value || '0');
-            if (pD.val !== 0) {
-                asySlope = pA.val / pD.val;
-                asyIce = (pB.val * pD.val - pA.val * pE.val) / (pD.val * pD.val);
-            }
-        }
-
-        for (let k = 0; k < totalFrames; k++) {
-            let prog = k / (totalFrames - 1);
-            let curX = getCurXFromProgress(prog, mb);
-            let curY = evalF(curX);
-
-            // Nền trắng
-            g.fillStyle = '#ffffff';
-            g.fillRect(0, 0, w, h);
-
-            // Thanh tiêu đề phía trên
-            g.fillStyle = '#f8fafc';
-            g.fillRect(0, 0, w, 44);
-            g.strokeStyle = '#e2e8f0';
-            g.lineWidth = 1;
-            g.strokeRect(0, 0, w, 44);
-
-            g.fillStyle = '#0070C0';
-            g.font = 'bold 15px "Segoe UI", Arial, sans-serif';
-            g.textAlign = 'left';
-            g.fillText('TOÁN TRỰC QUAN • VỆT SÁNG MATH MOTION', 14, 26);
-
-            let k_slope = 0;
-            if (tangentLine && typeof tangentLine.getSlope === 'function') {
-                k_slope = (curY - evalF(curX - 0.01)) / 0.01;
-            }
-            g.fillStyle = '#334155';
-            g.font = 'bold 13px monospace';
-            g.textAlign = 'right';
-            g.fillText(`M(${curX.toFixed(1)}; ${curY.toFixed(1)}) | k=${k_slope.toFixed(2)}`, w - 14, 26);
-
-            // Vẽ lưới tọa độ mờ
-            g.strokeStyle = '#f1f5f9';
-            g.lineWidth = 1;
-            for (let gx = Math.ceil(xmin); gx <= Math.floor(xmax); gx++) {
-                g.beginPath(); g.moveTo(cx(gx), padT); g.lineTo(cx(gx), padT + gh); g.stroke();
-            }
-            for (let gy = Math.ceil(ymin); gy <= Math.floor(ymax); gy++) {
-                g.beginPath(); g.moveTo(padL, cy(gy)); g.lineTo(padL + gw, cy(gy)); g.stroke();
-            }
-
-            // Vẽ trục tọa độ Ox, Oy
-            let ox = cy(0), oy = cx(0);
-            g.strokeStyle = '#000000';
-            g.lineWidth = 1.6;
-            if (ox >= padT && ox <= padT + gh) {
-                g.beginPath(); g.moveTo(padL, ox); g.lineTo(padL + gw, ox); g.stroke();
-                g.beginPath(); g.moveTo(padL + gw, ox); g.lineTo(padL + gw - 8, ox - 4); g.lineTo(padL + gw - 8, ox + 4); g.fill();
-                g.fillStyle = '#000'; g.font = 'italic 13px "Times New Roman"'; g.textAlign = 'left';
-                g.fillText('x', padL + gw - 6, ox + 14);
-            }
-            if (oy >= padL && oy <= padL + gw) {
-                g.beginPath(); g.moveTo(oy, padT + gh); g.lineTo(oy, padT); g.stroke();
-                g.beginPath(); g.moveTo(oy, padT); g.lineTo(oy - 4, padT + 8); g.lineTo(oy + 4, padT + 8); g.fill();
-                g.fillStyle = '#000'; g.font = 'italic 13px "Times New Roman"'; g.textAlign = 'right';
-                g.fillText('y', oy - 8, padT + 12);
-            }
-
-            // Vẽ các đường tiệm cận (Đỏ nét đứt)
-            g.strokeStyle = '#ef4444';
-            g.lineWidth = 1.4;
-            g.setLineDash([5, 5]);
-
-            // Tiệm cận đứng
-            if (mb.x0 !== null && cx(mb.x0) >= padL && cx(mb.x0) <= padL + gw) {
-                g.beginPath(); g.moveTo(cx(mb.x0), padT); g.lineTo(cx(mb.x0), padT + gh); g.stroke();
-            }
-            // Tiệm cận ngang (frac11)
-            if (asyH !== null && cy(asyH) >= padT && cy(asyH) <= padT + gh) {
-                g.beginPath(); g.moveTo(padL, cy(asyH)); g.lineTo(padL + gw, cy(asyH)); g.stroke();
-            }
-            // Tiệm cận xiên (frac21)
-            if (asySlope !== null && asyIce !== null) {
-                let yLeft = asySlope * xmin + asyIce;
-                let yRight = asySlope * xmax + asyIce;
-                g.beginPath(); g.moveTo(cx(xmin), cy(yLeft)); g.lineTo(cx(xmax), cy(yRight)); g.stroke();
-            }
-            g.setLineDash([]);
-
-            // 1. Vẽ đường nét mờ dẫn hướng của toàn bộ đồ thị (Background Curve)
-            g.save();
-            g.strokeStyle = '#cbd5e1';
-            g.lineWidth = 1.8;
-            g.lineCap = 'round';
-            g.lineJoin = 'round';
-            drawTraversedCurve(g, mb.xmax, mb, evalF, cx, cy);
-            g.stroke();
-            g.restore();
-
-            // 2. VỆT SÁNG NEON SƠN DẦN TOÀN BỘ PHẦN ĐÃ ĐI QUA (Outer Cyan Glow)
-            g.save();
-            g.strokeStyle = '#00f2fe';
-            g.lineWidth = 7.5;
-            g.lineCap = 'round';
-            g.lineJoin = 'round';
-            drawTraversedCurve(g, curX, mb, evalF, cx, cy);
-            g.stroke();
-
-            // 3. LÕI SÁNG TRẮNG TƯƠNG PHẢN CAO (Inner White Core)
-            g.strokeStyle = '#ffffff';
-            g.lineWidth = 2.8;
-            g.stroke();
-            g.restore();
-
-            // 4. Tiếp tuyến & Điểm chuyển động M phát sáng
-            if (!isNaN(curY) && Math.abs(curY) <= 120) {
-                let pxM = cx(curX), pyM = cy(curY);
-                let tanLen = 1.5;
-                let xT1 = curX - tanLen, yT1 = curY - tanLen * k_slope;
-                let xT2 = curX + tanLen, yT2 = curY + tanLen * k_slope;
-                g.strokeStyle = 'rgba(217, 70, 239, 0.75)';
-                g.lineWidth = 2;
-                g.beginPath();
-                g.moveTo(cx(xT1), cy(yT1));
-                g.lineTo(cx(xT2), cy(yT2));
-                g.stroke();
-
-                // Điểm M phát quang
-                g.save();
-                g.fillStyle = '#00f2fe';
-                g.beginPath(); g.arc(pxM, pyM, 7.5, 0, Math.PI * 2); g.fill();
-                g.fillStyle = '#ffffff';
-                g.beginPath(); g.arc(pxM, pyM, 3.5, 0, Math.PI * 2); g.fill();
-                g.restore();
-            }
-
-            let pixels = toPal(g.getImageData(0, 0, w, h).data);
-            writeFrame(bytes, pixels, w, h, Math.round(100 / fps));
-
-            // Nếu là frame cuối cùng: Giữ nguyên hình ảnh đồ thị đã sơn sáng toàn phần thêm 800ms trước khi lặp lại
-            if (k === totalFrames - 1) {
-                for (let hold = 0; hold < 4; hold++) {
-                    writeFrame(bytes, pixels, w, h, 20); // 4 x 200ms = 800ms hold
-                }
-            }
-
-            if (k % 6 === 0) {
-                let pct = Math.round((k + 1) / totalFrames * 100);
-                btn.innerHTML = `⏳ Đang xuất GIF: ${pct}%`;
-                await new Promise(r => setTimeout(r, 0));
-            }
-        }
-
-        bytes.push(59);
-        const blob = new Blob([Uint8Array.from(bytes)], { type: 'image/gif' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `TOAN_TRUC_QUAN_${type}_VET_SANG.gif`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-
-        btn.innerHTML = '✅ Đã Tải GIF Vệt Sáng!';
-        setTimeout(() => { btn.innerHTML = oldText; btn.disabled = false; }, 2500);
-    } catch (err) {
-        console.error('GIF error:', err);
-        alert('Có lỗi khi tạo GIF: ' + err.message);
-        btn.innerHTML = oldText;
-        btn.disabled = false;
-    }
-}
 
     window.onload = function() {
         onTypeChange();
