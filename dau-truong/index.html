@@ -35,9 +35,7 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Local Exam Data & Graphic Engine -->
-    <script src="exam_data_p1.js"></script>
-    <script src="exam_data_p2.js"></script>
-    <script>window.EXAM_DATA = [...(window.EXAM_DATA_P1 || []), ...(window.EXAM_DATA_P2 || [])];</script>
+    <script src="exam_data.js"></script>
     <script src="do_thi_bbt_component.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap');
@@ -920,7 +918,7 @@ body, .question-card, .option-item, p, span, div { font-family: 'Times New Roman
                             <span class="text-xs font-semibold text-slate-500">Đã chọn: <strong class="text-slate-800 dark:text-white">${JSON.stringify(userAns) || 'Bỏ trống'}</strong></span>
                         </div>
                         <div class="text-sm text-slate-800 dark:text-slate-200 leading-relaxed">${q.stem}</div>
-                        ${q.image ? `<div class="my-2 text-center"><img src="${q.image}" class="max-h-56 mx-auto rounded-lg border bg-white p-2" alt="Hình vẽ" /></div>` : ''}
+                        ${q.image ? `<div class="my-2 text-center"><img src="${q.image}" class="max-h-56 mx-auto rounded-lg border bg-white p-2" alt="Hình vẽ" onerror="this.parentElement.style.display='none'" /></div>` : ''}
                         <div class="p-3 bg-white dark:bg-slate-900 rounded-lg border border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300 space-y-2">
                             <p class="font-bold text-emerald-600 dark:text-emerald-400 text-sm">Đáp án chuẩn: ${q.answer || (q.sub_items ? q.sub_items.map(s => s.key + ': ' + (s.is_true ? 'Đúng' : 'Sai')).join(' | ') : 'Theo lời giải chi tiết')}</p>
                             <div class="pt-1 text-slate-600 dark:text-slate-300 space-y-1">${(q.solution || []).map(line => `<p>${line}</p>`).join('') || '<p>Đang cập nhật lời giải.</p>'}</div>
@@ -938,6 +936,16 @@ body, .question-card, .option-item, p, span, div { font-family: 'Times New Roman
 
         // ================= PRACTICE 23 SUBTOPICS =================
         const practice = {
+            getFiltered() {
+                const selectVal = (document.getElementById('practice-branch-select') || {}).value || 'ALL';
+                if (selectVal === 'ALL') return app.data.slice(0, 30);
+                const cleanBranch = selectVal.replace('D01_', '');
+                return app.data.filter(q => 
+                    q.branch === cleanBranch || 
+                    q.branch === selectVal || 
+                    (q.id && (q.id.startsWith(selectVal) || q.id.startsWith('D01_' + cleanBranch)))
+                ).slice(0, 30);
+            },
             userAnswers: {},
             init() {
                 this.renderList();
@@ -946,10 +954,7 @@ body, .question-card, .option-item, p, span, div { font-family: 'Times New Roman
                 this.renderList();
             },
             renderList() {
-                const selectVal = document.getElementById('practice-branch-select').value;
-                const filtered = selectVal === 'ALL' 
-                    ? app.data.slice(0, 30) 
-                    : app.data.filter(q => q.branch === selectVal || q.branch_code === selectVal || (q.id && q.id.startsWith('D01_' + selectVal))).slice(0, 30);
+                const filtered = this.getFiltered();
 
                 const container = document.getElementById('practice-question-list');
                 container.innerHTML = '';
@@ -1045,7 +1050,7 @@ body, .question-card, .option-item, p, span, div { font-family: 'Times New Roman
                         </div>
                         <div class="text-sm sm:text-base text-slate-800 dark:text-slate-100 leading-relaxed">${q.stem}</div>
                         
-                        ${q.image ? `<div class="my-3 text-center"><img src="${q.image}" class="max-h-64 mx-auto rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 bg-white p-2" alt="Hình vẽ minh họa" /></div>` : ''}
+                        ${q.image ? `<div class="my-3 text-center"><img src="${q.image}" class="max-h-64 mx-auto rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 bg-white p-2" alt="Hình vẽ minh họa" onerror="this.parentElement.style.display='none'" /></div>` : ''}
 
                         ${answerBlockHtml}
                         
@@ -1104,10 +1109,7 @@ body, .question-card, .option-item, p, span, div { font-family: 'Times New Roman
                 sound.playBeep(480, 0.05);
             },
             checkTNKQ(qIdx) {
-                const selectVal = document.getElementById('practice-branch-select').value;
-                const filtered = selectVal === 'ALL' 
-                    ? app.data.slice(0, 30) 
-                    : app.data.filter(q => q.branch === selectVal || q.branch_code === selectVal || (q.id && q.id.startsWith('D01_' + selectVal))).slice(0, 30);
+                const filtered = this.getFiltered();
                 const q = filtered[qIdx];
                 const userPick = (this.userAnswers[qIdx] || {}).choice;
                 const fb = document.getElementById(`p-feedback-${qIdx}`);
@@ -1160,10 +1162,7 @@ body, .question-card, .option-item, p, span, div { font-family: 'Times New Roman
                 sound.playBeep(val ? 520 : 380, 0.05);
             },
             checkDS(qIdx) {
-                const selectVal = document.getElementById('practice-branch-select').value;
-                const filtered = selectVal === 'ALL' 
-                    ? app.data.slice(0, 30) 
-                    : app.data.filter(q => q.branch === selectVal || q.branch_code === selectVal || (q.id && q.id.startsWith('D01_' + selectVal))).slice(0, 30);
+                const filtered = this.getFiltered();
                 const q = filtered[qIdx];
                 const userAns = this.userAnswers[qIdx] || {};
                 const subItems = q.sub_items || [];
@@ -1192,10 +1191,7 @@ body, .question-card, .option-item, p, span, div { font-family: 'Times New Roman
                 app.renderMath();
             },
             checkTLN(qIdx) {
-                const selectVal = document.getElementById('practice-branch-select').value;
-                const filtered = selectVal === 'ALL' 
-                    ? app.data.slice(0, 30) 
-                    : app.data.filter(q => q.branch === selectVal || q.branch_code === selectVal || (q.id && q.id.startsWith('D01_' + selectVal))).slice(0, 30);
+                const filtered = this.getFiltered();
                 const q = filtered[qIdx];
                 const inp = document.getElementById(`p-tln-val-${qIdx}`);
                 const val = inp ? inp.value.trim() : '';
