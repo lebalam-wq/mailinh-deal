@@ -304,9 +304,9 @@
                         🧹 Xóa Vệt Sáng
                     </button>
 
-                    <!-- Set Thời Gian Dừng -->
-                    <div style="display: inline-flex; align-items: center; gap: 4px; background: var(--panel); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border);">
-                        <label for="motion-duration" style="font-size: 0.82rem; font-weight: 700; color: var(--text); cursor: pointer;">⏱ Dừng sau:</label>
+                    <!-- Set Thời Gian Dừng & Tốc Độ Cùng 1 Hàng -->
+                    <div style="display: inline-flex; align-items: center; gap: 6px; background: var(--panel); padding: 3px 8px; border-radius: 6px; border: 1px solid var(--border);">
+                        <label for="motion-duration" style="font-size: 0.82rem; font-weight: 700; color: var(--text); cursor: pointer; white-space: nowrap;">⏱ Dừng sau:</label>
                         <select id="motion-duration" onchange="onDurationChange()" style="border: none; background: transparent; color: #0070C0; font-size: 0.85rem; font-weight: 800; cursor: pointer; outline: none;">
                             <option value="5">5 giây</option>
                             <option value="10" selected>10 giây (Chuẩn)</option>
@@ -319,11 +319,11 @@
                     </div>
 
                     <!-- Đồng hồ đếm thời gian -->
-                    <span id="motion-timer-badge" style="font-family: monospace; font-size: 0.85rem; font-weight: 800; background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 4px; border: 1px solid #bae6fd;">
+                    <span id="motion-timer-badge" style="font-family: monospace; font-size: 0.85rem; font-weight: 800; background: #e0f2fe; color: #0369a1; padding: 4px 8px; border-radius: 4px; border: 1px solid #bae6fd; white-space: nowrap;">
                         00.0s / 10s
                     </span>
 
-                    <select id="motion-speed" onchange="changeMotionSpeed()" style="padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font-size: 0.85rem; font-weight: 600; cursor: pointer;">
+                    <select id="motion-speed" onchange="changeMotionSpeed()" style="padding: 5px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); color: var(--text); font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap;">
                         <option value="0.5">Tốc độ: 0.5x</option>
                         <option value="1" selected>Tốc độ: 1.0x</option>
                         <option value="1.5">Tốc độ: 1.5x</option>
